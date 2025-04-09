@@ -1,0 +1,162 @@
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  direction: rtl;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu li {
+  list-style: none;
+}
+
+.navbar-menu a {
+  color: #333;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 6px 2px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+  color: #487950;
+}
+
+.navbar-menu a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: -2px;
+  right: 0;
+  background-color: #e8d9b5;
+  transition: width 0.3s ease;
+}
+
+.navbar-menu a:hover::after,
+.navbar-menu a.active::after {
+  width: 100%;
+}
+
+.navbar-menu a.active {
+  color: #795548;
+  font-weight: 600;
+}
+
+.navbar-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-toggle:hover {
+  background-color: #f5f5f5;
+}
+
+.navbar-mobile {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  background-color: #fff;
+  border-top: 1px solid #f0f0f0;
+}
+
+.navbar-mobile.open {
+  max-height: 300px;
+}
+
+.navbar-mobile ul {
+  list-style: none;
+  padding: 12px 24px;
+  margin: 0;
+  direction: rtl;
+}
+
+.navbar-mobile li {
+  margin: 12px 0;
+}
+
+.navbar-mobile a {
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  display: block;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.navbar-mobile a:hover,
+.navbar-mobile a.active {
+  background-color: #f9f7f2;
+  color: #795548;
+  padding-right: 16px;
+}
+
+.navbar-mobile a.active {
+  border-right: 3px solid #e8d9b5;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: none;
+  }
+  
+  .navbar-container {
+    padding: 12px 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  .navbar-toggle {
+    display: none;
+  }
+  
+  .navbar-mobile {
+    display: none;
+  }
+}

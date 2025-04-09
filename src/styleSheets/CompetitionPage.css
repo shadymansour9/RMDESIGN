@@ -1,0 +1,340 @@
+/* Competition Page Styles */
+.competition-page-container {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Rubik', 'Segoe UI', sans-serif;
+  color: #333;
+  background-color: #f9f7f2;
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.competition-hero {
+  background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%);
+  padding: 8rem 2rem 4rem;
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.competition-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/images/design-pattern.png') center/cover;
+  opacity: 0.1;
+  animation: subtleFloat 20s ease-in-out infinite alternate;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.competition-hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #e8d9b5, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.award-badge {
+  background: #ffd700;
+  color: #3e2723;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  animation: pulse 2s infinite;
+}
+
+/* Main Content */
+.competition-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* Project Overview */
+.project-overview {
+  margin-bottom: 6rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.text-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.text-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 3px;
+  background: #8d6e63;
+}
+
+.highlight-text {
+  font-size: 1.2rem;
+  color: #5d4037;
+  font-weight: 500;
+  padding: 1.5rem;
+  border-right: 3px solid #ffd700;
+  background: rgba(232, 217, 181, 0.1);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 2rem;
+}
+
+.image-content img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Design Concept */
+.design-concept {
+  margin-bottom: 6rem;
+}
+
+.design-concept h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.concept-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid;
+}
+
+.concept-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.concept-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 1rem;
+}
+
+.concept-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Project Details */
+.project-details {
+  margin-bottom: 6rem;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.detail-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.detail-card h3 {
+  font-size: 1.4rem;
+  color: #5d4037;
+  margin-bottom: 1rem;
+}
+
+.detail-card p, .detail-card li {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+/* Gallery Section */
+.gallery-section {
+  margin-bottom: 6rem;
+}
+
+.gallery-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.gallery-item {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Project Narrative */
+.project-narrative {
+  background: white;
+  border-radius: 16px;
+  padding: 4rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.project-narrative h2 {
+  font-size: 2.2rem;
+  color: #3e2723;
+  margin-bottom: 2rem;
+}
+
+.project-narrative p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* Animations */
+@keyframes subtleFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10px, -10px) scale(1.05); }
+  100% { transform: translate(10px, 10px) scale(1.1); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.fade-in.visible {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .competition-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .text-content h2 {
+    font-size: 2rem;
+  }
+  
+  .image-content img {
+    height: 300px;
+  }
+  
+  .design-concept h2,
+  .gallery-section h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .competition-hero {
+    padding: 6rem 1rem 2rem;
+  }
+  
+  .competition-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .project-narrative {
+    padding: 2rem;
+  }
+}
