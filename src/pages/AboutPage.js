@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
-import "../styleSheets/AboutPage.css"; // Import your CSS file
+import "../styleSheets/AboutPage.css";
 
 function AboutPage() {
   useEffect(() => {
@@ -23,7 +23,7 @@ function AboutPage() {
   return (
     <div className="about-page-container">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="about-hero fade-in">
         <div className="hero-content">
@@ -34,28 +34,34 @@ function AboutPage() {
 
       {/* Main Content */}
       <div className="about-content">
-        {/* Studio Story Section */}
+
+        {/* Studio Philosophy */}
         <section className="studio-story fade-in">
-          <div className="content-grid">
-            <div className="text-content">
-              <h2>הפילוסופיה העיצובית שלנו</h2>
+          <h2 className="studio-heading">הפילוסופיה העיצובית שלנו</h2>
+
+          <div className="studio-split-box">
+            <div className="split-item split-hebrew">
               <p>
-                RM דיזיין נוסד מתוך אמונה עמוקה בכוחו של העיצוב לשפר את איכות החיים. 
-                אנו משלבים בין ניסיון רב שנים לטכנולוגיות מתקדמות ליצירת חללים פונקציונליים 
-                בעלי אמירה עיצובית ייחודית.
+                רם דיזיין הינו סטודיו לעיצוב הממוקם בחיפה המתמחה בעיקר בעיצוב משרדים ובפרויקטים למגורים ומסחריים.
+                הסטודיו מציע לקוחותיו פתרונות חדשניים חכמים. מדובר בשילוב בין עיצוב פנים, גרפיקה, עיצוב מוצר וטכנולוגיה מתקדמת שקושרת את הכל ביחד.
               </p>
               <p>
-                הסטודיו מתמחה בעיצוב משרדים מודרניים, חללי מגורים יוקרתיים ופרויקטים מסחריים 
-                תוך שמירה על איזון מושלם בין אסתטיקה לפרקטיות.
+                בסטודיו שלנו, האסתטיקה והפונקציונליות הולכות יד ביד. אנו מאמינים כי עיצוב נכון מתחיל בהבנה עמוקה של צרכי הלקוח ומסתיים ביצירה שמביאה השראה.
               </p>
             </div>
-            <div className="image-content">
-              <img src="/images/studio-interior.jpg" alt="פנים הסטודיו" />
+            <div className="split-item split-english">
+              <p>
+                RM Design is a design studio located in Haifa that specializes mainly in office design as well as residential and commercial projects.
+                The Studio offers its variety of clients smart innovative solutions. It is about the combination between interior design, graphics, product design and advanced technology which ties it all together.
+              </p>
+              <p>
+                In our studio, aesthetics and functionality go hand in hand. We believe that good design begins with a deep understanding of the client’s needs and ends with a creation that inspires.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Services Section */}
+        {/* Services */}
         <section className="services-section fade-in">
           <h2>תחומי התמחות</h2>
           <div className="services-grid">
@@ -77,58 +83,34 @@ function AboutPage() {
           </div>
         </section>
 
-        {/* Team Section */}
-        <section className="team-section fade-in">
-          <h2>הצוות שלנו</h2>
-          <div className="team-grid">
-            <div className="team-member">
-              <div className="member-image">
-                <img src="/images/team1.jpg" alt="ראשה מנסור" />
-              </div>
-              <h3>ראשה מנסור</h3>
-              <p>מייסדת ומנהלת יצירתית</p>
-              <p className="member-bio">בוגרת HIT עם ניסיון של 12 שנה בעיצוב פנים ואדריכלות</p>
+        {/* About Rasha */}
+        <section className="about-rasha fade-in">
+          <div className="rasha-card">
+            <div className="rasha-image">
+              <img src="/images/rasha.jpg" alt="ראשה מנסור" />
             </div>
-            <div className="team-member">
-              <div className="member-image">
-                <img src="/images/team2.jpg" alt="מיכל לוי" />
+
+            <div className="rasha-info">
+              {/* Social Icons */}
+              <div className="rasha-social">
+                <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">
+                  <img src="/icons/instagram.png" alt="Instagram" />
+                </a>
+                <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+                  <img src="/icons/linkedin.png" alt="LinkedIn" />
+                </a>
               </div>
-              <h3>מיכל לוי</h3>
-              <p>אדריכלית ראשית</p>
-              <p className="member-bio">מומחית בטכנולוגיות BIM ועיצוב פרמטרי</p>
-            </div>
-            <div className="team-member">
-              <div className="member-image">
-                <img src="/images/team3.jpg" alt="יוסי כהן" />
-              </div>
-              <h3>יוסי כהן</h3>
-              <p>מעצב פנים בכיר</p>
-              <p className="member-bio">בעל תעודה בינלאומית בעיצוב בר קיימא</p>
+
+              {/* Bio */}
+              <h3>רשא מנסור</h3>
+              <p>מייסדת הסטודיו</p>
+              <p className="rasha-bio">
+                בעלת ניסיון של 4 שנים בעיצוב פנים ואדריכלות. מלמדת קורסים בתחום כבר שנה וחצי מתוך אהבה למקצוע ולחינוך.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Achievements Section */}
-        <section className="achievements-section fade-in">
-          <h2>הישגים והכרה</h2>
-          <div className="achievements-grid">
-            <div className="achievement-card">
-              <div className="achievement-icon">🏆</div>
-              <h3>זכייה בפרס העיצוב הישראלי</h3>
-              <p>2022 - קטגוריית עיצוב משרדים</p>
-            </div>
-            <div className="achievement-card">
-              <div className="achievement-icon">📐</div>
-              <h3>הסמכת BIM מובילה</h3>
-              <p>הסמכה בינלאומית ממועצת ה-BIM העולמית</p>
-            </div>
-            <div className="achievement-card">
-              <div className="achievement-icon">🌟</div>
-              <h3>דירוג 5 כוכבים</h3>
-              <p>מלקוחותינו בחמש השנים האחרונות</p>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );

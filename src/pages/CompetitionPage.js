@@ -50,7 +50,11 @@ function CompetitionPage() {
               </p>
             </div>
             <div className="image-content">
-              <img src="/images/zak-main.jpg" alt="פרויקט זקריאת אל נאסרה" />
+            <video controls width="100%" poster="/images/zakriyat-cover.jpg">
+  <source src="/videos/zakriyat.mp4" type="video/mp4" />
+  הדפדפן שלך לא תומך בווידאו.
+</video>
+
             </div>
           </div>
         </section>
@@ -98,40 +102,45 @@ function CompetitionPage() {
           </div>
         </section>
 
-        {/* Gallery Section */}
-        <section className="gallery-section fade-in">
-          <h2>תמונות מהפרויקט</h2>
-          <div className="gallery-grid">
-            <div className="gallery-item">
-              <img src="/images/zak1.jpg" alt="מבט חיצוני" />
-            </div>
-            <div className="gallery-item">
-              <img src="/images/zak2.jpg" alt="פנים המבנה" />
-            </div>
-            <div className="gallery-item">
-              <img src="/images/zak3.jpg" alt="חלל הגלריה" />
-            </div>
-            <div className="gallery-item">
-              <img src="/images/zak4.jpg" alt="פרט עיצובי" />
-            </div>
-          </div>
-        </section>
+ {/* Gallery Section */}
+<section className="gallery-section fade-in">
+  <h2>תמונות מהפרויקט</h2>
+  <p className="gallery-intro">
+    הפרויקט מציג שילוב בין עבר והווה — בין מבנים היסטוריים בני מאות שנים לבין עיצוב עכשווי 
+    ופתרונות מודרניים שמתכתבים עם התרבות המקומית. כל פרט בפרויקט מבטא זהות מקומית לצד חזון עיצובי עתידני.
+  </p>
+  <div className="gallery-grid">
+    <div className="gallery-item">
+      <img src="/images/zak1.jpg" alt="מבט חיצוני" />
+    </div>
+    <div className="gallery-item">
+      <img src="/images/zak2.jpg" alt="פנים המבנה" />
+    </div>
+    <div className="gallery-item">
+      <img src="/images/zak3.jpg" alt="חלל הגלריה" />
+    </div>
+    <div className="gallery-item">
+      <img src="/images/zak4.jpg" alt="פרט עיצובי" />
+    </div>
+  </div>
+</section>
 
-        {/* Project Narrative */}
-        <section className="project-narrative fade-in">
-          <div className="narrative-content">
-            <h2>סיפור הפרויקט</h2>
-            <p>
-              השם "זקריאת אל נאסרה" נגזר מהשפה הערבית ומשמעותו "זיכרון תרבותי". 
-              הפרויקט שואב השראה מהמסורת הקולינרית הערבית ומההיסטוריה העשירה 
-              של נצרת כעיר רב-תרבותית.
-            </p>
-            <p>
-              העיצוב משלב בין אלמנטים מסורתיים כמו קשתות אבן ופסיפסים לבין 
-              טכנולוגיות מתקדמות של תאורה אינטראקטיבית ומערכות מולטימדיה.
-            </p>
-          </div>
-        </section>
+{/* Project Narrative */}
+<section className="project-narrative fade-in">
+  <div className="narrative-content">
+    <h2> הסבר נוסף על הפרויקט</h2>
+    <p>
+      השם "זקריאת אל נאסרה" נגזר מהשפה הערבית ומשמעותו "זיכרון תרבותי". 
+      הפרויקט שואב השראה מהמסורת הקולינרית הערבית ומההיסטוריה העשירה 
+      של נצרת כעיר רב-תרבותית.
+    </p>
+    <p>
+      העיצוב משלב בין אלמנטים מסורתיים כמו קשתות אבן ופסיפסים לבין 
+      טכנולוגיות מתקדמות של תאורה אינטראקטיבית ומערכות מולטימדיה.
+    </p>
+  </div>
+</section>
+
       </div>
     </div>
   );

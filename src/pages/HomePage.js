@@ -110,7 +110,7 @@ function HomePage() {
       <section className="cta-section">
         <div className="cta-container">
           <div className="cta-card fade-in">
-            <span className="benefits-badge">הרשמה מוקדמת - 10% הנחה!</span>
+            <span className="benefits-badge">מהרו להירשם – המקומות מוגבלים!</span>
             <h3 className="cta-text">מוכנים להתחיל קריירה בעיצוב?</h3>
             <p className="cta-description">
               הקורסים שלנו מעניקים את כל הכלים הדרושים להצלחה בתחום, עם ליווי אישי ותיק עבודות מקצועי
@@ -135,7 +135,7 @@ function HomePage() {
         </div>
         <div className="about-content fade-in">
           <p>
-            רמ דיזיין הוא סטודיו לעיצוב פנים ואדריכלות בחיפה, המתמחה בעיצוב משרדים, חללי מגורים ופרויקטים מסחריים.
+            RM דיזיין הוא סטודיו לעיצוב פנים ואדריכלות בחיפה, המתמחה בעיצוב משרדים, חללי מגורים ופרויקטים מסחריים.
             אנו משלבים בין אסתטיקה עכשווית לטכנולוגיות מתקדמות ליצירת חללים פונקציונליים ויפים.
           </p>
           <p>
@@ -145,7 +145,7 @@ function HomePage() {
             <p className="quote">
               "העיצוב הטוב ביותר הוא זה שמשפר את איכות החיים של המשתמשים בו, תוך שמירה על אסתטיקה ופונקציונליות"
             </p>
-            <p className="founder-signature">- ראשה מנסור, מייסדת הסטודיו</p>
+            <p className="founder-signature">- רשא מנסור, מייסדת הסטודיו</p>
           </div>
           <Link to="/about" className="cta-button primary-btn">
             הכירו אותנו יותר
@@ -165,7 +165,7 @@ function HomePage() {
           <div className="testimonial-card fade-in">
             <div className="testimonial-quote">"</div>
             <p className="testimonial-text">
-              העבודה עם רמ דיזיין שינתה לחלוטין את חוויית העבודה במשרד שלנו. קיבלנו חלל פונקציונלי ויפה שמשפר את התפוקה.
+              העבודה עם RM דיזיין שינתה לחלוטין את חוויית העבודה במשרד שלנו. קיבלנו חלל פונקציונלי ויפה שמשפר את התפוקה.
             </p>
             <div className="testimonial-author">
               <img src="/images/client1.jpg" alt="Client" className="testimonial-author-image" />
@@ -209,26 +209,21 @@ function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="counter-section">
-        <div className="counter-grid">
-          <div className="counter-item fade-in">
-            <div className="counter-value" data-count="150">0</div>
-            <div className="counter-label">פרויקטים שבוצעו</div>
-          </div>
-          <div className="counter-item fade-in">
-            <div className="counter-value" data-count="98">0</div>
-            <div className="counter-label">לקוחות מרוצים</div>
-          </div>
-          <div className="counter-item fade-in">
-            <div className="counter-value" data-count="12">0</div>
-            <div className="counter-label">שנות ניסיון</div>
-          </div>
-          <div className="counter-item fade-in">
-            <div className="counter-value" data-count="300">0</div>
-            <div className="counter-label">בוגרי קורסים</div>
-          </div>
-        </div>
-      </section>
+      <section className="footer-rasha">
+  <div className="footer-card">
+    <img className="footer-image" src="/images/rasha.jpg" alt="ראשה מנסור" />
+    <div className="footer-social">
+      <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">
+        <img src="/icons/instagram.png" alt="Instagram" />
+      </a>
+      <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+        <img src="/icons/linkedin.png" alt="LinkedIn" />
+      </a>
+    </div>
+  </div>
+</section>
+
+
     </div>
   );
 }
