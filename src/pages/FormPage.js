@@ -146,10 +146,10 @@ function FormPage() {
         <div className="footer-card">
           <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
           <div className="footer-social">
-            <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
               <img src="/icons/linkedin.png" alt="LinkedIn" />
             </a>
-            <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
               <img src="/icons/instagram.png" alt="Instagram" />
             </a>
           </div>

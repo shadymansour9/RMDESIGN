@@ -23,16 +23,16 @@ function ProjectsPage() {
   const projects = [
     {
       id: 1,
-      title: "זקריאת אל נאסרה",
+      title: "E.H House ",
       description: "מרכז קהילתי תרבותי בנצרת - זוכה פרס עיצוב בינלאומי",
-      image: "/images/zak1.jpg",
+      image: "/images/E.H.jpg",
       tags: ["שימור", "קהילה", "תרבות"],
       category: "ציבורי",
       year: "2021"
     },
     {
       id: 2,
-      title: "משרדי הייטק מודרניים",
+      title: "Lawyer's office  ",
       description: "עיצוב חללי עבודה חדשניים לחברת טכנולוגיה מובילה",
       image: "/images/office1.jpg",
       tags: ["משרדים", "מודרני", "טכנולוגיה"],
@@ -41,7 +41,7 @@ function ProjectsPage() {
     },
     {
       id: 3,
-      title: "וילה יוקרתית בהרצליה",
+      title: " Engineer Office",
       description: "עיצוב פנים לפנטהאוז עם נוף לים התיכון",
       image: "/images/villa1.jpg",
       tags: ["מגורים", "יוקרה", "חוף"],
@@ -50,27 +50,27 @@ function ProjectsPage() {
     },
     {
       id: 4,
-      title: "מרכז מבקרים אינטראקטיבי",
+      title: "Mansour's House   ",
       description: "חווית מבקרים חדשנית עם טכנולוגיות VR מתקדמות",
-      image: "/images/visitor-center1.jpg",
+      image: "/images/mansour.jpg",
       tags: ["ציבורי", "חדשנות", "תערוכה"],
       category: "ציבורי",
       year: "2022"
     },
     {
       id: 5,
-      title: "בית קפה בוטיק",
+      title: "N-restaurant",
       description: "עיצוב חלל קולינרי עם אווירה אינטימית",
-      image: "/images/cafe1.jpg",
+      image: "/images/N-restaurant.jpg",
       tags: ["מסעדות", "עיצוב", "בוטיק"],
       category: "מסחרי",
       year: "2021"
     },
     {
       id: 6,
-      title: "דירת גג בתל אביב",
+      title: "  LobbyOfficeDesign",
       description: "שיפוץ ועיצוב דירת פנטהאוז בסגנון מינימליסטי",
-      image: "/images/penthouse1.jpg",
+      image: "/images/LobbyOfficeDesign.jpg",
       tags: ["מגורים", "מינימליזם", "עירוני"],
       category: "פרטי",
       year: "2023"
@@ -127,7 +127,7 @@ function ProjectsPage() {
             <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
               <img src="/icons/linkedin.png" alt="LinkedIn" />
             </a>
-            <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
               <img src="/icons/instagram.png" alt="Instagram" />
             </a>
           </div>
