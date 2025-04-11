@@ -7,7 +7,6 @@ function FormPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
-  // Animation effects
   useEffect(() => {
     const fadeElements = document.querySelectorAll('.fade-in');
     const observer = new IntersectionObserver((entries) => {
@@ -19,7 +18,6 @@ function FormPage() {
     }, { threshold: 0.1 });
 
     fadeElements.forEach(el => observer.observe(el));
-
     return () => {
       fadeElements.forEach(el => observer.unobserve(el));
     };
@@ -30,20 +28,10 @@ function FormPage() {
     setIsSubmitting(true);
 
     emailjs
-      .sendForm(
-        "service_9mrmmoh",
-        "template_geaa5dw",
-        form.current,
-        "0-GZndZldpzAWnM2X"
-      )
-      .then((result) => {
+      .sendForm("service_9mrmmoh", "template_geaa5dw", form.current, "0-GZndZldpzAWnM2X")
+      .then(() => {
         setSubmitStatus("success");
-        emailjs.sendForm(
-          "service_9mrmmoh",
-          "template_140wet8",
-          form.current,
-          "0-GZndZldpzAWnM2X"
-        );
+        emailjs.sendForm("service_9mrmmoh", "template_140wet8", form.current, "0-GZndZldpzAWnM2X");
         form.current.reset();
       })
       .catch((error) => {
@@ -52,16 +40,14 @@ function FormPage() {
       })
       .finally(() => {
         setIsSubmitting(false);
-        setTimeout(() => {
-          setSubmitStatus(null);
-        }, 5000);
+        setTimeout(() => setSubmitStatus(null), 5000);
       });
   };
 
   return (
     <div className="form-page-container">
       <Navbar />
-      
+
       <section className="form-hero fade-in">
         <div className="hero-content">
           <h1>הרשמה לקורסי Revit מקצועיים</h1>
@@ -76,35 +62,17 @@ function FormPage() {
           <form ref={form} onSubmit={sendEmail} className="registration-form">
             <div className="form-group">
               <label htmlFor="name">שם מלא</label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                required
-                className="form-input"
-              />
+              <input id="name" type="text" name="name" required className="form-input" />
             </div>
 
             <div className="form-group">
               <label htmlFor="email">אימייל</label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                required
-                className="form-input"
-              />
+              <input id="email" type="email" name="email" required className="form-input" />
             </div>
 
             <div className="form-group">
               <label htmlFor="phone">טלפון</label>
-              <input
-                id="phone"
-                type="tel"
-                name="phone"
-                required
-                className="form-input"
-              />
+              <input id="phone" type="tel" name="phone" required className="form-input" />
             </div>
 
             <div className="form-group">
@@ -119,19 +87,10 @@ function FormPage() {
 
             <div className="form-group">
               <label htmlFor="message">הודעה נוספת</label>
-              <textarea
-                id="message"
-                name="message"
-                rows="4"
-                className="form-input"
-              />
+              <textarea id="message" name="message" rows="4" className="form-input" />
             </div>
 
-            <button
-              type="submit"
-              className="cta-button primary-btn"
-              disabled={isSubmitting}
-            >
+            <button type="submit" className="cta-button primary-btn" disabled={isSubmitting}>
               {isSubmitting ? "שולח..." : "שלח טופס הרשמה"}
             </button>
 
@@ -140,7 +99,6 @@ function FormPage() {
                 <span>✓</span> הטופס נשלח בהצלחה! ניצור איתך קשר בהקדם
               </div>
             )}
-
             {submitStatus === "error" && (
               <div className="status-message error fade-in">
                 <span>✗</span> אירעה שגיאה בשליחה, אנא נסה שוב
@@ -179,6 +137,21 @@ function FormPage() {
               <li>💡 התמחות בנושא ספציפי</li>
               <li>📚 חומרי לימוד מתקדמים</li>
             </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Section */}
+      <div className="footer-rasha">
+        <div className="footer-card">
+          <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
+          <div className="footer-social">
+            <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+              <img src="/icons/linkedin.png" alt="LinkedIn" />
+            </a>
+            <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">
+              <img src="/icons/instagram.png" alt="Instagram" />
+            </a>
           </div>
         </div>
       </div>

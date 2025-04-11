@@ -80,7 +80,7 @@ function ProjectsPage() {
   return (
     <div className="projects-page-container">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="projects-hero fade-in">
         <div className="hero-content">
@@ -116,6 +116,21 @@ function ProjectsPage() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Footer Rasha Section */}
+      <div className="footer-rasha">
+        <div className="footer-card">
+          <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
+          <div className="footer-social">
+            <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+              <img src="/icons/linkedin.png" alt="LinkedIn" />
+            </a>
+            <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">
+              <img src="/icons/instagram.png" alt="Instagram" />
+            </a>
+          </div>
         </div>
       </div>
     </div>

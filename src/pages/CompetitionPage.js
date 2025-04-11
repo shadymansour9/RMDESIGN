@@ -1,35 +1,37 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
-import "../styleSheets/CompetitionPage.css"; // Import your CSS file
+import "../styleSheets/CompetitionPage.css";
 
 function CompetitionPage() {
   useEffect(() => {
-    const fadeElements = document.querySelectorAll('.fade-in');
+    const fadeElements = document.querySelectorAll(".fade-in");
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          entry.target.classList.add("visible");
         }
       });
     }, { threshold: 0.1 });
 
-    fadeElements.forEach(el => observer.observe(el));
+    fadeElements.forEach((el) => observer.observe(el));
 
     return () => {
-      fadeElements.forEach(el => observer.unobserve(el));
+      fadeElements.forEach((el) => observer.unobserve(el));
     };
   }, []);
 
   return (
     <div className="competition-page-container">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="competition-hero fade-in">
         <div className="hero-content">
           <div className="award-badge">מקום שני בתחרות עיצוב בינלאומית🏅</div>
           <h1>זקריאת אל נאסרה</h1>
-          <p className="hero-subtitle">מרכז קהילתי תרבותי המשמר זיכרון דורות בנצרת</p>
+          <p className="hero-subtitle">
+            מרכז קהילתי תרבותי המשמר זיכרון דורות בנצרת
+          </p>
         </div>
       </section>
 
@@ -50,11 +52,10 @@ function CompetitionPage() {
               </p>
             </div>
             <div className="image-content">
-            <video controls width="100%" poster="/images/zakriyat-cover.jpg">
-  <source src="/videos/zakriyat.mp4" type="video/mp4" />
-  הדפדפן שלך לא תומך בווידאו.
-</video>
-
+              <video controls width="100%" poster="/images/zakriyat-cover.jpg">
+                <source src="/videos/zakriyat.mp4" type="video/mp4" />
+                הדפדפן שלך לא תומך בווידאו.
+              </video>
             </div>
           </div>
         </section>
@@ -102,45 +103,58 @@ function CompetitionPage() {
           </div>
         </section>
 
- {/* Gallery Section */}
-<section className="gallery-section fade-in">
-  <h2>תמונות מהפרויקט</h2>
-  <p className="gallery-intro">
-    הפרויקט מציג שילוב בין עבר והווה — בין מבנים היסטוריים בני מאות שנים לבין עיצוב עכשווי 
-    ופתרונות מודרניים שמתכתבים עם התרבות המקומית. כל פרט בפרויקט מבטא זהות מקומית לצד חזון עיצובי עתידני.
-  </p>
-  <div className="gallery-grid">
-    <div className="gallery-item">
-      <img src="/images/zak1.jpg" alt="מבט חיצוני" />
-    </div>
-    <div className="gallery-item">
-      <img src="/images/zak2.jpg" alt="פנים המבנה" />
-    </div>
-    <div className="gallery-item">
-      <img src="/images/zak3.jpg" alt="חלל הגלריה" />
-    </div>
-    <div className="gallery-item">
-      <img src="/images/zak4.jpg" alt="פרט עיצובי" />
-    </div>
-  </div>
-</section>
+        {/* Gallery Section */}
+        <section className="gallery-section fade-in">
+          <h2>תמונות מהפרויקט</h2>
+          <p className="gallery-intro">
+            הפרויקט מציג שילוב בין עבר והווה — בין מבנים היסטוריים בני מאות שנים לבין עיצוב עכשווי 
+            ופתרונות מודרניים שמתכתבים עם התרבות המקומית. כל פרט בפרויקט מבטא זהות מקומית לצד חזון עיצובי עתידני.
+          </p>
+          <div className="gallery-grid">
+            <div className="gallery-item">
+              <img src="/images/zak1.jpg" alt="מבט חיצוני" />
+            </div>
+            <div className="gallery-item">
+              <img src="/images/zak2.jpg" alt="פנים המבנה" />
+            </div>
+            <div className="gallery-item">
+              <img src="/images/zak3.jpg" alt="חלל הגלריה" />
+            </div>
+            <div className="gallery-item">
+              <img src="/images/zak4.jpg" alt="פרט עיצובי" />
+            </div>
+          </div>
+        </section>
 
-{/* Project Narrative */}
-<section className="project-narrative fade-in">
-  <div className="narrative-content">
-    <h2> הסבר נוסף על הפרויקט</h2>
-    <p>
-      השם "זקריאת אל נאסרה" נגזר מהשפה הערבית ומשמעותו "זיכרון תרבותי". 
-      הפרויקט שואב השראה מהמסורת הקולינרית הערבית ומההיסטוריה העשירה 
-      של נצרת כעיר רב-תרבותית.
-    </p>
-    <p>
-      העיצוב משלב בין אלמנטים מסורתיים כמו קשתות אבן ופסיפסים לבין 
-      טכנולוגיות מתקדמות של תאורה אינטראקטיבית ומערכות מולטימדיה.
-    </p>
-  </div>
-</section>
+        {/* Project Narrative */}
+        <section className="project-narrative fade-in">
+          <div className="narrative-content">
+            <h2>הסבר נוסף על הפרויקט</h2>
+            <p>
+              השם "זקריאת אל נאסרה" נגזר מהשפה הערבית ומשמעותו "זיכרון תרבותי". 
+              הפרויקט שואב השראה מהמסורת הקולינרית הערבית ומההיסטוריה העשירה של נצרת כעיר רב-תרבותית.
+            </p>
+            <p>
+              העיצוב משלב בין אלמנטים מסורתיים כמו קשתות אבן ופסיפסים לבין 
+              טכנולוגיות מתקדמות של תאורה אינטראקטיבית ומערכות מולטימדיה.
+            </p>
+          </div>
+        </section>
+      </div>
 
+      {/* Footer - full width outside content */}
+      <div className="footer-rasha">
+        <div className="footer-card">
+          <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
+          <div className="footer-social">
+            <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+              <img src="/icons/linkedin.png" alt="LinkedIn" />
+            </a>
+            <a href="https://www.instagram.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer">
+              <img src="/icons/instagram.png" alt="Instagram" />
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
