@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import emailjs from "emailjs-com";
 import Navbar from "../components/Navbar";
+import "../styleSheets/FormPage.css";
 
 function FormPage() {
   const form = useRef();
@@ -79,9 +80,10 @@ function FormPage() {
               <label htmlFor="course">בחר קורס</label>
               <select id="course" name="course" required className="form-input">
                 <option value="">-- בחר קורס --</option>
-                <option value="beginners">קורס Revit למתחילים</option>
-                <option value="advanced">קורס Revit למתקדמים</option>
-                <option value="workshop">סדנאות מקצועיות</option>
+                <option value="beginners">קורס ריווט מקצועי  </option>
+                <option value="advanced">קורס ריווט הדמיות
+                </option>
+                <option value="workshop">ליווי בפרויקט גמר </option>
               </select>
             </div>
 

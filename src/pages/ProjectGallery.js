@@ -40,7 +40,7 @@ const galleryImages = {
     "/images/mansour1.jpg",
     "/images/mansour2.jpg",
     "/images/mansour3.jpg",
-    "/images/mansour4.jpg"
+  
   ],
 
   5: [

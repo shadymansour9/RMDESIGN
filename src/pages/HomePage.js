@@ -123,9 +123,7 @@ function HomePage() {
               <Link to="/form" className="cta-button primary-btn">
                 הרשם עכשיו
               </Link>
-              <Link to="/courses" className="cta-button secondary-btn">
-                מידע על הקורסים
-              </Link>
+             
             </div>
           </div>
         </div>
