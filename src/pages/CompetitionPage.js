@@ -41,14 +41,26 @@ function CompetitionPage() {
         <section className="project-overview fade-in">
           <div className="content-grid">
             <div className="text-content">
-              <h2>פרויקט מצטיין</h2>
+              
               <p className="highlight-text">
-                פרויקט זקריאת אל נאסרה זכה במקום השני בתחרות Inspireli Awards 2021 
+                פרויקט זקריאת אל נאסרה זכה במקום השני בתחרות 
+                <p>
+                Inspireli Awards 2021 
                 בקטגוריית עיצוב ציבורי וקהילתי.
+
+              </p>
+              <h3>מיקום הפרויקט </h3>
+              <p>השוק העתיק, נצרת</p>
+              <p>שטח: 850 מ"ר</p>
+              <p>שנת ביצוע: 2021</p>
               </p>
               <p>
-                המרכז התרבותי ממוקם בלב השוק העתיק של נצרת, ומשלב בין שימור המורשת 
-                הערבית-נוצרית לבין עיצוב מודרני ופונקציונלי.
+              "זקריאת אל נאסרה"  מרכז קהילתי תרבותי המשמר זיכרון של דורות בעיר נצרת.
+פירוש השם "זיכרון תרבותי" מהשפה הערבית ובהשראת התרבות הערבית נוצרית, דרך אוכל מסורתי ערבי וחפצים בעלי ערך וסיפור היסטורי.
+ממוקם ב"בית פאוזי עאזר" שנמצא בשוק העתיק של נצרת שהיה בעבר נקודה חשובה בהיסטוריה בשל המסחר והשגשוג הכלכלי.
+מטרת הפרויקט היא להחיות את השוק על ידי חיבור בין שימור המסורת והתרבות עם הדור הצעיר,
+דרך שימור העיצוב העות'מאני של המקום יחד עם עיצוב מודרני.
+"זקריית אל נאסרה" מציע פונקציות בילוי והכרה היסטורית כגון: תיאטראות, גלריה, ובתי קפה ברוח התרבות.
               </p>
             </div>
             <div className="image-content">
@@ -61,55 +73,13 @@ function CompetitionPage() {
         </section>
 
         {/* Design Concept */}
-        <section className="design-concept fade-in">
-          <h2>קונספט עיצובי</h2>
-          <div className="concept-grid">
-            <div className="concept-card brown-accent">
-              <div className="card-icon">🕰️</div>
-              <h3>שימור היסטורי</h3>
-              <p>שימור הארכיטקטורה העות'מאנית המקורית</p>
-            </div>
-            <div className="concept-card gold-accent">
-              <div className="card-icon">🤝</div>
-              <h3>חיבור קהילתי</h3>
-              <p>יצירת מרחב משותף לדורות שונים</p>
-            </div>
-            <div className="concept-card beige-accent">
-              <div className="card-icon">🎨</div>
-              <h3>אמנות מקומית</h3>
-              <p>שילוב עבודות אמנים מקומיים בעיצוב</p>
-            </div>
-          </div>
-        </section>
+        
 
-        {/* Project Details */}
-        <section className="project-details fade-in">
-          <div className="details-grid">
-            <div className="detail-card">
-              <h3>מיקום הפרויקט</h3>
-              <p>השוק העתיק, נצרת</p>
-              <p>שטח: 850 מ"ר</p>
-              <p>שנת ביצוע: 2021</p>
-            </div>
-            <div className="detail-card">
-              <h3>תכולה עיצובית</h3>
-              <ul>
-                <li>גלריה קהילתית</li>
-                <li>ספרייה היסטורית</li>
-                <li>חלל מופעים</li>
-                <li>בית קפה מסורתי</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+ 
 
         {/* Gallery Section */}
         <section className="gallery-section fade-in">
-          <h2>תמונות מהפרויקט</h2>
-          <p className="gallery-intro">
-            הפרויקט מציג שילוב בין עבר והווה — בין מבנים היסטוריים בני מאות שנים לבין עיצוב עכשווי 
-            ופתרונות מודרניים שמתכתבים עם התרבות המקומית. כל פרט בפרויקט מבטא זהות מקומית לצד חזון עיצובי עתידני.
-          </p>
+          
           <div className="gallery-grid">
             <div className="gallery-item">
               <img src="/images/zak1.jpg" alt="מבט חיצוני" />
@@ -127,19 +97,7 @@ function CompetitionPage() {
         </section>
 
         {/* Project Narrative */}
-        <section className="project-narrative fade-in">
-          <div className="narrative-content">
-            <h2>הסבר נוסף על הפרויקט</h2>
-            <p>
-              השם "זקריאת אל נאסרה" נגזר מהשפה הערבית ומשמעותו "זיכרון תרבותי". 
-              הפרויקט שואב השראה מהמסורת הקולינרית הערבית ומההיסטוריה העשירה של נצרת כעיר רב-תרבותית.
-            </p>
-            <p>
-              העיצוב משלב בין אלמנטים מסורתיים כמו קשתות אבן ופסיפסים לבין 
-              טכנולוגיות מתקדמות של תאורה אינטראקטיבית ומערכות מולטימדיה.
-            </p>
-          </div>
-        </section>
+       
       </div>
 
       {/* Footer - full width outside content */}
@@ -147,7 +105,7 @@ function CompetitionPage() {
         <div className="footer-card">
           <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
           <div className="footer-social">
-            <a href="https://www.linkedin.com/in/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">
               <img src="/icons/linkedin.png" alt="LinkedIn" />
             </a>
             <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">

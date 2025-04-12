@@ -175,7 +175,7 @@
 }
 
 .feature-card h3 {
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   position: relative;
@@ -187,7 +187,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 50px;
+  width: 400px;
   height: 3px;
   background: currentColor;
   transition: width 0.3s ease;
@@ -610,6 +610,12 @@
     transform: translateY(0);
   }
 }
+.section-heading.fade-in.visible h2 {
+  display: block;
+  margin: 0 auto 2rem;
+  font-size: 2.5rem;
+  color: #3e2723;
+}
 
 .fade-in {
   opacity: 0;
@@ -715,6 +721,7 @@
   padding: 3rem 0;
   text-align: center;
   color: white;
+  
 }
 
 .footer-card {

@@ -37,25 +37,33 @@ function AboutPage() {
 
         {/* Studio Philosophy */}
         <section className="studio-story fade-in">
-          <h2 className="studio-heading">הפילוסופיה העיצובית שלנו</h2>
+          <h2 className="studio-heading">About Our Studio</h2>
 
           <div className="studio-split-box">
             <div className="split-item split-hebrew">
               <p>
-                רם דיזיין הינו סטודיו לעיצוב הממוקם בחיפה המתמחה בעיקר בעיצוב משרדים ובפרויקטים למגורים ומסחריים.
-                הסטודיו מציע לקוחותיו פתרונות חדשניים חכמים. מדובר בשילוב בין עיצוב פנים, גרפיקה, עיצוב מוצר וטכנולוגיה מתקדמת שקושרת את הכל ביחד.
+              רמ דיזיין הינו סטודיו לעיצוב הממוקם בחיפה המתמחה בעיקר בעיצוב משרדים ובפרויקטים למגורים ומסחרים. הסטודיו מציע לקוחותיו פתרונות חדשניים חכמים. מדובר בשילוב בין עיצוב פנים, גרפיקה, עיצוב מוצר וטכנולוגיה מתקדמת שקושרת את הכל ביחד.
               </p>
               <p>
-                בסטודיו שלנו, האסתטיקה והפונקציונליות הולכות יד ביד. אנו מאמינים כי עיצוב נכון מתחיל בהבנה עמוקה של צרכי הלקוח ומסתיים ביצירה שמביאה השראה.
+              אנו מאמינים שעיצוב אינטליגנטי הוא תוצאה של מחקר, דיאלוג עם לקוחות ובעלי עניין, ונגזרת של מאמץ צוות.
+מעיצוב פרמטרי, טכנולוגיית BIM וטכנולוגיות VR 3D- אנו מפתחים מושגים למציאות ולחללים בלתי נשכחים.
+
+עבורנו כל פרויקט הוא אתגר מרגש וכל לקוח הוא עולם של חלומות וצרכים. אנו מביאים את הידע שלנו, יחד עם מושגים ומודלים של עיצוב מרחבי העולם על מנת לעזור לצרכים, רצונות וחלומות להתעורר לחיים.
+
+רמ דיזיין הוקמה על ידי רשא מנסור, בוגרת הפקולטה לעיצוב במכון הטכנולוגי חולון B.Design.
               </p>
             </div>
             <div className="split-item split-english">
               <p>
-                RM Design is a design studio located in Haifa that specializes mainly in office design as well as residential and commercial projects.
-                The Studio offers its variety of clients smart innovative solutions. It is about the combination between interior design, graphics, product design and advanced technology which ties it all together.
+              RM Design is a design studio located in Haifa  that specializes mainly in office design as well as residential and commercial projects. The Studio offers its variety of clients smart innovative solutions. It is about the combination between  interior design, graphics, product design and advanced technology which ties it all together.
               </p>
               <p>
-                In our studio, aesthetics and functionality go hand in hand. We believe that good design begins with a deep understanding of the client’s needs and ends with a creation that inspires.
+              We believe an intelligent design is a result of research, dialogue with clients and stakeholders, and a derivative of a team effort.
+From parametric design, BIM technology, and 3D VR technologies- we develop concepts into reality, and unforgettable spaces.
+
+For Us every project is an exciting challenge and every client is a world of dreams and needs. We bring our knowledge, along with concepts and models of design from around the world in order to help needs, desires and dreams come alive.
+
+RM Design was established by Rasha Mansour, a graduate of the Faculty of Design at the Holon Institute of Technology B.Design.
               </p>
             </div>
           </div>
@@ -67,19 +75,15 @@ function AboutPage() {
           <div className="services-grid">
             <div className="service-card brown-accent">
               <div className="card-icon">🏢</div>
-              <h3>עיצוב משרדים</h3>
-              <p>תכנון חללי עבודה מותאמים לצרכי החברה והעובדים</p>
+              <h3>עיצוב מסחרי</h3>
+              
             </div>
             <div className="service-card gold-accent">
               <div className="card-icon">🏡</div>
               <h3>עיצוב מגורים</h3>
-              <p>עיצוב דירות ובתים פרטיים עם דגש על נוחות ואופי אישי</p>
+              
             </div>
-            <div className="service-card beige-accent">
-              <div className="card-icon">🛋️</div>
-              <h3>עיצוב מסחרי</h3>
-              <p>תכנון חללי קמעונאות, מסעדות וחללי תצוגה ייחודיים</p>
-            </div>
+            
           </div>
         </section>
 
@@ -96,7 +100,7 @@ function AboutPage() {
                 <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
                   <img src="/icons/instagram.png" alt="Instagram" />
                 </a>
-                <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">
                   <img src="/icons/linkedin.png" alt="LinkedIn" />
                 </a>
               </div>
@@ -105,7 +109,7 @@ function AboutPage() {
               <h3>רשא מנסור</h3>
               <p>מייסדת הסטודיו</p>
               <p className="rasha-bio">
-                בעלת ניסיון של 4 שנים בעיצוב פנים ואדריכלות. מלמדת קורסים בתחום כבר שנה וחצי מתוך אהבה למקצוע ולחינוך.
+                בעלת ניסיון של 6 שנים בעיצוב פנים .
               </p>
             </div>
           </div>

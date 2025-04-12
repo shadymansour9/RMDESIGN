@@ -108,29 +108,27 @@ function FormPage() {
         </div>
 
         <div className="course-info fade-in">
-          <h2 className="info-heading">מידע על הקורסים</h2>
+          <h2 className="info-heading"> איזה קורס מתאים לך :</h2>
           <div className="course-card brown-accent">
-            <h3>קורס Revit למתחילים</h3>
+            <h3>קורס ריווט מקצועי </h3>
             <ul>
               <li>📆 12 מפגשים שבועיים</li>
-              <li>🕒 3 שעות כל מפגש</li>
-              <li>🎓 תעודה מקצועית</li>
+              <li>🕒 2 שעות כל מפגש</li>
               <li>👥 ליווי אישי צמוד</li>
             </ul>
           </div>
 
           <div className="course-card gold-accent">
-            <h3>קורס Revit למתקדמים</h3>
+            <h3>קורס  ריווט הדמיות  </h3>
             <ul>
-              <li>📆 8 מפגשים שבועיים</li>
-              <li>🕒 4 שעות כל מפגש</li>
+              <li>📆 6 מפגשים שבועיים</li>
+              <li>🕒 2 שעות כל מפגש</li>
               <li>🏆 פרויקט גמר מעשי</li>
-              <li>💼 הכוונה תעסוקתית</li>
             </ul>
           </div>
 
           <div className="course-card beige-accent">
-            <h3>סדנאות מקצועיות</h3>
+            <h3>ליווי בפרויקט גמר </h3>
             <ul>
               <li>📆 4 מפגשים מרוכזים</li>
               <li>🕒 6 שעות כל מפגש</li>
@@ -146,7 +144,7 @@ function FormPage() {
         <div className="footer-card">
           <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
           <div className="footer-social">
-            <a href="https://www.linkedin.com/in/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">
               <img src="/icons/linkedin.png" alt="LinkedIn" />
             </a>
             <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">

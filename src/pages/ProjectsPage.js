@@ -30,6 +30,7 @@ function ProjectsPage() {
       tags: ["שימור", "קהילה", "תרבות"],
       category: "ציבורי",
       year: "2021",
+      galleryText: "הפרויקט כלל שימור של מבנה היסטורי ושילוב טכנולוגיות עיצוב מודרניות, תוך שמירה על צביון קהילתי.",
     },
     {
       id: 2,
@@ -131,7 +132,7 @@ function ProjectsPage() {
           />
           <div className="footer-social">
             <a
-              href="https://www.linkedin.com/in/YOUR_PROFILE"
+              href="https://www.linkedin.com/in/rasha-mansour-731184204"
               target="_blank"
               rel="noopener noreferrer"
             >

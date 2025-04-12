@@ -29,7 +29,7 @@ function HomePage() {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
-          <h1 className="hero-title">RM דיזיין - מצוינות בעיצוב פנים</h1>
+          <h1 className="hero-title">RM DESIGN STUDIO</h1>
           <p className="hero-subtitle">
             פתרונות עיצוב חדשניים המשולבים עם טכנולוגיות BIM ו-VR מתקדמות
           </p>
@@ -60,19 +60,19 @@ function HomePage() {
           {/* Feature Card 1 */}
           <div className="feature-card brown-accent fade-in">
             <div className="card-icon">🏠</div>
-            <h3>עיצוב פנים מותאם</h3>
+            <h3> עיצוב פנים מותאם אישית            </h3>
             <ul>
-              <li><strong>מגורים:</strong> דירות, בתים פרטיים, פנטהאוזים</li>
-              <li><strong>משרדים:</strong> חללי עבודה מותאמים לצרכים</li>
-              <li><strong>מסחר:</strong> חנויות, מסעדות וחללי תצוגה</li>
-              <li><strong>שימור:</strong> שיקום מבנים היסטוריים</li>
+              <li>תכנון מדויק ומותאם לצרכים שלכם – החל מדירות פרטיות, בתים פרטיים ווילות, דרך משרדים מרווחים ועד חללים מסחריים כמו מסעדות, חנויות  וחללי תצוגה. </li>
+              <li>אני מלווה את הלקוח מהשלב הרעיוני ועד לביצוע מלא, עם דגש על פונקציונליות, אסתטיקה ותקציב.</li>
+
             </ul>
           </div>
 
           {/* Feature Card 2 */}
           <div className="feature-card beige-accent fade-in">
             <div className="card-icon">🎓</div>
-            <h3>קורסי הכשרה מקצועית</h3>
+            <h3> קורסים מקצועיים למתכננים ומעצבים
+            </h3>
             <div className="course-details">
               <div className="course-item">
                 <span className="icon">📐</span>
@@ -83,8 +83,10 @@ function HomePage() {
                 <p>קורס Render מתקדם - 6 מפגשים</p>
               </div>
               <div className="course-item">
-                <span className="icon">🏆</span>
-                <p>סדנאות BIM ו-VR</p>
+                <span className="icon"></span>
+                <p>סדנאות קצרות בטכנולוגיות מתקדמות כמו BIM ו-VR
+הקורסים מותאמים לרמת הידע של המשתתפים ומעניקים כלים מעשיים לעבודה אמיתית.
+</p>
               </div>
             </div>
             <Link to="/form" className="cta-button tertiary-btn">
@@ -95,12 +97,14 @@ function HomePage() {
           {/* Feature Card 3 */}
           <div className="feature-card gold-accent fade-in">
             <div className="card-icon">💻</div>
-            <h3>טכנולוגיות מתקדמות</h3>
+            <h3>שימוש בטכנולוגיות מתקדמות </h3>
             <ul>
-              <li><strong>BIM:</strong> תכנון וניהול פרויקטים</li>
-              <li><strong>VR:</strong> סיורים וירטואליים בחללים</li>
-              <li><strong>הדמיות:</strong> תלת מיד ברזולוציה גבוהה</li>
-              <li><strong>פרמטריקה:</strong> עיצוב אדפטיבי</li>
+              <li>תכנון בפרויקטים בסביבת BIM
+              </li>
+              <li>הדמיות פוטוריאליסטיות ברמה גבוהה
+              </li>
+              <li>סיורים וירטואליים בתלת־ממד (VR)</li>
+              <li>הכנת מצגות מקצועיות ומרשימות ללקוחות ויזמים</li>
             </ul>
           </div>
         </div>
@@ -130,23 +134,18 @@ function HomePage() {
       {/* About Section */}
       <section className="about-section">
         <div className="section-heading fade-in">
-          <h2>על הסטודיו</h2>
-          <p>הפילוסופיה והייחוד שלנו</p>
+          <h2>כל עיצוב מתחיל בסיפור שלכם   </h2>
         </div>
         <div className="about-content fade-in">
           <p>
-            RM דיזיין הוא סטודיו לעיצוב פנים ואדריכלות בחיפה, המתמחה בעיצוב משרדים, חללי מגורים ופרויקטים מסחריים.
-            אנו משלבים בין אסתטיקה עכשווית לטכנולוגיות מתקדמות ליצירת חללים פונקציונליים ויפים.
+          אנחנו מעצבים עבור אנשים
+
+הגישה שלנו לתכנון ועיצוב חללים נובעת מהבנה של הצרכים, הרצונות והחלומות של כל אדם, חברה או עסק. אנו משתמשים בעקרונות ובמושגים קיימים מעולם העיצוב ומתאימים אותם לתרבות המקומית ולחיים היומיומיים.
           </p>
           <p>
             הגישה שלנו מבוססת על מחקר מעמיק, הקשבה לצרכי הלקוח ופתרונות יצירתיים המותאמים אישית.
           </p>
-          <div className="founder-note">
-            <p className="quote">
-              "העיצוב הטוב ביותר הוא זה שמשפר את איכות החיים של המשתמשים בו, תוך שמירה על אסתטיקה ופונקציונליות"
-            </p>
-            <p className="founder-signature">- רשא מנסור, מייסדת הסטודיו</p>
-          </div>
+         
           <Link to="/about" className="cta-button primary-btn">
             הכירו אותנו יותר
           </Link>
@@ -216,7 +215,7 @@ function HomePage() {
       <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
         <img src="/icons/instagram.png" alt="Instagram" />
       </a>
-      <a href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">
         <img src="/icons/linkedin.png" alt="LinkedIn" />
       </a>
     </div>
