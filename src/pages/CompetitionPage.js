@@ -64,11 +64,7 @@ function CompetitionPage() {
               </p>
             </div>
             <div className="image-content">
-<<<<<<< HEAD
               <video controls width="100%" poster="/images/zak1.jpg">
-=======
-              <video controls width="100%" poster="/images/zakriyat-cover.jpg">
->>>>>>> f20e2c792e0cb272555009d7396f396ade97d9bb
                 <source src="/videos/zakriyat.mp4" type="video/mp4" />
                 הדפדפן שלך לא תומך בווידאו.
               </video>
