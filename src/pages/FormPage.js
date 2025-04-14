@@ -47,7 +47,7 @@ function FormPage() {
 
   return (
     <div className="form-page-container">
-      <Navbar />
+      
 
       <section className="form-hero fade-in">
         <div className="hero-content">

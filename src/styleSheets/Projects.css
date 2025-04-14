@@ -8,15 +8,20 @@
   min-height: 100vh;
 }
 
-/* Hero Section */
 .projects-hero {
-  background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%);
-  padding: 8rem 2rem 4rem;
+  background: url('/images/hero-bg1.jpg') center center / cover no-repeat;
+  padding: 2rem 2rem 6rem;
   color: white;
   text-align: center;
   position: relative;
   overflow: hidden;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .projects-hero::before {
   content: '';
@@ -94,7 +99,7 @@
 
 .project-category {
   font-weight: 700;
-  color: #5d4037;
+  color: #000000;
 }
 
 .project-year {
@@ -133,7 +138,7 @@
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #3e2723;
+  color: #000000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -144,19 +149,19 @@
 .project-info h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #3e2723;
+  color: #000000;
   margin-bottom: 1rem;
 }
 
 .project-info p {
-  color: #666;
+  color: #000000;
   line-height: 1.6;
   margin-bottom: 1.5rem;
   min-height: 80px;
 }
 
 .cta-button {
-  background: #5d4037;
+  background: #000000;
   color: white;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
@@ -170,7 +175,7 @@
 }
 
 .cta-button:hover {
-  background: #4e3529;
+  background: #000000;
   transform: translateY(-2px);
 }
 

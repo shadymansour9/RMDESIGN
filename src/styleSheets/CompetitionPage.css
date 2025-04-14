@@ -10,32 +10,26 @@
 
 /* Hero Section */
 .competition-hero {
-  background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%);
-  padding: 8rem 2rem 4rem;
+  background: url('/images/hero-bg1.jpg') center center / cover no-repeat;
+  padding: 2rem 2rem 6rem;
   color: white;
   text-align: center;
   position: relative;
   overflow: hidden;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.competition-hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('/images/design-pattern.png') center/cover;
-  opacity: 0.1;
-  animation: subtleFloat 20s ease-in-out infinite alternate;
-}
+
 
 .hero-content {
-  max-width: 900px;
-  margin: 0 auto;
   position: relative;
   z-index: 1;
 }
+
 
 .competition-hero h1 {
   font-size: 3.2rem;

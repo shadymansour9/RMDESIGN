@@ -9,11 +9,12 @@ function Navbar() {
   // Updated menu items with correct form route
   const menuItems = [
     { path: "/", label: "בית" },
-    { path: "/form", label: "הרשמה" }, // Changed from "/register"
     { path: "/about", label: "אודות" },
-    { path: "/competition", label: "תחרויות" },
-    { path: "/projects", label: "פרויקטים" }
+    { path: "/projects", label: "פרויקטים" },
+    { path: "/form", label: "הרשמה" },
+    { path: "/competition", label: "תחרויות" }
   ];
+  
 
   // Rest of the component remains the same
   useEffect(() => {
