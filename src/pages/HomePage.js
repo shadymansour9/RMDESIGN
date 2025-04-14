@@ -29,7 +29,7 @@ function HomePage() {
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">RM DESIGN STUDIO</h1>
-          <p className="hero-subtitle">תכנון יצירתי. עיצוב מדויק. קורסים פרקטיים.</p>
+          <p className="hero-subtitle">תכנון יצירתי. עיצוב מדויק. קורסים פרקטיים   </p>
           <div className="button-group">
             <Link to="/projects" className="hero-button transparent-border">
               <span className="button-icon">👁️</span> צפה בפרויקטים
@@ -59,7 +59,7 @@ function HomePage() {
         כל פרויקט מתחיל מהקשבה – וממשיך בתכנון שמדויק לצרכים, לאורח החיים ולאווירה שרוצים ליצור.
         אני מאמינה שעיצוב טוב נולד מהחיבור בין פונקציונליות לאסתטיקה, ומתוך זה אני יוצרת.
       </p>
-      <Link to="/projects" className="cta-button tertiary-btn">קרא עוד</Link>
+      <Link to="/projects" className="cta-button tertiary-btn"> צפה בפרויקטים</Link>
     </div>
 
     <div className="feature-paragraph no-border">
@@ -70,18 +70,10 @@ function HomePage() {
         הקורסים מתאימים לסטודנטים, מעצבים ואדריכלים שרוצים לעבוד נכון, לחסוך זמן, ולבנות תיק עבודות איכותי.
         בשיעורים תלמדו איך למדל, לתכנן, להוציא תוכניות, ולעבוד בצורה מקצועית ומדויקת – עם ליווי אישי לאורך כל הדרך.
       </p>
-      <Link to="/form" className="cta-button tertiary-btn">קרא עוד</Link>
+      <Link to="/form" className="cta-button tertiary-btn"> הרשמה לקורסים</Link>
     </div>
 
-    <div className="feature-paragraph no-border">
-      <h3>שימוש בטכנולוגיות מתקדמות</h3>
-      <p>
-        אני משתמשת בטכנולוגיות חדשניות כמו הדמיות פוטוריאליסטיות, מודלים תלת־ממדיים, תכנון בסביבת BIM,
-        וסיורים וירטואליים – כלים אלה מאפשרים לי להמחיש ללקוחות את התוצאה הסופית בצורה חיה, מדויקת ומקצועית.
-        ולתכנן פתרונות שמשלבים פונקציונליות וטכנולוגיה מתקדמת.
-      </p>
-      <Link to="/about" className="cta-button tertiary-btn">קרא עוד</Link>
-    </div>
+   
 
   </div>
 </section>
@@ -90,42 +82,20 @@ function HomePage() {
       {/* CTA Section */}
       <section className="cta-section">
         <div className="cta-card fade-in">
-          <span className="benefits-badge" style={{ background: '#ffd700', color: '#3e2723' }}>
-            מהרו להירשם – המקומות מוגבלים!
-          </span>
-          <h3 className="cta-text">מוכנים להתחיל קריירה בעיצוב?</h3>
-          <p className="cta-description">
-            אני מאמינה שעיצוב נכון מתחיל בהקשבה. בעבודה שלי אני מלווה לקוחות מהשלב הרעיוני ועד לביצוע,
-            ומתוך הניסיון שצברתי אני גם מעבירה קורסים מעשיים לסטודנטים ולאנשי מקצוע שרוצים לשלוט ב-Revit ולהתמקצע בתחום.
-          </p>
+          
+        <h3 className="contact-title">Contact Us</h3>
+
+        
           <div className="button-group">
             <Link to="/form" className="cta-button secondary-btn">
-              הרשם עכשיו
+              Get In Touch
             </Link>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="about-section">
-        <div className="section-heading fade-in">
-          <h2>כל עיצוב מתחיל בסיפור שלכם</h2>
-        </div>
-        <div className="about-content fade-in">
-          <p>
-            אנחנו מעצבים עבור אנשים. הגישה שלנו לתכנון ועיצוב חללים נובעת מהבנה של הצרכים,
-            הרצונות והחלומות של כל אדם, חברה או עסק. אנו משתמשים בעקרונות ובמושגים קיימים מעולם העיצוב
-            ומתאימים אותם לתרבות המקומית ולחיים היומיומיים.
-          </p>
-          <p>
-            הגישה שלנו מבוססת על מחקר מעמיק, הקשבה לצרכי הלקוח ופתרונות יצירתיים המותאמים אישית.
-          </p>
-          <Link to="/about" className="cta-button CONT-btn transparent-border">
-            הכירו אותנו יותר
-          </Link>
-        </div>
-      </section>
-
+      
       {/* Testimonials Section */}
       <section className="testimonials-section">
         <div className="section-heading fade-in">

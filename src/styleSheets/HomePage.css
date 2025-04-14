@@ -9,7 +9,7 @@
 }
 
 .hero-section {
-  background: url('/images/hero-bg.jpg') center center / cover no-repeat;
+  background: url('/images/hero-bg1.jpg') center center / cover no-repeat;
   padding: 24rem 2rem 3rem;
   text-align: center;
   position: relative;
@@ -22,9 +22,9 @@
   align-items: center;
 }
 .hero-button.transparent-border {
-  width: 280px;
-  height: 80px;
-  font-size: 1.6rem;
+  width: 200px;
+  height: 70px;
+  font-size: 1.3rem;
   font-weight: 500;
   border-radius: 999px; /* עיגול מלא */
 
@@ -421,12 +421,29 @@
 
 .cta-section {
   background: url('/images/cta-bg.jpg') center center / cover no-repeat;
-  background-size: cover;
-  background-position: center;
   padding: 6rem 2rem;
-  color: white;
-  text-align: center;
+  min-height: 400px; /* הוסף את זה */
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contact-title {
+  font-family: 'Dancing Script', cursive; /* לדוגמה */
+  font-size: 3.2rem;
+  font-weight: 600;
+}
+
+.contact-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 3px;
+  background: #ffd700; /* קו זהב */
+  border-radius: 2px;
 }
 
 
@@ -451,17 +468,21 @@
 .cta-card {
   position: relative;
   z-index: 2;
-  color: rgb(255, 255, 255);
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* מרכזת אופקית */
+  justify-content: center; /* מרכזת אנכית */
+  text-align: center;
   direction: rtl;
   max-width: 1000px;
+  height: 100%;             /* חובה כדי שהמרכוז יעבוד */
+  min-height: 350px;        /* או כל גובה שתבחר */
   margin: 0 auto;
   padding: 1rem 2rem;
-  line-height: 2;
-  font-size: 1.4rem;
-  font-weight: 400;
+  color: #fff;
   text-shadow: 2px 1px 4px rgba(0, 0, 0, 0.6);
 }
+
 
 
 

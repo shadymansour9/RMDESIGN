@@ -15,7 +15,9 @@
   align-items: center;
   padding: 14px 24px;
   direction: rtl;
+  flex-direction: row-reverse; /* 👈 הוספת שורה זו */
 }
+
 
 .navbar-brand {
   display: flex;
