@@ -1,0 +1,503 @@
+/* About Page Styles */
+.about-page-container {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Rubik', 'Segoe UI', sans-serif;
+  color: #333;
+  background-color: #f9f7f2;
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.about-hero {
+  background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%);
+  padding: 8rem 2rem 4rem;
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/images/design-pattern.png') center/cover;
+  opacity: 0.1;
+  animation: subtleFloat 20s ease-in-out infinite alternate;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.about-hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #e8d9b5, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Main Content */
+.about-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* Studio Story Section */
+.studio-story {
+  margin-bottom: 6rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.text-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.text-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 3px;
+  background: #8d6e63;
+}
+
+.text-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.image-content img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Services Section */
+.services-section {
+  margin-bottom: 6rem;
+}
+
+.services-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 1rem;
+}
+
+.service-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Team Section */
+.team-section {
+  margin-bottom: 6rem;
+}
+
+.team-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+}
+
+.team-member {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.member-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1.5rem;
+  border: 3px solid #d7ccc8;
+}
+
+.member-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-member h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 0.5rem;
+}
+
+.team-member p {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.member-bio {
+  font-size: 0.95rem;
+  color: #888;
+  margin-top: 1rem;
+}
+
+/* Achievements Section */
+.achievements-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.achievement-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+  border-top: 4px solid #ffd700;
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.achievement-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #5d4037;
+}
+
+.achievement-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 0.5rem;
+}
+
+.achievement-card p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Animations */
+@keyframes subtleFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10px, -10px) scale(1.05); }
+  100% { transform: translate(10px, 10px) scale(1.1); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.fade-in.visible {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .about-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .text-content h2 {
+    font-size: 2rem;
+  }
+  
+  .image-content img {
+    height: 300px;
+  }
+  
+  .services-section h2,
+  .team-section h2,
+  .achievements-section h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero {
+    padding: 6rem 1rem 2rem;
+  }
+  
+  .about-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .team-member {
+    padding: 1.5rem;
+  }
+}
+/* About Rasha Section */
+.about-rasha {
+  margin-bottom: 6rem;
+  text-align: center;
+}
+
+.about-rasha h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 2rem;
+}
+
+.rasha-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.rasha-card:hover {
+  transform: translateY(-5px);
+}
+.text-box-content {
+  background-color: #f2ece5;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  font-size: 1.1rem;
+  color: #3e2723;
+  line-height: 1.8;
+  text-align: right;
+}
+
+.rasha-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  border: 4px solid #d7ccc8;
+}
+
+.rasha-info h3 {
+  font-size: 1.5rem;
+  color: #3e2723;
+  margin-bottom: 0.5rem;
+}
+
+.rasha-info p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0.3rem 0;
+}
+
+.rasha-bio {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #888;
+  line-height: 1.6;
+}
+.rasha-social {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.rasha-social img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.rasha-social img:hover {
+  transform: scale(1.2);
+}
+.studio-split-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  background: #fefcf8;
+  padding: 2rem;
+  margin: 3rem auto;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  max-width: 1000px;
+}
+
+.split-item {
+  flex: 1 1 45%;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #444;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.split-hebrew {
+  direction: rtl;
+  text-align: right;
+  border-right: 4px solid #d7ccc8;
+  @media (max-width: 768px) {
+    .split-hebrew {
+      border-top: 3px solid #d7ccc8;
+      padding-top: 1rem;
+    }
+  }
+  
+}
+
+.split-english {
+  direction: ltr;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .split-item {
+    flex: 1 1 100%;
+  }
+
+  .split-hebrew {
+    border-right: none;
+    border-top: 3px solid #d7ccc8;
+  }
+}
+
+
+.split-english {
+  direction: ltr;
+  text-align: left;
+  padding-left: 1rem;
+}
+.studio-story h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.studio-story h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 50%;
+  transform: translateX(50%);
+  width: 60px;
+  height: 3px;
+  background: #8d6e63;
+}

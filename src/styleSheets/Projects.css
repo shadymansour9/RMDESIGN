@@ -1,0 +1,238 @@
+/* Projects Page Styles */
+.projects-page-container {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Rubik', 'Segoe UI', sans-serif;
+  color: #333;
+  background-color: #f9f7f2;
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.projects-hero {
+  background: linear-gradient(135deg, #5d4037 0%, #3e2723 100%);
+  padding: 8rem 2rem 4rem;
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/images/design-pattern.png') center/cover;
+  opacity: 0.1;
+  animation: subtleFloat 20s ease-in-out infinite alternate;
+}
+
+.hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.projects-hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to right, #e8d9b5, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Projects Content */
+.projects-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+}
+
+.project-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(93, 64, 55, 0.05);
+}
+
+.project-category {
+  font-weight: 700;
+  color: #5d4037;
+}
+
+.project-year {
+  color: #666;
+}
+
+.project-image-container {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.project-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover img {
+  transform: scale(1.05);
+}
+
+.project-tags {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #3e2723;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.project-info {
+  padding: 1.5rem;
+}
+
+.project-info h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 1rem;
+}
+
+.project-info p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  min-height: 80px;
+}
+
+.cta-button {
+  background: #5d4037;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background: #4e3529;
+  transform: translateY(-2px);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+/* Animations */
+@keyframes subtleFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10px, -10px) scale(1.05); }
+  100% { transform: translate(10px, 10px) scale(1.1); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.fade-in.visible {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .projects-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .project-image-container {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-hero {
+    padding: 6rem 1rem 2rem;
+  }
+  
+  .projects-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .project-info h3 {
+    font-size: 1.3rem;
+  }
+}

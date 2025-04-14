@@ -1,0 +1,36 @@
+/* src/styles/Layout.css */
+.layout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 84px 24px 40px;
+  color: #0e0808;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f7f2;
+  min-height: 100vh;
+}
+
+.layout-container p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.layout-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .layout-container {
+    padding-top: 76px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .layout-content {
+    padding: 20px;
+  }
+}
