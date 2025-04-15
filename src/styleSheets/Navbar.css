@@ -54,7 +54,7 @@
 }
 
 .navbar-menu a:hover {
-  color: #487950;
+  color: #000000;
 }
 
 .navbar-menu a::after {
@@ -74,7 +74,7 @@
 }
 
 .navbar-menu a.active {
-  color: #795548;
+  color: #000000;
   font-weight: 600;
 }
 
