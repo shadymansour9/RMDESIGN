@@ -14,7 +14,6 @@ function CompetitionPage() {
     }, { threshold: 0.1 });
 
     fadeElements.forEach((el) => observer.observe(el));
-
     return () => {
       fadeElements.forEach((el) => observer.unobserve(el));
     };
@@ -41,28 +40,26 @@ function CompetitionPage() {
         <section className="project-overview fade-in">
           <div className="content-grid">
             <div className="text-content">
-              
-              <p className="highlight-text">
-                פרויקט זקריאת אל נאסרה זכה במקום השני בתחרות 
-                <p>
-                Inspireli Awards 2021 
-                בקטגוריית עיצוב ציבורי וקהילתי.
+              <div className="highlight-text">
+                <p>פרויקט זקריאת אל נאסרה זכה במקום השני בתחרות</p>
+                <p>Inspireli Awards 2021 בקטגוריית עיצוב ציבורי וקהילתי.</p>
+              </div>
 
-              </p>
-              <h3>מיקום הפרויקט </h3>
+              <h3>מיקום הפרויקט</h3>
               <p>השוק העתיק, נצרת</p>
               <p>שטח: 850 מ"ר</p>
               <p>שנת ביצוע: 2021</p>
-              </p>
+
               <p>
-              "זקריאת אל נאסרה"  מרכז קהילתי תרבותי המשמר זיכרון של דורות בעיר נצרת.
-פירוש השם "זיכרון תרבותי" מהשפה הערבית ובהשראת התרבות הערבית נוצרית, דרך אוכל מסורתי ערבי וחפצים בעלי ערך וסיפור היסטורי.
-ממוקם ב"בית פאוזי עאזר" שנמצא בשוק העתיק של נצרת שהיה בעבר נקודה חשובה בהיסטוריה בשל המסחר והשגשוג הכלכלי.
-מטרת הפרויקט היא להחיות את השוק על ידי חיבור בין שימור המסורת והתרבות עם הדור הצעיר,
-דרך שימור העיצוב העות'מאני של המקום יחד עם עיצוב מודרני.
-"זקריית אל נאסרה" מציע פונקציות בילוי והכרה היסטורית כגון: תיאטראות, גלריה, ובתי קפה ברוח התרבות.
+                "זקריאת אל נאסרה" הוא מרכז קהילתי תרבותי המשמר זיכרון של דורות בעיר נצרת.
+                פירוש השם "זיכרון תרבותי" מהשפה הערבית ובהשראת התרבות הערבית נוצרית, דרך אוכל מסורתי ערבי וחפצים בעלי ערך וסיפור היסטורי.
+                ממוקם ב"בית פאוזי עאזר" שנמצא בשוק העתיק של נצרת שהיה בעבר נקודה חשובה בהיסטוריה בשל המסחר והשגשוג הכלכלי.
+                מטרת הפרויקט היא להחיות את השוק על ידי חיבור בין שימור המסורת והתרבות עם הדור הצעיר,
+                דרך שימור העיצוב העות'מאני של המקום יחד עם עיצוב מודרני.
+                "זקריית אל נאסרה" מציע פונקציות בילוי והכרה היסטורית כגון: תיאטראות, גלריה, ובתי קפה ברוח התרבות.
               </p>
             </div>
+
             <div className="image-content">
               <video controls width="100%" poster="/images/zak1.jpg">
                 <source src="/videos/zakriyat.mp4" type="video/mp4" />
@@ -72,14 +69,8 @@ function CompetitionPage() {
           </div>
         </section>
 
-        {/* Design Concept */}
-        
-
- 
-
         {/* Gallery Section */}
         <section className="gallery-section fade-in">
-          
           <div className="gallery-grid">
             <div className="gallery-item">
               <img src="/images/zak1.jpg" alt="מבט חיצוני" />
@@ -95,12 +86,9 @@ function CompetitionPage() {
             </div>
           </div>
         </section>
-
-        {/* Project Narrative */}
-       
       </div>
 
-      {/* Footer - full width outside content */}
+      {/* Footer */}
       <div className="footer-rasha">
         <div className="footer-card">
           <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />

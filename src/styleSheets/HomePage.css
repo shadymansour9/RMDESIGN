@@ -9,7 +9,8 @@
 }
 
 .hero-section {
-  background: url('/images/hero-bg1.jpg') center center / cover no-repeat;
+  background-image: url('../../public/images/hero-bg1.jpg');
+
   padding: 24rem 2rem 3rem;
   text-align: center;
   position: relative;
@@ -61,7 +62,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('/images/hero-pattern.png') center/cover;
   opacity: 0.1;
   animation: subtleFloat 20s ease-in-out infinite alternate;
 }
@@ -420,7 +420,6 @@
 }
 
 .cta-section {
-  background: url('/images/cta-bg.jpg') center center / cover no-repeat;
   padding: 6rem 2rem;
   min-height: 400px; /* הוסף את זה */
   position: relative;
