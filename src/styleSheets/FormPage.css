@@ -10,7 +10,7 @@
 
 }
 .form-page-container .form-hero {
-  background: url('/images/hero-bg1.jpg') center center / cover no-repeat;
+  background-image: url('../../public/images/hero-bg1.jpg');
   min-height: 50vh;
   padding: 2rem 2rem;
   display: flex;
@@ -228,8 +228,8 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .form-content {
-    grid-template-columns: 1fr;
-    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column-reverse; /* שים את הטופס אחרי הקורסים במובייל */
   }
 
   .form-hero {

@@ -23,53 +23,44 @@ function ProjectsPage() {
 
   const projects = [
     {
-      id: 1,
+      id: 3,
       title: "Engineer Office",
-      description: "עיצוב פנים לפנטהאוז עם נוף לים התיכון",
       image: "/images/villa1.jpg",
       tags: ["חוף", "יוקרה", "מגורים"],
-      category: "מסחרי",
     },
     {
       id: 2,
       title: "Lawyer's office",
-      description: "עיצוב חללי עבודה חדשניים לחברת טכנולוגיה מובילה",
       image: "/images/office1.jpg",
       tags: ["משרדים", "מודרני", "טכנולוגיה"],
-      category: "מסחרי",
+
     },
     {
-      id: 3,
+      id: 1,
       title: "E.H House ",
-      description: "מרכז קהילתי תרבותי בנצרת - זוכה פרס עיצוב בינלאומי",
       image: "/images/E.H.jpg",
       tags: ["שימור", "קהילה", "תרבות"],
-      category: "פרטי",
       galleryText: "הפרויקט כלל שימור של מבנה היסטורי ושילוב טכנולוגיות עיצוב מודרניות, תוך שמירה על צביון קהילתי.",
     },
     {
-      id: 4,
+      id: 6,
       title: "LobbyOfficeDesign",
-      description: "שיפוץ ועיצוב דירת פנטהאוז בסגנון מינימליסטי",
       image: "/images/LobbyOfficeDesign.jpg",
       tags: ["עירוני", "מינימליזם", "מגורים"],
-      category: "מסחרי",
     },
     {
       id: 5,
       title: "N-restaurant",
-      description: "עיצוב חלל קולינרי עם אווירה אינטימית",
+
       image: "/images/N-restaurant.jpg",
       tags: ["בוטיק", "עיצוב", "מסעדות"],
-      category: "מסחרי",
     },
     {
-      id: 6,
+      id: 4,
       title: "Mansour's House",
-      description: "חווית מבקרים חדשנית עם טכנולוגיות VR מתקדמות",
+ 
       image: "/images/mansour.jpg",
       tags: ["ציבורי", "חדשנות", "תערוכה"],
-      category: "פרטי",
     },
   ];
 

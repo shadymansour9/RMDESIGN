@@ -10,7 +10,7 @@
 
 /* Hero Section */
 .competition-hero {
-  background: url('/images/hero-bg1.jpg') center center / cover no-repeat;
+  background: url('../../public/images/hero-bg1.jpg') center center / cover no-repeat;
   padding: 2rem 2rem 6rem;
   color: white;
   text-align: center;
@@ -63,7 +63,6 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   animation: pulse 2s infinite;
 }
-
 /* Main Content */
 .competition-content {
   max-width: 1200px;

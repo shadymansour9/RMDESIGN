@@ -32,7 +32,26 @@ function FormPage() {
       .sendForm("service_9mrmmoh", "template_geaa5dw", form.current, "0-GZndZldpzAWnM2X")
       .then(() => {
         setSubmitStatus("success");
+
+        // שליחת מייל נוסף
         emailjs.sendForm("service_9mrmmoh", "template_140wet8", form.current, "0-GZndZldpzAWnM2X");
+
+        // שליחה ל־Google Sheets
+        const formData = new FormData(form.current);
+        fetch("https://script.google.com/macros/s/AKfycbxzEmofjEwPOj0Zgll_Sfz7VNGQgjSxUQ2LANeS8InikL5FGoZJKvpyVWqJOMjnaYUXjw/exec", {
+          method: "POST",
+          mode: "no-cors", // ✅ מוסיף כדי לעקוף את ה-CORS
+          body: formData,
+        })
+        .then(() => {
+          console.log("✅ נשלח ל־Google Sheets");
+        })
+        .catch((err) => {
+          console.warn("⚠️ לא ניתן לוודא את התשובה (no-cors):", err);
+        });
+        
+
+        // איפוס הטופס
         form.current.reset();
       })
       .catch((error) => {
@@ -47,7 +66,7 @@ function FormPage() {
 
   return (
     <div className="form-page-container">
-      
+      <Navbar />
 
       <section className="form-hero fade-in">
         <div className="hero-content">
@@ -80,10 +99,9 @@ function FormPage() {
               <label htmlFor="course">בחר קורס</label>
               <select id="course" name="course" required className="form-input">
                 <option value="">-- בחר קורס --</option>
-                <option value="beginners">קורס ריווט מקצועי  </option>
-                <option value="advanced">קורס ריווט הדמיות
-                </option>
-                <option value="workshop">ליווי בפרויקט גמר </option>
+                <option value="beginners">קורס ריווט מקצועי</option>
+                <option value="advanced">קורס ריווט הדמיות</option>
+                <option value="workshop">ליווי בפרויקט גמר</option>
               </select>
             </div>
 
@@ -110,9 +128,10 @@ function FormPage() {
         </div>
 
         <div className="course-info fade-in">
-          <h2 className="info-heading"> איזה קורס מתאים לך :</h2>
+          <h2 className="info-heading">איזה קורס מתאים לך:</h2>
+
           <div className="course-card brown-accent">
-            <h3>קורס ריווט מקצועי </h3>
+            <h3>קורס ריווט מקצועי</h3>
             <ul>
               <li>📆 12 מפגשים שבועיים</li>
               <li>🕒 2 שעות כל מפגש</li>
@@ -121,7 +140,7 @@ function FormPage() {
           </div>
 
           <div className="course-card gold-accent">
-            <h3>קורס  ריווט הדמיות  </h3>
+            <h3>קורס ריווט הדמיות</h3>
             <ul>
               <li>📆 6 מפגשים שבועיים</li>
               <li>🕒 2 שעות כל מפגש</li>
@@ -130,7 +149,7 @@ function FormPage() {
           </div>
 
           <div className="course-card beige-accent">
-            <h3>ליווי בפרויקט גמר </h3>
+            <h3>ליווי בפרויקט גמר</h3>
             <ul>
               <li>📆 4 מפגשים מרוכזים</li>
               <li>🕒 6 שעות כל מפגש</li>
