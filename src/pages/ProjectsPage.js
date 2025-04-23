@@ -26,41 +26,41 @@ function ProjectsPage() {
       id: 3,
       title: "Engineer Office",
       image: "/images/villa1.jpg",
-      tags: ["חוף", "יוקרה", "מגורים"],
+      tags: [],
     },
     {
       id: 2,
       title: "Lawyer's office",
       image: "/images/office1.jpg",
-      tags: ["משרדים", "מודרני", "טכנולוגיה"],
+      tags: [],
 
     },
     {
       id: 1,
       title: "E.H House ",
       image: "/images/E.H.jpg",
-      tags: ["שימור", "קהילה", "תרבות"],
+      tags: [],
       galleryText: "הפרויקט כלל שימור של מבנה היסטורי ושילוב טכנולוגיות עיצוב מודרניות, תוך שמירה על צביון קהילתי.",
     },
     {
       id: 6,
       title: "LobbyOfficeDesign",
       image: "/images/LobbyOfficeDesign.jpg",
-      tags: ["עירוני", "מינימליזם", "מגורים"],
+      tags: [],
     },
     {
       id: 5,
       title: "N-restaurant",
 
       image: "/images/N-restaurant.jpg",
-      tags: ["בוטיק", "עיצוב", "מסעדות"],
+      tags: [],
     },
     {
       id: 4,
       title: "Mansour's House",
  
       image: "/images/mansour.jpg",
-      tags: ["ציבורי", "חדשנות", "תערוכה"],
+      tags: [],
     },
   ];
 
@@ -81,29 +81,27 @@ function ProjectsPage() {
       {/* Projects Grid */}
       <div className="projects-content">
         <div className="projects-grid">
-          {projects.map((project) => (
-            <div key={project.id} className="project-card fade-in">
-              <div className="card-header">
-                <span className="project-category">{project.category}</span>
-                <span className="project-year">{project.year}</span>
-              </div>
-              <div className="project-image-container">
-                <img src={project.image} alt={project.title} />
-                <div className="project-tags">
-                  {project.tags.map((tag, index) => (
-                    <span key={index} className="tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="project-info">
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <Link to={`/projects/${project.id}`} className="cta-button">
-                  צפו בפרויקט <span className="button-icon">→</span>
-                </Link>
-              </div>
-            </div>
-          ))}
+        {projects.map((project) => (
+  <div key={project.id} className="project-card fade-in">
+    {/* הורדנו את card-header */}
+    <div className="project-image-container">
+      <img src={project.image} alt={project.title} />
+      <div className="project-tags">
+        {project.tags.map((tag, index) => (
+          <span key={index} className="tag">{tag}</span>
+        ))}
+      </div>
+    </div>
+    <div className="project-info">
+      <h3>{project.title}</h3>
+      {project.description && <p>{project.description}</p>}
+      <Link to={`/projects/${project.id}`} className="cta-button">
+        צפו בפרויקט <span className="button-icon">→</span>
+      </Link>
+    </div>
+  </div>
+))}
+
         </div>
       </div>
 

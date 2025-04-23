@@ -19,12 +19,12 @@ const galleryImages = {
 };
 
 const projectDetails = {
-  1: { title: "E.H House", description: "שימור מבנה ציבורי בנצרת, עיצוב מודרני עם השראה מההיסטוריה המקומית." },
-  2: { title: "Lawyer's Office", description: "עיצוב משרד מודרני עבור חברת עורכי דין עם דגש על תאורה טבעית ואסתטיקה מקצועית." },
-  3: { title: "Engineer Office", description: "עיצוב פנים לפנטהאוז עם קווים נקיים ונוף לים התיכון." },
-  4: { title: "Mansour's House", description: "פרויקט מגורים חדשני המשלב עיצוב חכם עם חוויית משתמש מרגשת." },
-  5: { title: "N-restaurant", description: "עיצוב חלל קולינרי אינטימי באווירה בוטיקית." },
-  6: { title: "Lobby Office Design", description: "שיפוץ לובי משרדי בסגנון מינימליסטי נקי ועדכני." }
+  1: { title: "E.H House", description: "Area - 180  sqr" },
+  2: { title: "Lawyer's Office", description: "Area - 30  sqr" },
+  3: { title: "Engineer Office", description: "Area - 100  sqr" },
+  4: { title: "Mansour's House", description: "Area - 220  sqr" },
+  5: { title: "N-restaurant", description: "Area - 200  sqr" },
+  6: { title: "Lobby Office Design", description: "Area - 400  sqr" }
 };
 
 function ProjectGallery() {

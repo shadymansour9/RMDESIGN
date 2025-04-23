@@ -91,64 +91,17 @@ function HomePage() {
         }}
       >
         <div className="cta-card fade-in">
-          <h3 className="contact-title">Contact Us</h3>
+          <h3 className="contact-title">אני כאן כדי לעזור</h3>
           <div className="button-group">
             <Link to="/form" className="cta-button secondary-btn">
-              Get In Touch
+              צור קשר
             </Link>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="testimonials-section">
-        <div className="section-heading fade-in">
-          <hr className="my-10 border-t border-gray-200" />
-          <h2>לקוחות מספרים</h2>
-          <p>החוויות וההמלצות</p>
-        </div>
-
-        <div className="testimonials-grid">
-          <div className="testimonial-card fade-in">
-            <div className="testimonial-quote">"</div>
-            <p className="testimonial-text">
-              העבודה עם RM דיזיין שינתה לחלוטין את חוויית העבודה במשרד שלנו. קיבלנו חלל פונקציונלי ויפה שמשפר את התפוקה.
-            </p>
-            <div className="testimonial-author">
-              <div>
-                <div className="testimonial-author-name">דניאל כהן</div>
-                <div className="testimonial-author-role">מנכ"ל, טק-סולושנס</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="testimonial-card fade-in">
-            <div className="testimonial-quote">"</div>
-            <p className="testimonial-text">
-              הקורס של RM Revit פתח לי דלתות רבות בשוק העבודה. הליווי האישי והתרגולים המעשיים נתנו לי את כל הכלים להצליח.
-            </p>
-            <div className="testimonial-author">
-              <div>
-                <div className="testimonial-author-name">מיכל לוי</div>
-                <div className="testimonial-author-role">בוגרת קורס Revit</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="testimonial-card fade-in">
-            <div className="testimonial-quote">"</div>
-            <p className="testimonial-text">
-              הדירה שלנו קיבלה חיים חדשים אחרי העיצוב מחדש. הצוות הקשיב לכל הבקשות שלנו וידע לתת מענה יצירתי ומדויק.
-            </p>
-            <div className="testimonial-author">
-              <div>
-                <div className="testimonial-author-name">אבי ואסנת מזרחי</div>
-                <div className="testimonial-author-role">סטודנטית בקורס ריוויט מקצועי</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+   
 
       {/* Footer Section */}
       <section className="footer-rasha">
