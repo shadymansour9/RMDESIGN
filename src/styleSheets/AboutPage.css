@@ -4,7 +4,7 @@
   text-align: right;
   font-family: 'Rubik', 'Segoe UI', sans-serif;
   color: #333;
-  background-color: #f9f7f2;
+  background-color: #ffffff;
   min-height: 100vh;
 }
 
@@ -152,9 +152,12 @@
   border-radius: 16px;
   padding: 2rem;
   text-align: center;
+  border: 2px solid black !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-top: 4px solid;
 }
+
+
+
 
 .service-card:hover {
   transform: translateY(-10px);
@@ -264,7 +267,7 @@
   padding: 2rem;
   text-align: center;
   transition: transform 0.3s ease;
-  border-top: 4px solid #ffd700;
+  border-top: 4px solid #000000;
 }
 
 .achievement-card:hover {
@@ -281,7 +284,7 @@
 .achievement-card h3 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #3e2723;
+  color: #000000;
   margin-bottom: 0.5rem;
 }
 
