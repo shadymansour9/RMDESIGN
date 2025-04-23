@@ -363,30 +363,23 @@
   
   .react-tabs__tab-list {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
-    gap: 0.75rem 1.5rem; /* ריווח אופקי ואנכי מודרני */
-    padding: 0.5rem 1rem; /* ריווח פנימי */
-    margin-bottom: 2.5rem;
-    background-color: #f9f7f2; /* רקע בהיר ועדין */
-    border-radius: 12px; /* פינות מעוגלות */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); /* צל מודרני ועדין */
-    border: none; /* בלי קו תחתון */
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: none; /* הסרת הקו התחתון */
+    padding: 0;
   }
   
-  
   .react-tabs__tab {
-    padding: 0.5rem 1.2rem;
-    font-size: 1rem;
-    font-weight: 500;
-    background-color: #f5f5f5;
-    color: #000000;
-    border: none;
-    border-radius: 999px;
+    background: #fff;
+    color: #3e2723;
+    border: 2px solid #ddd;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    font-weight: 500;
+    transition: background 0.3s, border 0.3s;
   }
   
   .react-tabs__tab:hover {
@@ -419,10 +412,46 @@
     animation: fadeIn 0.4s ease;
   }
   
+  @media (max-width: 768px) {
+    .react-tabs__tab-list {
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
   
+    .react-tabs__tab {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+
   
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 480px) {
+    .react-tabs__tab-list {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 0 0.5rem;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      max-width: 100%;
+      gap: 0.3rem;
+    }
+  
+    .react-tabs__tab-list::-webkit-scrollbar {
+      display: none; /* הסתרת scrollbar בכרום */
+    }
+    .react-tabs__tab {
+      flex: 1 1 25%;
+      text-align: center;
+    }
+  
+    
   }
   
