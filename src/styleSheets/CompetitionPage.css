@@ -177,7 +177,7 @@
 
 .details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 2rem;
 }
 
@@ -214,10 +214,17 @@
 }
 
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  display: grid !important; /* 🔥 מוודא שזה ינצח */
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  align-items: stretch;
+  justify-content: center;
 }
+
+
+
+
 
 .gallery-item {
   border-radius: 16px;
@@ -232,9 +239,13 @@
 
 .gallery-item img {
   width: 100%;
-  height: 250px;
+  height: auto;
+  max-width: 100%;
   object-fit: cover;
+  aspect-ratio: 4 / 3;
 }
+
+
 
 /* Project Narrative */
 .project-narrative {
@@ -291,10 +302,11 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .content-grid {
+  .gallery-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
   }
+
+
   
   .competition-hero h1 {
     font-size: 2.5rem;

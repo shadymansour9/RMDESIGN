@@ -1,0 +1,72 @@
+/* src/components/ImageModal.css */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: relative;
+  background: #fff;
+  padding: 1rem;
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content img,
+.modal-content video {
+  max-width: 100%;
+  max-height: 75vh;
+  border-radius: 12px;
+}
+
+.modal-close,
+.modal-prev,
+.modal-next {
+  position: absolute;
+  background: #fff;
+  color: #3e2723;
+  border: none;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close:hover,
+.modal-prev:hover,
+.modal-next:hover {
+  background: #eee;
+ 
+}
+
+
+.modal-close {
+  top: 1rem;
+  right: 1rem;
+}
+
+.modal-prev {
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+.modal-next {
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+}
