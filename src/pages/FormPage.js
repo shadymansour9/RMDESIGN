@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import emailjs from "emailjs-com";
 import Navbar from "../components/Navbar";
 import "../styleSheets/FormPage.css";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 
 function FormPage() {
   const form = useRef();
@@ -9,19 +11,17 @@ function FormPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
 
   useEffect(() => {
-    const fadeElements = document.querySelectorAll('.fade-in');
+    const fadeElements = document.querySelectorAll(".fade-in");
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          entry.target.classList.add("visible");
         }
       });
     }, { threshold: 0.1 });
 
-    fadeElements.forEach(el => observer.observe(el));
-    return () => {
-      fadeElements.forEach(el => observer.unobserve(el));
-    };
+    fadeElements.forEach((el) => observer.observe(el));
+    return () => fadeElements.forEach((el) => observer.unobserve(el));
   }, []);
 
   const sendEmail = (e) => {
@@ -32,26 +32,15 @@ function FormPage() {
       .sendForm("service_9mrmmoh", "template_geaa5dw", form.current, "0-GZndZldpzAWnM2X")
       .then(() => {
         setSubmitStatus("success");
-
-        // שליחת מייל נוסף
         emailjs.sendForm("service_9mrmmoh", "template_140wet8", form.current, "0-GZndZldpzAWnM2X");
 
-        // שליחה ל־Google Sheets
         const formData = new FormData(form.current);
         fetch("https://script.google.com/macros/s/AKfycbxzEmofjEwPOj0Zgll_Sfz7VNGQgjSxUQ2LANeS8InikL5FGoZJKvpyVWqJOMjnaYUXjw/exec", {
           method: "POST",
-          mode: "no-cors", // ✅ מוסיף כדי לעקוף את ה-CORS
+          mode: "no-cors",
           body: formData,
-        })
-        .then(() => {
-          console.log("✅ נשלח ל־Google Sheets");
-        })
-        .catch((err) => {
-          console.warn("⚠️ לא ניתן לוודא את התשובה (no-cors):", err);
         });
-        
 
-        // איפוס הטופס
         form.current.reset();
       })
       .catch((error) => {
@@ -99,9 +88,10 @@ function FormPage() {
               <label htmlFor="course">בחר קורס</label>
               <select id="course" name="course" required className="form-input">
                 <option value="">-- בחר קורס --</option>
-                <option value="beginners">קורס ריווט מקצועי</option>
-                <option value="advanced">קורס ריווט הדמיות</option>
-                <option value="workshop">ליווי בפרויקט גמר</option>
+                <option value="revit-beginner">קורס רוויט</option>
+                <option value="revit-advanced">קורס רוויט למתקדמים</option>
+                <option value="lumion">קורס הדמיות בלומיון</option>
+                <option value="final-project">ליווי אישי לפרויקט גמר</option>
               </select>
             </div>
 
@@ -128,39 +118,98 @@ function FormPage() {
         </div>
 
         <div className="course-info fade-in">
-          <h2 className="info-heading">איזה קורס מתאים לך:</h2>
+          <h2 className="info-heading">בוא/י נגלה יחד מה הקורס שמתאים לך באמת:</h2>
+          <Tabs>
+            <TabList>
+              <Tab>קורס רוויט</Tab>
+              <Tab>רוויט למתקדמים</Tab>
+              <Tab>בלומיון</Tab>
+              <Tab>פרויקט גמר</Tab>
+            </TabList>
 
-          <div className="course-card brown-accent">
-            <h3>קורס ריווט מקצועי</h3>
-            <ul>
-              <li>📆 12 מפגשים שבועיים</li>
-              <li>🕒 2 שעות כל מפגש</li>
-              <li>👥 ליווי אישי צמוד</li>
-            </ul>
-          </div>
+            <TabPanel>
+  <h3>🧱 קורס רוויט</h3>
+  <p>זה הקורס היחיד שמחבר בין שליטה טכנית לחשיבה תכנונית אמיתית – ומכין אותך לעבודה בשטח או במשרד.</p>
+  <p>📆 מספר שיעורים: <strong>12 מפגשים של שעתיים</strong></p>
 
-          <div className="course-card gold-accent">
-            <h3>קורס ריווט הדמיות</h3>
-            <ul>
-              <li>📆 6 מפגשים שבועיים</li>
-              <li>🕒 2 שעות כל מפגש</li>
-              <li>🏆 פרויקט גמר מעשי</li>
-            </ul>
-          </div>
+  <p>📚 מה תלמד?</p>
+  <ul>
+    <li>🧱 פתיחת פרויקט מאפס: קירות, פתחים, רצפות ותקרות</li>
+    <li>🪑 שרטוט ריהוט, תכניות ריצוף, תקרה, חשמל ועמדה</li>
+    <li>📏 מידות, תגיות, טבלאות וסט תכניות מקצועי</li>
+    <li>📐 עבודה נכונה עם גיליונות, קנ"מ וגרפיקה ברמה משרדית</li>
+  </ul>
 
-          <div className="course-card beige-accent">
-            <h3>ליווי בפרויקט גמר</h3>
-            <ul>
-              <li>📆 4 מפגשים מרוכזים</li>
-              <li>🕒 6 שעות כל מפגש</li>
-              <li>💡 התמחות בנושא ספציפי</li>
-              <li>📚 חומרי לימוד מתקדמים</li>
-            </ul>
-          </div>
+  <p>🎓 בסיום הקורס תצא עם ביטחון, תיק עבודות ויכולת להשתלב בעבודה בתחום.</p>
+</TabPanel>
+
+<TabPanel>
+  <h3>🏗️ 2. קורס רוויט למתקדמים – לעבוד כמו משרד אמיתי</h3>
+  <p>הקורס הזה נבנה כדי לעזור לך לנהל פרויקטים בצורה מקצועית – כמו במשרד.</p>
+  <p>📆 מספר שיעורים: <strong>6 מפגשים של שעתיים</strong></p>
+
+  <p>📚 מה תלמד?</p>
+  <ul>
+    <li>🧩 יצירת משפחות עם פרמטרים מותאמים</li>
+    <li>🧮 ניהול תצוגות, פילטרים, טמפלטים ותבניות משרד</li>
+    <li>📊 טבלאות כמויות, תגיות אוטומטיות וגרפיקה חכמה</li>
+    <li>📐 הוצאה מסודרת של סט תכניות ברמה מקצועית</li>
+  </ul>
+
+  <p>👤 למי זה מתאים?</p>
+  <ul>
+    <li>למי שכבר שולט ברוויט ורוצה לעבוד מהר, מסודר, ובצורה שמוכנה לשלב הבא.</li>
+    <li>הקורס יעניק לך יכולת להתמודד עם דרישות אמיתיות של משרדים ולקוחות, ולהתקדם מקצועית.</li>
+  </ul>
+</TabPanel>
+
+<TabPanel>
+  <h3>🎥 3. קורס הדמיות בלומיון</h3>
+  <p>בקורס הזה תלמד ליצור הדמיות וסרטונים מקצועיים שימחישו את הפרויקט שלך בצורה מרשימה.</p>
+  <p>📆 מספר שיעורים: <strong>6 מפגשים של שעתיים</strong></p>
+
+  <p>📚 מה תלמד?</p>
+  <ul>
+    <li>🌇 בניית סצנות עם חומרים, תאורה ואווירה</li>
+    <li>📸 צילום הדמיות באיכות גבוהה</li>
+    <li>🎬 יצירת סרטון תלת־ממדי עם תנועה, אנשים, צמחייה ואפקטים</li>
+  </ul>
+
+  <p>👤 למי זה מתאים?</p>
+  <ul>
+    <li>למי שרוצה לקחת את ההצגה הוויזואלית של הפרויקט לרמה מקצועית – ולשווק את עצמו בצורה מרשימה.</li>
+    <li>תצא מהקורס עם סט הדמיות וסרטון שישדרגו את תיק העבודות שלך – וישמשו אותך מול לקוחות, משרדים או מרצים.</li>
+  </ul>
+</TabPanel>
+
+<TabPanel>
+  <h3>🎯 4. ליווי אישי לפרויקט גמר</h3>
+  <p>👥 אני כאן כדי ללוות אותך אישית – ולוודא שתסיים את הפרויקט עם תוצאה שאתה באמת גאה בה.</p>
+  <p>📌 שני מסלולים לבחירה:</p>
+  <ul>
+    <li>🔹 מסלול קצר – 4 שבועות ליווי</li>
+    <li>🔸 מסלול מלא – 8 שבועות ליווי</li>
+  </ul>
+
+  <p>📚 מה תקבל?</p>
+  <ul>
+    <li>🤝 פגישות שבועיות אישיות (זום/פרונטלי)</li>
+    <li>📝 עזרה בתכנון, הדמיות, סט תכניות והכנה לפרזנטציה</li>
+    <li>🛠️ תיקונים, חידודים וליווי מלא עד ההגשה</li>
+    <li>💬 זמינות שוטפת בווטסאפ</li>
+  </ul>
+
+  <p>👤 למי זה מתאים?</p>
+  <ul>
+    <li>לסטודנטים שרוצים תמיכה אמיתית לאורך כל הדרך – גם בתוכן וגם ברגש.</li>
+    <li>זה הליווי שיאפשר לך להגיש עבודה מקצועית, בטוחה, ולקבל עליה את ההערכה שאתה ראוי לה.</li>
+  </ul>
+</TabPanel>
+
+          </Tabs>
         </div>
       </div>
 
-      {/* Footer Section */}
       <div className="footer-rasha">
         <div className="footer-card">
           <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
