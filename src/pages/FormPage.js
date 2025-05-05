@@ -12,13 +12,16 @@ function FormPage() {
 
   useEffect(() => {
     const fadeElements = document.querySelectorAll(".fade-in");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
     fadeElements.forEach((el) => observer.observe(el));
     return () => fadeElements.forEach((el) => observer.unobserve(el));
@@ -29,17 +32,32 @@ function FormPage() {
     setIsSubmitting(true);
 
     emailjs
-      .sendForm("service_9mrmmoh", "template_geaa5dw", form.current, "0-GZndZldpzAWnM2X")
+      .sendForm(
+        "service_9mrmmoh",
+        "template_geaa5dw",
+        form.current,
+        "0-GZndZldpzAWnM2X"
+      )
       .then(() => {
         setSubmitStatus("success");
-        emailjs.sendForm("service_9mrmmoh", "template_140wet8", form.current, "0-GZndZldpzAWnM2X");
+        // שליחת תבנית נוספת אם צריך
+        emailjs.sendForm(
+          "service_9mrmmoh",
+          "template_140wet8",
+          form.current,
+          "0-GZndZldpzAWnM2X"
+        );
 
+        // שליחה ל-Google Sheets
         const formData = new FormData(form.current);
-        fetch("https://script.google.com/macros/s/AKfycbxzEmofjEwPOj0Zgll_Sfz7VNGQgjSxUQ2LANeS8InikL5FGoZJKvpyVWqJOMjnaYUXjw/exec", {
-          method: "POST",
-          mode: "no-cors",
-          body: formData,
-        });
+        fetch(
+          "https://script.google.com/macros/s/AKfycbxzEmofjEwPOj0Zgll_Sfz7VNGQgjSxUQ2LANeS8InikL5FGoZJKvpyVWqJOMjnaYUXjw/exec",
+          {
+            method: "POST",
+            mode: "no-cors",
+            body: formData,
+          }
+        );
 
         form.current.reset();
       })
@@ -67,40 +85,217 @@ function FormPage() {
       </section>
 
       <div className="form-content">
+        {/* 1. קודם: פירוט הקורסים */}
+        <div className="course-info fade-in">
+          <h2 className="info-heading">
+            בוא/י נגלה יחד מה הקורס שמתאים לך באמת:
+          </h2>
+          <Tabs>
+            <TabList>
+              <Tab>רוויט לקריירה</Tab>
+              <Tab>רוויט למתקדמים</Tab>
+              <Tab>לומיון</Tab>
+              <Tab>ליווי אישי לפרויקט גמר</Tab>
+            </TabList>
+
+            <TabPanel>
+              <h3>קורס רוויט</h3>
+              <p>
+                זה הקורס היחיד שמחבר בין שליטה טכנית לחשיבה תכנונית אמיתית –
+                ומכין אותך לעבודה בשטח או במשרד.
+              </p>
+              <p>
+                📆 <strong>12 מפגשים</strong>
+              </p>
+              <p>
+                🕐 <strong>כל מפגש נמשך שעתיים</strong>
+              </p>
+              <p>מה נלמד בקורס?</p>
+              <ul>
+                <li>פתיחת פרויקט מאפס: קירות, פתחים, רצפות ותקרות</li>
+                <li>שרטוט ריהוט, תכניות ריצוף, תקרה, חשמל ועמדה</li>
+                <li>מידות, תגיות, טבלאות וסט תכניות מקצועי</li>
+                <li>עבודה נכונה עם גיליונות, קנ"מ וגרפיקה ברמה משרדית</li>
+              </ul>
+              <p>
+                <strong>
+                  בסיום הקורס תצא עם ביטחון, תיק עבודות ויכולת להשתלב בעבודה
+                  בתחום.
+                </strong>
+              </p>
+            </TabPanel>
+
+            <TabPanel>
+              <h3>קורס רוויט למתקדמים – לעבוד כמו משרד אמיתי</h3>
+              <p>
+                הקורס הזה נבנה כדי לעזור לך לנהל פרויקטים בצורה מקצועית –
+                כמו במשרד.
+              </p>
+              <p>
+                📆 <strong>6 מפגשים</strong>
+              </p>
+              <p>
+                🕐 <strong>כל מפגש נמשך שעתיים</strong>
+              </p>
+              <p>מה תלמד?</p>
+              <ul>
+                <li>יצירת משפחות עם פרמטרים מותאמים</li>
+                <li>ניהול תצוגות, פילטרים, טמפלטים ותבניות משרד</li>
+                <li>טבלאות כמויות, תגיות אוטומטיות וגרפיקה חכמה</li>
+                <li>הוצאה מסודרת של סט תכניות ברמה מקצועית</li>
+              </ul>
+              <strong>
+                <p>למי זה מתאים?</p>
+              </strong>
+              <ul>
+                <li>למי שכבר שולט ברוויט ורוצה לעבוד מהר, מסודר ובאיכות משרדי</li>
+                <li>
+                  למי שרוצה לדעת איך להתנהל בפרויקטים ברמה אמיתית של משרדים ולקוחות
+                </li>
+              </ul>
+            </TabPanel>
+
+            <TabPanel>
+              <h3>קורס הדמיות בלומיון</h3>
+              <p>
+                בקורס הזה תלמד ליצור הדמיות וסרטונים מקצועיים שישדרגו את
+                הפרויקט בצורה מרשימה.
+              </p>
+              <p>
+                📆 <strong>6 מפגשים</strong>
+              </p>
+              <p>
+                🕐 <strong>כל מפגש נמשך שעתיים</strong>
+              </p>
+              <p>מה תלמד?</p>
+              <ul>
+                <li>בניית סצנות עם חומרים, תאורה ואווירה</li>
+                <li>צילום הדמיות באיכות גבוהה</li>
+                <li>יצירת סרטון תלת־ממדי עם תנועה, אנשים, צמחייה ואפקטים</li>
+              </ul>
+              <strong>
+                <p>למי זה מתאים?</p>
+              </strong>
+              <ul>
+                <li>
+                  למי שרוצה לקחת את ההצגה הוויזואלית של הפרויקט לרמה מקצועית
+                </li>
+                <li>
+                  תצא מהקורס עם סט הדמיות וסרטון שישדרגו את תיק העבודות שלך
+                </li>
+              </ul>
+            </TabPanel>
+
+            <TabPanel>
+              <h3>ליווי אישי לפרויקט גמר</h3>
+              <p>
+                אני כאן כדי ללוות אותך אישית – ולוודא שתסיים את הפרויקט עם
+                תוצאה שאתה באמת גאה בה.
+              </p>
+              <p>📌 שני מסלולים לבחירה:</p>
+              <ul>
+                <li>מסלול קצר – 4 שבועות ליווי</li>
+                <li>מסלול מלא – 8 שבועות ליווי</li>
+              </ul>
+              <p>מה תקבל?</p>
+              <ul>
+                <li>פגישות שבועיות אישיות (זום/פרונטלי)</li>
+                <li>עזרה בתכנון, הדמיות, סט תכניות והכנה לפרזנטציה</li>
+                <li>תיקונים, חידודים וליווי מלא עד ההגשה</li>
+                <li>זמינות שוטפת בווטסאפ</li>
+              </ul>
+              <strong>
+                <p>למי זה מתאים?</p>
+              </strong>
+              <ul>
+                <li>
+                  לסטודנטים שרוצים תמיכה אמיתית לאורך כל הדרך – גם בתוכן וגם
+                  ברגש.
+                </li>
+                <li>
+                  זה הליווי שיאפשר לך להגיש עבודה מקצועית, בטוחה, ולקבל עליה את
+                  ההערכה שאתה ראוי לה.
+                </li>
+              </ul>
+            </TabPanel>
+          </Tabs>
+        </div>
+
+        {/* 2. אחר כך: טופס ההרשמה */}
         <div className="form-wrapper fade-in">
-          <form ref={form} onSubmit={sendEmail} className="registration-form">
+          <form
+            ref={form}
+            onSubmit={sendEmail}
+            className="registration-form"
+          >
             <div className="form-group">
               <label htmlFor="name">שם מלא</label>
-              <input id="name" type="text" name="name" required className="form-input" />
+              <input
+                id="name"
+                type="text"
+                name="name"
+                required
+                className="form-input"
+              />
             </div>
 
             <div className="form-group">
               <label htmlFor="email">אימייל</label>
-              <input id="email" type="email" name="email" required className="form-input" />
+              <input
+                id="email"
+                type="email"
+                name="email"
+                required
+                className="form-input"
+              />
             </div>
 
             <div className="form-group">
               <label htmlFor="phone">טלפון</label>
-              <input id="phone" type="tel" name="phone" required className="form-input" />
+              <input
+                id="phone"
+                type="tel"
+                name="phone"
+                required
+                className="form-input"
+              />
             </div>
 
             <div className="form-group">
               <label htmlFor="course">בחר קורס</label>
-              <select id="course" name="course" required className="form-input">
+              <select
+                id="course"
+                name="course"
+                required
+                className="form-input"
+              >
                 <option value="">-- בחר קורס --</option>
-                <option value="revit-CAREER">רוויט לקריירה </option>
-                <option value="revit-advanced">קורס רוויט למתקדמים</option>
+                <option value="revit-CAREER">רוויט לקריירה</option>
+                <option value="revit-advanced">
+                  קורס רוויט למתקדמים
+                </option>
                 <option value="lumion">קורס הדמיות בלומיון</option>
-                <option value="final-project">ליווי אישי לפרויקט גמר</option>
+                <option value="final-project">
+                  ליווי אישי לפרויקט גמר
+                </option>
               </select>
             </div>
 
             <div className="form-group">
               <label htmlFor="message">הודעה נוספת</label>
-              <textarea id="message" name="message" rows="4" className="form-input" />
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                className="form-input"
+              />
             </div>
 
-            <button type="submit" className="cta-button primary-btn" disabled={isSubmitting}>
+            <button
+              type="submit"
+              className="cta-button primary-btn"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "שולח..." : "שלח טופס הרשמה"}
             </button>
 
@@ -116,114 +311,28 @@ function FormPage() {
             )}
           </form>
         </div>
-
-        <div className="course-info fade-in">
-          <h2 className="info-heading">בוא/י נגלה יחד מה הקורס שמתאים לך באמת:</h2>
-          <Tabs>
-            <TabList>
-              <Tab> רוויט לקריירה</Tab>
-              <Tab>רוויט למתקדמים</Tab>
-              <Tab>לומיון</Tab>
-              <Tab>ליווי אישי לפרויקט גמר</Tab>
-            </TabList>
-
-            <TabPanel>
-  <h3> קורס רוויט</h3>
-  <p>זה הקורס היחיד שמחבר בין שליטה טכנית לחשיבה תכנונית אמיתית – ומכין אותך לעבודה בשטח או במשרד.</p>
-  <p>📆 <strong>12 מפגשים </strong></p>
-  <p>🕐 <strong>כל מפגש נמשך שעתיים  </strong></p>
-  <p> מה נלמד בקורס?</p>
-  <ul>
-    <li> פתיחת פרויקט מאפס: קירות, פתחים, רצפות ותקרות</li>
-    <li> שרטוט ריהוט, תכניות ריצוף, תקרה, חשמל ועמדה</li>
-    <li> מידות, תגיות, טבלאות וסט תכניות מקצועי</li>
-    <li> עבודה נכונה עם גיליונות, קנ"מ וגרפיקה ברמה משרדית</li>
-  </ul>
-  <p> <strong>בסיום הקורס תצא עם ביטחון, תיק עבודות ויכולת להשתלב בעבודה בתחום.
-  </strong></p>
-</TabPanel>
-
-<TabPanel>
-  <h3> 2. קורס רוויט למתקדמים – לעבוד כמו משרד אמיתי</h3>
-  <p>הקורס הזה נבנה כדי לעזור לך לנהל פרויקטים בצורה מקצועית – כמו במשרד.</p>
-  <p>📆 <strong>6 מפגשים </strong></p>
-  <p>🕐 <strong>כל מפגש נמשך שעתיים  </strong></p>
-
-  <p> מה תלמד?</p>
-  <ul>
-    <li> יצירת משפחות עם פרמטרים מותאמים</li>
-    <li> ניהול תצוגות, פילטרים, טמפלטים ותבניות משרד</li>
-    <li> טבלאות כמויות, תגיות אוטומטיות וגרפיקה חכמה</li>
-    <li> הוצאה מסודרת של סט תכניות ברמה מקצועית</li>
-  </ul>
-  <strong>
-  <p> למי זה מתאים?</p>
-  </strong>
-  <ul>
-    <li>למי שכבר שולט ברוויט ורוצה לעבוד מהר, מסודר, ובאיכות שמתאימה לשלב הבא.</li>
-    <li>למי שרוצה לדעת איך להתנהל בפרויקטים ברמה אמיתית של משרדים ולקוחות – בצורה מקצועית</li>
-  </ul>
-  
-</TabPanel>
-
-<TabPanel>
-  <h3> 3. קורס הדמיות בלומיון</h3>
-  <p>בקורס הזה תלמד ליצור הדמיות וסרטונים מקצועיים שישדרגו את הפרויקט שלך בצורה מרשימה.</p>
-  <p>📆 <strong>6 מפגשים </strong></p>
-  <p>🕐 <strong>כל מפגש נמשך שעתיים  </strong></p>
-  <p> מה תלמד?</p>
-  <ul>
-    <li> בניית סצנות עם חומרים, תאורה ואווירה</li>
-    <li> צילום הדמיות באיכות גבוהה</li>
-    <li> יצירת סרטון תלת־ממדי עם תנועה, אנשים, צמחייה ואפקטים</li>
-  </ul>
-  <strong>
-  <p> למי זה מתאים?</p>
-  </strong>
-  <ul>
-    <li>למי שרוצה לקחת את ההצגה הוויזואלית של הפרויקט לרמה מקצועית – ולשווק את עצמו בצורה מרשימה.</li>
-    <li>תצא מהקורס עם סט הדמיות וסרטון שישדרגו את תיק העבודות שלך – וישמשו אותך מול לקוחות, משרדים או מרצים.</li>
-  </ul>
-  
-</TabPanel>
-
-<TabPanel>
-  <h3> 4. ליווי אישי לפרויקט גמר</h3>
-  <p> אני כאן כדי ללוות אותך אישית – ולוודא שתסיים את הפרויקט עם תוצאה שאתה באמת גאה בה.</p>
-  <p>📌 שני מסלולים לבחירה:</p>
-  <ul>
-    <li> מסלול קצר – 4 שבועות ליווי</li>
-    <li> מסלול מלא – 8 שבועות ליווי</li>
-  </ul>
-
-  <p> מה תקבל?</p>
-  <ul>
-    <li> פגישות שבועיות אישיות (זום/פרונטלי)</li>
-    <li> עזרה בתכנון, הדמיות, סט תכניות והכנה לפרזנטציה</li>
-    <li> תיקונים, חידודים וליווי מלא עד ההגשה</li>
-    <li> זמינות שוטפת בווטסאפ</li>
-  </ul>
-  <strong>
-  <p> למי זה מתאים?</p>
-  </strong>
-  <ul>
-    <li>לסטודנטים שרוצים תמיכה אמיתית לאורך כל הדרך – גם בתוכן וגם ברגש.</li>
-    <li>זה הליווי שיאפשר לך להגיש עבודה מקצועית, בטוחה, ולקבל עליה את ההערכה שאתה ראוי לה.</li>
-  </ul>
-</TabPanel>
-
-          </Tabs>
-        </div>
       </div>
 
       <div className="footer-rasha">
         <div className="footer-card">
-          <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
+          <img
+            src="/images/rasha.jpg"
+            alt="ראשה מנסור"
+            className="footer-image"
+          />
           <div className="footer-social">
-            <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.linkedin.com/in/rasha-mansour-731184204"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src="/icons/linkedin.png" alt="LinkedIn" />
             </a>
-            <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.instagram.com/rmdesignstudio0"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src="/icons/instagram.png" alt="Instagram" />
             </a>
           </div>
