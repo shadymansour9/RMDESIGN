@@ -2,6 +2,19 @@
    Form Page Styles (FULL)
 ========================= */
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .form-page-container {
   direction: rtl;
   text-align: right;
@@ -9,6 +22,8 @@
   background: linear-gradient(to bottom, #ffffff, #fdfdfd);
   color: #3e2723;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* =========================
@@ -26,6 +41,7 @@
   flex-direction: column;
   color: white;
   text-align: center;
+  width: 100%;
 }
 
 .form-hero h1 {
@@ -54,6 +70,7 @@
 ========================= */
 
 .form-content {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
@@ -70,6 +87,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .info-heading {
@@ -79,6 +99,8 @@
   margin-bottom: 0.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 3px solid #000000;
+  line-height: 1.3;
+  word-break: break-word;
 }
 
 /* =========================
@@ -91,18 +113,23 @@
   padding: 2.5rem;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .registration-form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  width: 100%;
 }
 
 .form-group label {
@@ -113,6 +140,7 @@
 
 .form-input {
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
   padding: 0.9rem 1.2rem;
   border: 1px solid #d7ccc8;
@@ -139,32 +167,45 @@ select.form-input {
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
-
   background-color: #ffffff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: left 14px center; /* RTL: חץ בשמאל */
+  background-position: left 14px center;
   background-size: 18px;
-
-  padding-left: 2.8rem; /* מקום לחץ */
+  padding-left: 2.8rem;
 }
 
 /* Buttons */
 .primary-btn {
-  background: #000000;
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  font-weight: 700;
-  transition: all 0.25s ease;
-  margin-top: 0.5rem;
+  width: 100%;
   border: none;
+  border-radius: 14px;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(180deg, #111111 0%, #000000 100%);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
 }
 
 .primary-btn:hover {
-  background: #1a1a1a;
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
+}
+
+.primary-btn:active {
+  transform: translateY(0);
+}
+
+.primary-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(0, 0, 0, 0.1),
+    0 10px 24px rgba(0, 0, 0, 0.16);
 }
 
 /* Status Messages */
@@ -223,69 +264,102 @@ select.form-input {
 }
 
 /* =========================
-   React Tabs (FINAL)
-   Works with: <TabList className="courses-tabs">
+   React Tabs
 ========================= */
 
+/* =========================
+   React Tabs
+========================= */
+
+/* =========================
+   React Tabs
+========================= */
+
+.react-tabs {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Desktop / Tablet */
 .courses-tabs {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.6rem;
-  margin: 1.4rem auto 2rem;
-  padding: 0.4rem;
-  border-radius: 999px;
-  background: #f5f5f5;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-
-  overflow-x: auto;
-  flex-wrap: nowrap;
-  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+  margin: 1.5rem 0 2rem;
+  padding: 0;
+  background: transparent;
+  border: none;
 }
 
-.courses-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-/* react-tabs puts each Tab as <li> */
 .courses-tabs > li {
   list-style: none;
-  padding: 0.55rem 1rem;
-  border-radius: 999px;
-  background: transparent;
-  border: 1px solid transparent;
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 0.95rem 1rem;
+  text-align: center;
+  font-size: 0.95rem;
   font-weight: 700;
+  line-height: 1.3;
   color: #3e2723;
+  background: linear-gradient(180deg, #fafafa 0%, #f2f2f2 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
   cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  user-select: none;
 }
 
 .courses-tabs > li:hover {
-  background: rgba(0, 0, 0, 0.06);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #ffffff 0%, #f4f4f4 100%);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+  color: #000000;
 }
 
 .courses-tabs > li.react-tabs__tab--selected {
-  background: #000000;
+  background: linear-gradient(180deg, #111111 0%, #000000 100%);
   color: #ffffff;
   border-color: #000000;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .courses-tabs > li:focus {
   outline: none;
 }
 
+.courses-tabs > li:focus-visible {
+  box-shadow:
+    0 0 0 4px rgba(0, 0, 0, 0.08),
+    0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
 /* Panel */
 .react-tabs__tab-panel {
+  display: none !important;
   background: #ffffff;
   border-radius: 16px;
   padding: 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
   animation: tabsFadeIn 0.35s ease;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.react-tabs__tab-panel.react-tabs__tab-panel--selected {
+  display: block !important;
 }
 
 @keyframes tabsFadeIn {
@@ -305,6 +379,7 @@ select.form-input {
   font-size: 1.35rem;
   font-weight: 900;
   color: #000000;
+  line-height: 1.4;
 }
 
 .react-tabs__tab-panel p {
@@ -332,6 +407,122 @@ select.form-input {
   right: 0;
   font-weight: 900;
   color: #000000;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .courses-tabs {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+    margin: 1rem 0 1.25rem;
+  }
+
+  .courses-tabs > li {
+    min-height: 52px;
+    padding: 0.8rem 0.55rem;
+    font-size: 0.82rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  }
+
+  .courses-tabs > li:hover {
+    transform: none;
+  }
+
+  .react-tabs__tab-panel {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .courses-tabs {
+    gap: 0.45rem;
+  }
+
+  .courses-tabs > li {
+    min-height: 50px;
+    font-size: 0.78rem;
+    padding: 0.75rem 0.45rem;
+  }
+}
+
+/* Panel */
+.react-tabs__tab-panel {
+  display: none !important;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+  animation: tabsFadeIn 0.35s ease;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.react-tabs__tab-panel.react-tabs__tab-panel--selected {
+  display: block !important;
+}
+
+@keyframes tabsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Typography inside panel */
+.react-tabs__tab-panel h3 {
+  margin-top: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #000000;
+  line-height: 1.4;
+}
+
+.react-tabs__tab-panel p {
+  line-height: 1.7;
+  color: #222;
+}
+
+.react-tabs__tab-panel ul {
+  padding: 0;
+  margin: 0.8rem 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.react-tabs__tab-panel li {
+  list-style: none;
+  position: relative;
+  padding-right: 1.2rem;
+  color: #111;
+}
+
+.react-tabs__tab-panel li::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  font-weight: 900;
+  color: #000000;
+}
+
+/* =========================
+   Images / media safety
+========================= */
+
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
 }
 
 /* =========================
@@ -384,11 +575,13 @@ select.form-input {
 @media (max-width: 768px) {
   .form-content {
     display: flex;
-    flex-direction: column-reverse; /* טופס אחרי הקורסים במובייל */
+    flex-direction: column-reverse;
+    gap: 1.25rem;
+    padding: 1.25rem 0.75rem;
   }
 
-  .form-hero {
-    padding: 5.5rem 2rem 3rem;
+  .form-page-container .form-hero {
+    padding: 5.5rem 1rem 2rem;
     min-height: 50vh;
   }
 
@@ -398,12 +591,13 @@ select.form-input {
 
   .hero-subtitle {
     font-size: 0.95rem;
-    line-height: 1.4;
+    line-height: 1.5;
   }
 
   .form-wrapper {
-    padding: 1.5rem;
-    margin-top: 1.2rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 12px;
   }
 
   .registration-form {
@@ -426,57 +620,58 @@ select.form-input {
 
   .info-heading {
     font-size: 1.55rem;
+    line-height: 1.35;
   }
 
-  .courses-tabs {
-    justify-content: flex-start;
-    padding: 0.35rem 0.6rem;
-  }
-
-  .courses-tabs > li {
-    font-size: 0.85rem;
-    padding: 0.5rem 0.9rem;
-  }
 
   .react-tabs__tab-panel {
-    padding: 1.3rem;
+    padding: 1rem;
+    border-radius: 12px;
   }
 }
 
 @media (max-width: 480px) {
-  .form-hero {
-    padding: 5.5rem 1rem 1.5rem;
-    min-height: 220px;
+  .form-content {
+    padding: 1rem 0.5rem;
+  }
+
+  .form-page-container .form-hero {
+    padding: 5rem 0.75rem 1.25rem;
+    min-height: 260px;
   }
 
   .form-hero h1 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: 1.3;
-    padding-top: 7rem;
+    padding-top: 4.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .info-heading {
+    font-size: 1.35rem;
   }
 
   .courses-tabs > li {
     font-size: 0.8rem;
+    padding: 0.45rem 0.8rem;
   }
-  /* רק הפאנל הפעיל מוצג — השאר לא תופסים מקום */
-/* FORCE: only selected panel is visible */
 
+  .react-tabs__tab-panel,
+  .form-wrapper {
+    padding: 0.9rem;
+  }
 
-}
-/* =========================
-   FIX: prevent empty panels spacing
-   (must be OUTSIDE media queries)
-========================= */
+  .react-tabs__tab-panel h3 {
+    font-size: 1.1rem;
+  }
 
-.react-tabs__tab-panel {
-  display: none !important;
-}
-
-.react-tabs__tab-panel.react-tabs__tab-panel--selected {
-  display: block !important;
-}
-
-.react-tabs {
-  margin: 0;
-  padding: 0;
+  .react-tabs__tab-panel p,
+  .react-tabs__tab-panel li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
 }
