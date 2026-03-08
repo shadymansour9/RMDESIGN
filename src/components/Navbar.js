@@ -5,15 +5,6 @@ import "../styleSheets/Navbar.css";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const [selectedCourse, setSelectedCourse] = useState("");
-const [price, setPrice] = useState(0);
-
-const coursePrices = {
-  "revit-CAREER": 2000,
-  "revit-advanced": 2500,
-  "lumion": 3000,
-  "final-project": 2800,
-};
 
   // Updated menu items with correct form route
   const menuItems = [

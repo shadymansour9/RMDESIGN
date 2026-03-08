@@ -1,15 +1,23 @@
-/* Form Page Styles */
+/* =========================
+   Form Page Styles (FULL)
+========================= */
+
 .form-page-container {
   direction: rtl;
   text-align: right;
-  font-family: 'Rubik', 'Segoe UI', sans-serif;
+  font-family: "Rubik", "Segoe UI", sans-serif;
   background: linear-gradient(to bottom, #ffffff, #fdfdfd);
   color: #3e2723;
   min-height: 100vh;
 }
 
+/* =========================
+   Hero
+========================= */
+
 .form-page-container .form-hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../../public/images/hero-bg1.jpg') center/cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../../public/images/hero-bg1.jpg") center/cover no-repeat;
   min-height: 60vh;
   padding: 3rem 2rem;
   display: flex;
@@ -19,10 +27,6 @@
   color: white;
   text-align: center;
 }
-
-
-
-
 
 .form-hero h1 {
   font-size: 3.2rem;
@@ -36,7 +40,6 @@
   color: transparent;
 }
 
-
 .hero-subtitle {
   font-size: 1.5rem;
   line-height: 1.6;
@@ -46,8 +49,10 @@
   margin: 0 auto;
 }
 
+/* =========================
+   Layout
+========================= */
 
-/* Form Content */
 .form-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -57,11 +62,35 @@
   gap: 3rem;
 }
 
+/* =========================
+   Right/Left sections
+========================= */
+
+.course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.info-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3e2723;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid #000000;
+}
+
+/* =========================
+   Form
+========================= */
+
 .form-wrapper {
   background: white;
   border-radius: 16px;
   padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .registration-form {
@@ -83,88 +112,41 @@
 }
 
 .form-input {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.9rem 1.2rem;
   border: 1px solid #d7ccc8;
-  border-radius: 8px;
+  border-radius: 10px;
   font-family: inherit;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   background: #fff;
 }
 
 .form-input:focus {
   outline: none;
   border-color: #000000;
-  box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
 }
 
 .form-input:hover {
   border-color: #000000;
 }
 
-/* Course Info */
-.course-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+/* Select = same style as inputs */
+select.form-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
 
-.info-heading {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #3e2723;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 3px solid #000000;
-}
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 14px center; /* RTL: חץ בשמאל */
+  background-size: 18px;
 
-.course-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.8rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-top: 4px solid;
-}
-
-.course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.course-card h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #000000;
-}
-
-.course-card ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.course-card li {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: #000000;
-}
-
-.brown-accent {
-  border-top-color: #5d4037;
-}
-
-.gold-accent {
-  border-top-color: #ffd700;
-}
-
-.beige-accent {
-  border-top-color: #d7ccc8;
+  padding-left: 2.8rem; /* מקום לחץ */
 }
 
 /* Buttons */
@@ -172,27 +154,28 @@
   background: #000000;
   color: white;
   padding: 1rem 2rem;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+  margin-top: 0.5rem;
+  border: none;
 }
 
 .primary-btn:hover {
-  background: #4e3529;
+  background: #1a1a1a;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(93, 64, 55, 0.2);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
 }
 
 /* Status Messages */
 .status-message {
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: 1rem;
-  animation: fadeIn 0.3s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  animation: fadeIn 0.25s ease;
 }
 
 .status-message.success {
@@ -205,17 +188,9 @@
   color: #7b341e;
 }
 
-/* Animations */
-@keyframes subtleFloat {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-10px, -10px) scale(1.05); }
-  100% { transform: translate(10px, 10px) scale(1.1); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* =========================
+   Fade-in utility
+========================= */
 
 .fade-in {
   opacity: 0;
@@ -225,91 +200,143 @@
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .form-content {
-    display: flex;
-    flex-direction: column-reverse; /* שים את הטופס אחרי הקורסים במובייל */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
   }
-
-  .form-hero {
-    padding: 5.5rem 2rem 3rem;
-  }
-  
-  
-
-  .form-hero h1 {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
-
-  .form-wrapper {
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .registration-form {
-    align-items: center;
-  }
-
-  .form-input,
-  select,
-  textarea {
-    font-size: 0.95rem;
-    padding: 0.7rem 1rem;
-    max-width: 100%;
-  }
-
-  .primary-btn {
-    width: 100%;
-    font-size: 0.95rem;
-    padding: 0.9rem 1.5rem;
-  }
-
-  .info-heading {
-    font-size: 1.6rem;
-  }
-
-  .course-card h3 {
-    font-size: 1.1rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 480px) {
-  .form-hero {
-    padding: 5.5rem 1rem 1.5rem;
-    min-height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    position: relative;
-    z-index: 0;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
   }
-
-  .form-hero h1 {
-    font-size: 1.4rem;
-    line-height: 1.3;
-    padding-top: 7rem;
-  
-
-  }
-
-  .form-hero h1 {
-    font-size: 1.4rem;
-    line-height: 1.3;
-    padding-top: 7rem; 
-    
-  }
-
-  .course-card h3 {
-    font-size: 1rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+/* =========================
+   React Tabs (FINAL)
+   Works with: <TabList className="courses-tabs">
+========================= */
+
+.courses-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.4rem auto 2rem;
+  padding: 0.4rem;
+  border-radius: 999px;
+  background: #f5f5f5;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+
+.courses-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* react-tabs puts each Tab as <li> */
+.courses-tabs > li {
+  list-style: none;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3e2723;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.courses-tabs > li:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.courses-tabs > li.react-tabs__tab--selected {
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+.courses-tabs > li:focus {
+  outline: none;
+}
+
+/* Panel */
+.react-tabs__tab-panel {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+  animation: tabsFadeIn 0.35s ease;
+}
+
+@keyframes tabsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Typography inside panel */
+.react-tabs__tab-panel h3 {
+  margin-top: 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #000000;
+}
+
+.react-tabs__tab-panel p {
+  line-height: 1.7;
+  color: #222;
+}
+
+.react-tabs__tab-panel ul {
+  padding: 0;
+  margin: 0.8rem 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.react-tabs__tab-panel li {
+  list-style: none;
+  position: relative;
+  padding-right: 1.2rem;
+  color: #111;
+}
+
+.react-tabs__tab-panel li::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  font-weight: 900;
+  color: #000000;
+}
+
+/* =========================
+   Footer
+========================= */
 
 .footer-rasha {
   background: linear-gradient(135deg, #414141 0%, #000000 100%);
@@ -331,7 +358,7 @@
   object-fit: cover;
   border: 4px solid #d7ccc8;
   margin-bottom: 1.2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .footer-social {
@@ -343,7 +370,6 @@
 .footer-social img {
   width: 30px;
   height: 30px;
-  
   transition: transform 0.3s ease;
 }
 
@@ -351,107 +377,106 @@
   transform: scale(1.2);
 }
 
+/* =========================
+   Responsive
+========================= */
 
- 
-  .react-tabs {
-    font-family: 'Rubik', sans-serif;
-    
-    color: #000000;
-    direction: rtl;
-    margin-top: 1rem;
-  }
-  
-  .react-tabs__tab-list {
+@media (max-width: 768px) {
+  .form-content {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-bottom: none; /* הסרת הקו התחתון */
-    padding: 0;
-  }
-  
-  .react-tabs__tab {
-    background: #fff;
-    color: #3e2723;
-    border: 2px solid #ddd;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.3s, border 0.3s;
-  }
-  
-  .react-tabs__tab:hover {
-    background-color: #eaeaea;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-  }
-  
-  .react-tabs__tab--selected {
-    background: linear-gradient(to right, #e0dcd3, #ffffff);
-    color: #000000;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-    border-bottom: 3px solid #5d4037;
-    background: transparent;
-    font-weight: 600;
-  }
-  
-  
-  .react-tabs__tab:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.3);
-  }
-  .react-tabs__tab-panel {
-    padding: 2rem;
-    background-color: #ffffff; /* לבן */
-    border: 1px solid #000000; /* מסגרת שחורה */
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    animation: fadeIn 0.4s ease;
-  }
-  
-  @media (max-width: 768px) {
-    .react-tabs__tab-list {
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-  
-    .react-tabs__tab {
-      font-size: 0.85rem;
-      padding: 0.4rem 0.8rem;
-    }
+    flex-direction: column-reverse; /* טופס אחרי הקורסים במובייל */
   }
 
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .form-hero {
+    padding: 5.5rem 2rem 3rem;
+    min-height: 50vh;
   }
-  @media (max-width: 480px) {
-    .react-tabs__tab-list {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      padding: 0 0.5rem;
-      margin: 0 auto;
-      width: 100%;
-      box-sizing: border-box;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      max-width: 100%;
-      gap: 0.3rem;
-    }
-  
-    .react-tabs__tab-list::-webkit-scrollbar {
-      display: none; /* הסתרת scrollbar בכרום */
-    }
-    .react-tabs__tab {
-      flex: 1 1 25%;
-      text-align: center;
-    }
-  
-    
+
+  .form-hero h1 {
+    font-size: 2rem;
   }
-  
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .form-wrapper {
+    padding: 1.5rem;
+    margin-top: 1.2rem;
+  }
+
+  .registration-form {
+    align-items: stretch;
+  }
+
+  .form-input,
+  select,
+  textarea {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    max-width: 100%;
+  }
+
+  .primary-btn {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 0.95rem 1.5rem;
+  }
+
+  .info-heading {
+    font-size: 1.55rem;
+  }
+
+  .courses-tabs {
+    justify-content: flex-start;
+    padding: 0.35rem 0.6rem;
+  }
+
+  .courses-tabs > li {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .react-tabs__tab-panel {
+    padding: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-hero {
+    padding: 5.5rem 1rem 1.5rem;
+    min-height: 220px;
+  }
+
+  .form-hero h1 {
+    font-size: 1.4rem;
+    line-height: 1.3;
+    padding-top: 7rem;
+  }
+
+  .courses-tabs > li {
+    font-size: 0.8rem;
+  }
+  /* רק הפאנל הפעיל מוצג — השאר לא תופסים מקום */
+/* FORCE: only selected panel is visible */
+
+
+}
+/* =========================
+   FIX: prevent empty panels spacing
+   (must be OUTSIDE media queries)
+========================= */
+
+.react-tabs__tab-panel {
+  display: none !important;
+}
+
+.react-tabs__tab-panel.react-tabs__tab-panel--selected {
+  display: block !important;
+}
+
+.react-tabs {
+  margin: 0;
+  padding: 0;
+}
