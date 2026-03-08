@@ -8,7 +8,16 @@ import "react-tabs/style/react-tabs.css";
 function FormPage() {
   const form = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+const [submitStatus, setSubmitStatus] = useState(null);
+const [selectedCourse, setSelectedCourse] = useState("");
+
+const coursePaymentLinks = {
+  "revit-CAREER": "https://your-grow-link.com/revit-career",
+  "revit-advanced": "https://your-grow-link.com/revit-advanced",
+  "lumion": "https://your-grow-link.com/lumion",
+  "final-project": "https://your-grow-link.com/final-project",
+};
+
 
   useEffect(() => {
     const fadeElements = document.querySelectorAll(".fade-in");
@@ -22,6 +31,7 @@ function FormPage() {
       },
       { threshold: 0.1 }
     );
+
 
     fadeElements.forEach((el) => observer.observe(el));
     return () => fadeElements.forEach((el) => observer.unobserve(el));
@@ -264,11 +274,14 @@ function FormPage() {
             <div className="form-group">
               <label htmlFor="course">בחר קורס</label>
               <select
-                id="course"
-                name="course"
-                required
-                className="form-input"
-              >
+  id="course"
+  name="course"
+  required
+  className="form-input"
+  value={selectedCourse}
+  onChange={(e) => setSelectedCourse(e.target.value)}
+>
+
                 <option value="">-- בחר קורס --</option>
                 <option value="revit-CAREER">רוויט לקריירה</option>
                 <option value="revit-advanced">
@@ -279,6 +292,22 @@ function FormPage() {
                   ליווי אישי לפרויקט גמר
                 </option>
               </select>
+              {selectedCourse && coursePaymentLinks[selectedCourse] && (
+  <div className="form-group">
+    <a
+      href={coursePaymentLinks[selectedCourse]}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="cta-button stripe-btn"
+    >
+      מעבר לתשלום מאובטח
+    </a>
+    <p className="note">
+      ניתן לשלם בתשלומים בכרטיס אשראי לפי תנאי חברת האשראי
+    </p>
+  </div>
+)}
+
             </div>
 
             <div className="form-group">
