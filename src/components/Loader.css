@@ -1,0 +1,67 @@
+.rm-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.rm-loader__panel {
+  position: absolute;
+  inset-inline: 0;
+  height: 50%;
+  background: var(--rm-ink);
+  z-index: 1;
+}
+.rm-loader__panel--top { top: 0; }
+.rm-loader__panel--bottom { bottom: 0; }
+
+.rm-loader__center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  color: var(--rm-cream);
+  text-align: center;
+}
+
+.rm-loader__monogram {
+  display: inline-flex;
+  gap: 0.4em;
+  direction: ltr;
+  font-family: var(--font-serif-en);
+  font-style: italic;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
+}
+
+.rm-loader__sub,
+.rm-loader__line {
+  direction: ltr;
+}
+
+.rm-loader__line {
+  width: 240px;
+  max-width: 70vw;
+  height: 1px;
+  background: var(--rm-bronze);
+  transform-origin: left;
+}
+
+.rm-loader__sub {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+body.rm-loading {
+  overflow: hidden;
+}

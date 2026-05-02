@@ -1,0 +1,21 @@
+.rm-marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+.rm-marquee__track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  gap: 3rem;
+  will-change: transform;
+}
+
+.rm-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding-inline-end: 3rem;
+}

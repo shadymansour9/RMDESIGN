@@ -1,0 +1,16 @@
+.rm-reveal {
+  display: inline-block;
+}
+
+.rm-reveal__mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1;
+  padding-bottom: 0.05em;
+}
+
+.rm-reveal__inner {
+  display: inline-block;
+  will-change: transform;
+}

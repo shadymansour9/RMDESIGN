@@ -1,318 +1,424 @@
 import React, { useRef, useState, useEffect } from "react";
 import emailjs from "emailjs-com";
-import Navbar from "../components/Navbar";
+import { useTranslation, Trans } from "react-i18next";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import RevealText from "../components/RevealText";
+import MagneticButton from "../components/MagneticButton";
+import SEO from "../components/SEO";
 import "../styleSheets/FormPage.css";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-// ❌ אל תייבא את הסטייל המובנה כדי שלא יתנגש עם העיצוב שלך
-// import "react-tabs/style/react-tabs.css";
+
+const ease = [0.22, 1, 0.36, 1];
+
+function FloatingField({ id, name, type = "text", required, lang, label, multiline = false, onChange }) {
+  const [focused, setFocused] = useState(false);
+  const [hasValue, setHasValue] = useState(false);
+  const isFloating = focused || hasValue;
+
+  const handleChange = (e) => {
+    setHasValue(Boolean(e.target.value));
+    if (onChange) onChange(e);
+  };
+
+  const Tag = multiline ? "textarea" : "input";
+  return (
+    <div className={`rm-field ${isFloating ? "is-floating" : ""}`}>
+      <label htmlFor={id} className="rm-field__label">{label}</label>
+      <Tag
+        id={id}
+        name={name}
+        type={multiline ? undefined : type}
+        rows={multiline ? 4 : undefined}
+        required={required}
+        className="rm-field__input"
+        onFocus={() => setFocused(true)}
+        onBlur={(e) => {
+          setFocused(false);
+          setHasValue(Boolean(e.target.value));
+        }}
+        onChange={handleChange}
+        dir={lang === "he" ? "rtl" : "ltr"}
+      />
+      <span className="rm-field__line" />
+    </div>
+  );
+}
+
+function FloatingSelect({ id, name, value, onChange, options, label, lang }) {
+  return (
+    <div className="rm-field rm-field--select is-floating">
+      <label htmlFor={id} className="rm-field__label">{label}</label>
+      <select
+        id={id}
+        name={name}
+        className="rm-field__input"
+        value={value}
+        onChange={onChange}
+        required
+        dir={lang === "he" ? "rtl" : "ltr"}
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
+      </select>
+      <span className="rm-field__line" />
+      <span className="rm-field__caret" aria-hidden>↓</span>
+    </div>
+  );
+}
 
 function FormPage() {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language?.startsWith("he") ? "he" : "en";
   const form = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [registrantName, setRegistrantName] = useState("");
 
-  // ✅ סנכרון בין Tabs ל-Select
   const courses = [
-    { id: "revit-reality", label: "Revit Reality" },
-    { id: "revit-office-dna", label: "Revit Office DNA" },
-    { id: "revit-careers", label: "Revit for Careers" },
-    { id: "revit-personal-project", label: "Revit Personal Project" },
+    { id: "revit-reality", key: "reality" },
+    { id: "revit-office-dna", key: "officeDna" },
+    { id: "revit-careers", key: "careers" },
+    { id: "revit-personal-project", key: "personal" },
   ];
 
   const [selectedCourse, setSelectedCourse] = useState(courses[0].id);
 
-  useEffect(() => {
-    const fadeElements = document.querySelectorAll(".fade-in");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
-        });
-      },
-      { threshold: 0.1 }
-    );
+  const courseLabel = (() => {
+    const found = courses.find((c) => c.id === selectedCourse);
+    return found ? t(`form.courses.${found.key}.label`) : selectedCourse;
+  })();
 
-    fadeElements.forEach((el) => observer.observe(el));
-    return () => fadeElements.forEach((el) => observer.unobserve(el));
-  }, []);
+  const subjectLine = registrantName
+    ? `🎓 הרשמה חדשה: ${registrantName} — ${courseLabel}`
+    : `🎓 הרשמה חדשה לקורס: ${courseLabel}`;
 
   const sendEmail = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     emailjs
-      .sendForm(
-        "service_9mrmmoh",
-        "template_geaa5dw",
-        form.current,
-        "0-GZndZldpzAWnM2X"
-      )
+      .sendForm("service_9mrmmoh", "template_geaa5dw", form.current, "0-GZndZldpzAWnM2X")
       .then(() => {
         setSubmitStatus("success");
+        emailjs.sendForm("service_9mrmmoh", "template_140wet8", form.current, "0-GZndZldpzAWnM2X");
 
-        // תבנית נוספת (אם צריך)
-        emailjs.sendForm(
-          "service_9mrmmoh",
-          "template_140wet8",
-          form.current,
-          "0-GZndZldpzAWnM2X"
-        );
-
-        // שליחה ל-Google Sheets
         const formData = new FormData(form.current);
         fetch(
           "https://script.google.com/macros/s/AKfycbxzEmofjEwPOj0Zgll_Sfz7VNGQgjSxUQ2LANeS8InikL5FGoZJKvpyVWqJOMjnaYUXjw/exec",
-          {
-            method: "POST",
-            mode: "no-cors",
-            body: formData,
-          }
+          { method: "POST", mode: "no-cors", body: formData }
         );
 
         form.current.reset();
-        // אחרי reset חשוב להשאיר את הקורס הנבחר
-        // (כי select יישאר controlled)
       })
       .catch((error) => {
         setSubmitStatus("error");
-        console.error("שגיאה:", error);
+        console.error("Error:", error);
       })
       .finally(() => {
         setIsSubmitting(false);
-        setTimeout(() => setSubmitStatus(null), 5000);
+        setTimeout(() => setSubmitStatus(null), 6000);
       });
   };
 
-  const selectedIndex = Math.max(
-    0,
-    courses.findIndex((c) => c.id === selectedCourse)
-  );
+  const renderArr = (k) => {
+    const arr = t(k, { returnObjects: true });
+    return Array.isArray(arr) ? arr : [];
+  };
+
+  const selectedKey = courses.find((c) => c.id === selectedCourse)?.key || "reality";
 
   return (
-    <div className="form-page-container">
-      <Navbar />
-
-      <section className="form-hero fade-in">
-        <div className="hero-content">
-          <h1>הרשמה לקורסי Revit מקצועיים</h1>
-          <p className="hero-subtitle">
-            פתח קריירה בעיצוב ואדריכלות עם קורסים מעשיים בליווי מקצועי צמוד
-          </p>
+    <div className="rm-form-page">
+      <SEO
+        title={lang === "he" ? "קורסי Revit" : "Revit Courses"}
+        path="/form"
+      />
+      {/* HERO */}
+      <section className="rm-form__hero">
+        <motion.div
+          className="rm-form__hero-bg"
+          style={{ backgroundImage: "url('/images/hero-bg1.jpg')" }}
+          initial={{ scale: 1.15 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.6, ease }}
+        />
+        <div className="rm-form__hero-veil" />
+        <div className="rm-container rm-form__hero-inner">
+          <motion.span
+            className="rm-eyebrow rm-eyebrow--light"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease }}
+          >
+            Revit · {lang === "he" ? "קורסים מקצועיים" : "Professional Courses"}
+          </motion.span>
+          <h1 className="rm-form__hero-title">
+            <RevealText delay={0.45}>{t("form.heroTitle")}</RevealText>
+          </h1>
+          <motion.p
+            className="rm-form__hero-sub"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 1.1, ease }}
+          >
+            {t("form.heroSubtitle")}
+          </motion.p>
         </div>
       </section>
 
-      <div className="form-content">
-        {/* 1) פירוט הקורסים */}
-        <div className="course-info fade-in">
-          <h2 className="info-heading">בוא/י נגלה יחד מה הקורס שמתאים לך באמת:</h2>
-
-          <Tabs
-            selectedIndex={selectedIndex}
-            onSelect={(index) => setSelectedCourse(courses[index].id)}
+      {/* CONTENT */}
+      <div className="rm-form__content">
+        {/* COURSE INFO */}
+        <div className="rm-course-info">
+          <motion.div
+            className="rm-course-info__head"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.8, ease }}
           >
-            <TabList className="courses-tabs">
-              {courses.map((c) => (
-                <Tab key={c.id}>{c.label}</Tab>
-              ))}
-            </TabList>
+            <span className="rm-eyebrow">{lang === "he" ? "ארבעה מסלולים" : "Four Tracks"}</span>
+            <h2>{t("form.infoHeading")}</h2>
+          </motion.div>
 
-            {/* 1) Revit Reality */}
-            <TabPanel>
-              <h3>קורס Revit Reality למתקדמים – עבודה כמו במשרד אמיתי</h3>
-              <p>
-                הקורס בנוי כדי ללמד עבודה מקצועית על פרויקטים אמיתיים, בדומה לאופן
-                העבודה במשרדי תכנון ואדריכלות.
-              </p>
-              <p>📆 <strong>14 מפגשים</strong></p>
-              <p>🕐 <strong>כל מפגש באורך שעתיים</strong></p>
+          {/* Tabs */}
+          <LayoutGroup>
+            <div className="rm-tabs" role="tablist">
+              {courses.map((c) => {
+                const active = selectedCourse === c.id;
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={active}
+                    onClick={() => setSelectedCourse(c.id)}
+                    className={`rm-tab ${active ? "is-active" : ""}`}
+                  >
+                    <span className="rm-tab__num">0{courses.indexOf(c) + 1}</span>
+                    <span className="rm-tab__label">{t(`form.courses.${c.key}.label`)}</span>
+                    {active && (
+                      <motion.span
+                        className="rm-tab__indicator"
+                        layoutId="rm-tab-indicator"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </LayoutGroup>
 
-              <p>מה תלמדו בקורס?</p>
-              <ul>
-                <li>בניית מודל Revit חכם שמשרת תהליך קבלת החלטות</li>
-                <li>עבודה נכונה עם שלבים (Phases), חומרים ופרטים</li>
-                <li>חיבור המודל ל-Lumion כחלק מתהליך העבודה</li>
-                <li>יצירת הדמיות שמסבירות את הפרויקט בצורה ברורה</li>
-                <li>הצגת פרויקט משכנעת ללקוחות, קבלנים וצוותים</li>
-                <li>עבודה לפי חשיבה משרדית וסטנדרטים מקצועיים</li>
-              </ul>
-
-              <strong><p>למי הקורס מתאים?</p></strong>
-              <ul>
-                <li>למי שכבר שולט ב-Revit ורוצה לעבוד ברמה גבוהה יותר</li>
-                <li>למי שעבר קורס Revit Career ומעוניין להעמיק בעבודה על פרויקט</li>
-                <li>למי שרוצה לחבר בין תכנון, הדמיה וקבלת החלטות</li>
-                <li>לאדריכלים, אדריכלי פנים וסטודנטים מתקדמים</li>
-              </ul>
-            </TabPanel>
-
-            {/* 2) Revit Office DNA */}
-            <TabPanel>
-              <h3>שירות הטמעת Revit למשרדי אדריכלות</h3>
-              <p>
-                השירות מיועד למשרדי אדריכלות ואדריכלות פנים המעוניינים לעבוד ב־
-                <strong> Revit </strong>
-                בצורה אחידה, מסודרת ויעילה, בהתאם לאופי המשרד, סוג הפרויקטים
-                והסטנדרטים הפנימיים שלו.
-              </p>
-
-              <p>
-                במסגרת השירות נבנית למשרד <strong>תבנית Revit מותאמת אישית</strong>,
-                המשקפת את שיטת העבודה האמיתית של המשרד ומאפשרת עבודה עקבית
-                ונכונה לאורך כל הפרויקט.
-              </p>
-
-              <p>מה כולל השירות?</p>
-              <ul>
-                <li>בניית תבנית Revit משרדית מותאמת אישית</li>
-                <li>יצירת משפחות Revit ייעודיות לפי צורכי המשרד</li>
-                <li>הגדרת פרמטרים, תצוגות, פילטרים וסטנדרטים</li>
-                <li>הטמעת שיטת עבודה ברורה לצוות המשרד</li>
-                <li>ייעול תהליכי עבודה, חיסכון בזמן וצמצום טעויות</li>
-              </ul>
-
-              <p>
-                המטרה אינה רק “לבנות תבנית”, אלא ליצור
-                <strong> תשתית עבודה מקצועית </strong>
-                שהצוות יודע להשתמש בה נכון – בכל פרויקט מחדש.
-              </p>
-            </TabPanel>
-
-            {/* 3) Revit for Careers */}
-            <TabPanel>
-              <h3>Revit for Careers – רוויט לקריירה</h3>
-              <p>
-                זה הקורס שמחבר בין שליטה טכנית לחשיבה תכנונית אמיתית –
-                ומכין אותך לעבודה בשטח או במשרד.
-              </p>
-              <p>📆 <strong>12 מפגשים</strong></p>
-              <p>🕐 <strong>כל מפגש נמשך שעתיים</strong></p>
-
-              <p>מה נלמד בקורס?</p>
-              <ul>
-                <li>פתיחת פרויקט מאפס: קירות, פתחים, רצפות ותקרות</li>
-                <li>שרטוט ריהוט, תכניות ריצוף, תקרה, חשמל ועמדה</li>
-                <li>מידות, תגיות, טבלאות וסט תכניות מקצועי</li>
-                <li>עבודה נכונה עם גיליונות, קנ"מ וגרפיקה ברמה משרדית</li>
-              </ul>
-
-              <p>
-                <strong>
-                  בסיום הקורס תצא עם ביטחון, תיק עבודות ויכולת להשתלב בעבודה בתחום.
-                </strong>
-              </p>
-            </TabPanel>
-
-            {/* 4) Revit Personal Project */}
-            <TabPanel>
-              <h3>ליווי אישי לפרויקט גמר</h3>
-              <p>
-                ליווי אישי שמוודא שתסיים את הפרויקט עם תוצאה שאתה באמת גאה בה.
-              </p>
-              <p>📌 שני מסלולים לבחירה:</p>
-              <ul>
-                <li>מסלול קצר – 4 שבועות ליווי</li>
-                <li>מסלול מלא – 8 שבועות ליווי</li>
-              </ul>
-
-              <p>מה תקבל?</p>
-              <ul>
-                <li>פגישות שבועיות אישיות (זום/פרונטלי)</li>
-                <li>עזרה בתכנון, הדמיות, סט תכניות והכנה לפרזנטציה</li>
-                <li>תיקונים, חידודים וליווי מלא עד ההגשה</li>
-                <li>זמינות שוטפת בווטסאפ</li>
-              </ul>
-
-              <strong><p>למי זה מתאים?</p></strong>
-              <ul>
-                <li>לסטודנטים שרוצים תמיכה אמיתית לאורך כל הדרך – גם בתוכן וגם ברגש</li>
-                <li>למי שרוצה להגיש עבודה מקצועית, בטוחה ומדויקת</li>
-              </ul>
-            </TabPanel>
-          </Tabs>
+          {/* Panels */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedKey}
+              className="rm-tab-panel"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5, ease }}
+            >
+              <CoursePanel courseKey={selectedKey} t={t} renderArr={renderArr} />
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* 2) טופס הרשמה */}
-        <div className="form-wrapper fade-in">
-          <form ref={form} onSubmit={sendEmail} className="registration-form">
-            <div className="form-group">
-              <label htmlFor="name">שם מלא</label>
-              <input id="name" type="text" name="name" required className="form-input" />
+        {/* FORM */}
+        <motion.div
+          className="rm-form-card"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.9, ease }}
+        >
+          <div className="rm-form-card__head">
+            <span className="rm-form-card__step">01 / 01</span>
+            <h3 className="rm-form-card__title">
+              {lang === "he" ? "טופס הרשמה" : "Registration"}
+            </h3>
+            <p className="rm-form-card__sub">
+              {lang === "he"
+                ? "ניצור איתך קשר תוך 24 שעות לתאום שיחה."
+                : "We'll be in touch within 24 hours to set up a call."}
+            </p>
+          </div>
+
+          <form ref={form} onSubmit={sendEmail} className="rm-form">
+            {/* Hidden fields populated automatically — used by EmailJS template */}
+            <input type="hidden" name="subject" value={subjectLine} />
+            <input type="hidden" name="course_label" value={courseLabel} />
+            <input type="hidden" name="title" value={subjectLine} />
+            <input type="hidden" name="from_name" value={registrantName || "RM Studio Site"} />
+            <input type="hidden" name="reply_to" value="" id="reply_to_hidden" />
+
+            <FloatingField
+              id="name"
+              name="name"
+              required
+              label={t("form.labels.name")}
+              lang={lang}
+              onChange={(e) => setRegistrantName(e.target.value)}
+            />
+            <div className="rm-form__row">
+              <FloatingField id="email" name="email" type="email" required label={t("form.labels.email")} lang={lang} />
+              <FloatingField id="phone" name="phone" type="tel" required label={t("form.labels.phone")} lang={lang} />
             </div>
+            <FloatingSelect
+              id="course"
+              name="course"
+              value={selectedCourse}
+              onChange={(e) => setSelectedCourse(e.target.value)}
+              label={t("form.labels.course")}
+              lang={lang}
+              options={courses.map((c) => ({
+                value: c.id,
+                label: t(`form.courses.${c.key}.label`),
+              }))}
+            />
+            <FloatingField id="message" name="message" multiline label={t("form.labels.message")} lang={lang} />
 
-            <div className="form-group">
-              <label htmlFor="email">אימייל</label>
-              <input id="email" type="email" name="email" required className="form-input" />
-            </div>
+            <MagneticButton>
+              <button type="submit" className="rm-form__submit" disabled={isSubmitting}>
+                <span>{isSubmitting ? t("form.submitting") : t("form.submit")}</span>
+                <i aria-hidden>{isSubmitting ? "" : "→"}</i>
+              </button>
+            </MagneticButton>
 
-            <div className="form-group">
-              <label htmlFor="phone">טלפון</label>
-              <input id="phone" type="tel" name="phone" required className="form-input" />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="course">בחר קורס</label>
-              <select
-                id="course"
-                name="course"
-                className="form-input"
-                required
-                value={selectedCourse}
-                onChange={(e) => setSelectedCourse(e.target.value)}
-              >
-                {courses.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="message">הודעה נוספת</label>
-              <textarea id="message" name="message" rows="4" className="form-input" />
-            </div>
-
-            <button type="submit" className="cta-button primary-btn" disabled={isSubmitting}>
-              {isSubmitting ? "שולח..." : "שלח טופס הרשמה"}
-            </button>
-
-            {submitStatus === "success" && (
-              <div className="status-message success fade-in">
-                <span>✓</span> הטופס נשלח בהצלחה! ניצור איתך קשר בהקדם
-              </div>
-            )}
-
-            {submitStatus === "error" && (
-              <div className="status-message error fade-in">
-                <span>✗</span> אירעה שגיאה בשליחה, אנא נסה שוב
-              </div>
-            )}
+            <AnimatePresence>
+              {submitStatus === "success" && (
+                <motion.div
+                  className="rm-form__status rm-form__status--success"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  <SuccessCheck />
+                  <span>{t("form.success")}</span>
+                </motion.div>
+              )}
+              {submitStatus === "error" && (
+                <motion.div
+                  className="rm-form__status rm-form__status--error"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  <span>✗</span>
+                  <span>{t("form.error")}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </form>
-        </div>
+        </motion.div>
       </div>
 
-      <div className="footer-rasha">
-        <div className="footer-card">
-          <img src="/images/rasha.jpg" alt="ראשה מנסור" className="footer-image" />
-          <div className="footer-social">
-            <a
-              href="https://www.linkedin.com/in/rasha-mansour-731184204"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src="/icons/linkedin.png" alt="LinkedIn" />
-            </a>
-            <a
-              href="https://www.instagram.com/rmdesignstudio0"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src="/icons/instagram.png" alt="Instagram" />
-            </a>
+      {/* FOOTER */}
+      <div className="rm-form-page__footer">
+        <div className="rm-container rm-form-page__footer-inner">
+          <div className="rm-form-page__founder">
+            <img src="/images/rasha.jpg" alt="Rasha Mansour" />
+            <div>
+              <h4>Rasha Mansour</h4>
+              <p>{lang === "he" ? "מייסדת · RM Design Studio" : "Founder · RM Design Studio"}</p>
+            </div>
+          </div>
+          <div className="rm-form-page__social">
+            <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+            <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function SuccessCheck() {
+  return (
+    <motion.svg
+      className="rm-form__check"
+      viewBox="0 0 52 52"
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.circle
+        cx="26" cy="26" r="24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={{ hidden: { pathLength: 0 }, visible: { pathLength: 1 } }}
+        transition={{ duration: 0.7, ease }}
+      />
+      <motion.path
+        d="M14 27 l8 8 l16 -16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={{ hidden: { pathLength: 0 }, visible: { pathLength: 1 } }}
+        transition={{ duration: 0.5, ease, delay: 0.5 }}
+      />
+    </motion.svg>
+  );
+}
+
+function CoursePanel({ courseKey, t, renderArr }) {
+  if (courseKey === "reality") {
+    return (
+      <>
+        <h3>{t("form.courses.reality.title")}</h3>
+        <p>{t("form.courses.reality.intro")}</p>
+        <div className="rm-tab-panel__meta">
+          <span>📆 {t("form.courses.reality.sessions")}</span>
+          <span>🕐 {t("form.courses.reality.duration")}</span>
+        </div>
+        <h4>{t("form.courses.reality.learnHeading")}</h4>
+        <ul>{renderArr("form.courses.reality.learn").map((it, i) => <li key={i}>{it}</li>)}</ul>
+        <h4>{t("form.courses.reality.audienceHeading")}</h4>
+        <ul>{renderArr("form.courses.reality.audience").map((it, i) => <li key={i}>{it}</li>)}</ul>
+      </>
+    );
+  }
+  if (courseKey === "officeDna") {
+    return (
+      <>
+        <h3>{t("form.courses.officeDna.title")}</h3>
+        <p><Trans i18nKey="form.courses.officeDna.intro" components={{ strong: <strong /> }} /></p>
+        <p><Trans i18nKey="form.courses.officeDna.template" components={{ strong: <strong /> }} /></p>
+        <h4>{t("form.courses.officeDna.templateHeading")}</h4>
+        <ul>{renderArr("form.courses.officeDna.items").map((it, i) => <li key={i}>{it}</li>)}</ul>
+        <p><Trans i18nKey="form.courses.officeDna.outro" components={{ strong: <strong /> }} /></p>
+      </>
+    );
+  }
+  if (courseKey === "careers") {
+    return (
+      <>
+        <h3>{t("form.courses.careers.title")}</h3>
+        <p>{t("form.courses.careers.intro")}</p>
+        <div className="rm-tab-panel__meta">
+          <span>📆 {t("form.courses.careers.sessions")}</span>
+          <span>🕐 {t("form.courses.careers.duration")}</span>
+        </div>
+        <h4>{t("form.courses.careers.learnHeading")}</h4>
+        <ul>{renderArr("form.courses.careers.learn").map((it, i) => <li key={i}>{it}</li>)}</ul>
+        <p><Trans i18nKey="form.courses.careers.outro" components={{ strong: <strong /> }} /></p>
+      </>
+    );
+  }
+  return (
+    <>
+      <h3>{t("form.courses.personal.title")}</h3>
+      <p>{t("form.courses.personal.intro")}</p>
+      <h4>{t("form.courses.personal.tracksHeading")}</h4>
+      <ul>{renderArr("form.courses.personal.tracks").map((it, i) => <li key={i}>{it}</li>)}</ul>
+      <h4>{t("form.courses.personal.getHeading")}</h4>
+      <ul>{renderArr("form.courses.personal.get").map((it, i) => <li key={i}>{it}</li>)}</ul>
+      <h4>{t("form.courses.personal.audienceHeading")}</h4>
+      <ul>{renderArr("form.courses.personal.audience").map((it, i) => <li key={i}>{it}</li>)}</ul>
+    </>
   );
 }
 

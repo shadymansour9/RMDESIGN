@@ -1,0 +1,241 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "competition": "Awards",
+    "courses": "Courses",
+    "cta": "Book a Meeting",
+    "studio": "Design Studio",
+    "tag": "Interior · Architecture",
+    "menu": "Menu"
+  },
+  "lang": {
+    "switchToHe": "עברית",
+    "switchToEn": "English",
+    "label": "Language"
+  },
+  "home": {
+    "heroEyebrow": "Interior · Architecture · Revit",
+    "heroTitle1": "Spaces",
+    "heroTitle2": "that tell",
+    "heroTitle3": "a story.",
+    "heroSubtitle": "An interior design and architecture studio based in Haifa — precise planning, refined aesthetics, and professional Revit courses for architects and designers.",
+    "heroProjectsBtn": "View Projects",
+    "heroBookBtn": "Book a Meeting",
+    "scroll": "scroll",
+    "manifestoEyebrow": "Philosophy",
+    "manifestoCaption": "Every project begins with listening — and continues in material, proportion and light.",
+    "manifestoTitle": "Design is a <em>connection</em> between people, light and matter — where function meets emotion.",
+    "manifestoTitleText": "Design is a connection between people, light and matter where function meets emotion.",
+    "pillar1Title": "Personally guided projects",
+    "pillar1Body": "Apartments, commercial spaces, offices and clinics — every project begins with listening and continues with planning tailored to lifestyle, atmosphere and needs. The link between function and aesthetics is the core.",
+    "pillar1Cta": "View portfolio",
+    "pillar2Title": "Professional Revit courses",
+    "pillar2Body": "Practical knowledge, step by step, from foundation to studio-level practice — courses for students, interior designers and architects who want to work right, save time, and build a strong portfolio.",
+    "pillar2Cta": "Course registration",
+    "featuredEyebrow": "Selected work",
+    "featuredTitle": "Projects that speak in material and light.",
+    "featuredAll": "All projects",
+    "ctaEyebrow": "Let's begin",
+    "ctaTitle1": "Have a project in mind?",
+    "ctaTitle2": "We'd love to hear about it.",
+    "ctaBody": "An initial consultation — no commitment, with plenty of inspiration and practical thinking.",
+    "ctaBtn": "Book a Meeting",
+    "statsEyebrow": "By the numbers",
+    "statsTitle": "Six years of <em>refined</em> craft.",
+    "statYearsLabel": "Years",
+    "statYearsCaption": "Of dedicated practice.",
+    "statProjectsLabel": "Projects",
+    "statProjectsCaption": "Across four disciplines.",
+    "statDisciplinesLabel": "Disciplines",
+    "statDisciplinesCaption": "From homes to hospitality.",
+    "statHandcraftedLabel": "Hand-crafted",
+    "statHandcraftedCaption": "Every detail considered.",
+    "showcaseEyebrow": "Selected projects",
+    "showcaseTitle": "An evolving portfolio.",
+    "processEyebrow": "Our approach",
+    "processTitle": "How a project <em>becomes</em> a place.",
+    "process1Title": "Listen",
+    "process1Body": "Every project starts with conversation — understanding lifestyle, rituals, the way light moves through your day.",
+    "process2Title": "Sketch",
+    "process2Body": "We translate ideas into mood boards, plans, and 3D explorations. Every move tested before any wall is touched.",
+    "process3Title": "Build",
+    "process3Body": "Detailed Revit models, contractor coordination, material selection. Tight management ensures the design holds.",
+    "process4Title": "Reveal",
+    "process4Body": "Final styling, lighting calibration, hand-off — and a space that feels yours from the first step inside."
+  },
+  "footer": {
+    "founderRole": "Founder · RM Design Studio",
+    "links": {
+      "about": "About",
+      "projects": "Projects",
+      "courses": "Courses",
+      "competition": "Awards"
+    },
+    "rights": "RM Design Studio",
+    "location": "Haifa · Israel"
+  },
+  "projects": {
+    "heroEyebrow": "Selected Works · 2022 — 2024",
+    "heroTitle1": "Project",
+    "heroTitle2": "portfolio",
+    "heroBody": "A curated selection of projects — apartments, offices, commercial spaces and hospitality — each born from a dialogue between place, people and material.",
+    "viewProject": "View project",
+    "ctaEyebrow": "Got a project in mind?",
+    "ctaTitle1": "Let's create something",
+    "ctaTitle2": "that lasts.",
+    "ctaBtn": "Book a Meeting",
+    "items": {
+      "engineerOffice": "Engineer Office",
+      "lawyerOffice": "Lawyer's Office",
+      "ehHouse": "E.H House",
+      "lobbyOffice": "Lobby Office Design",
+      "nRestaurant": "N — Restaurant",
+      "mansourHouse": "Mansour's House"
+    },
+    "categories": {
+      "office": "Office",
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "hospitality": "Hospitality"
+    }
+  },
+  "about": {
+    "heroEyebrow": "Studio · Haifa, Israel",
+    "heroTitle1": "Design is a",
+    "heroTitleEm": "language.",
+    "heroTitle2": "We tell stories with it.",
+    "introEyebrow": "About the studio",
+    "introQuote": "\"Every project starts with listening — and continues in material, proportion and light.\"",
+    "introP1": "<strong>RM Design Studio</strong> is an interior design and architecture studio based in Haifa, specializing in office design, residential and commercial projects. The studio offers smart, innovative solutions — a blend of interior design, graphics, product design and advanced technology that connects everything.",
+    "introP2": "We believe intelligent design is a result of research, dialogue with clients and stakeholders, and team effort. From parametric design and BIM to VR tools — we develop ideas into unforgettable spaces.",
+    "introP3": "For us, every project is an exciting challenge, and every client is a world of dreams and needs. We bring our knowledge alongside design models from around the world, turning desires and dreams into tangible reality.",
+    "disciplinesEyebrow": "Disciplines",
+    "disciplinesTitle1": "Areas of",
+    "disciplinesTitleEm": "expertise",
+    "disc1Title": "Residential",
+    "disc1Body": "Apartments, private homes and renovations — planning tailored to lifestyle.",
+    "disc2Title": "Office",
+    "disc2Body": "Workspaces that connect brand identity, productivity and aesthetics.",
+    "disc3Title": "Commercial",
+    "disc3Body": "Restaurants, retail and lobbies — spaces that tell a story and shape brand experience.",
+    "disc4Title": "Revit Courses",
+    "disc4Body": "From the basics to studio-level practice — practical courses with personal guidance.",
+    "founderEyebrow": "Founder",
+    "founderName1": "Rasha",
+    "founderNameEm": "Mansour",
+    "founderRole": "Studio founder · B.Design, Holon Institute of Technology",
+    "founderBio": "With over six years of experience in interior design, Rasha combines advanced technological thinking with aesthetic sensitivity. For her, every project is a search for the <em>unforgettable</em> — a space that serves the people in it and leaves a lasting impression.",
+    "founderTagFounder": "Founder",
+    "founderCta": "Book a Meeting"
+  },
+  "form": {
+    "heroTitle": "Professional Revit Course Registration",
+    "heroSubtitle": "Launch a career in design and architecture with hands-on courses and close professional guidance.",
+    "infoHeading": "Let's discover the course that fits you:",
+    "labels": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "course": "Choose a course",
+      "message": "Additional message"
+    },
+    "submit": "Submit Registration",
+    "submitting": "Sending...",
+    "success": "Form submitted successfully — we'll be in touch shortly.",
+    "error": "An error occurred. Please try again.",
+    "courses": {
+      "reality": {
+        "label": "Revit Reality",
+        "title": "Revit Reality – Studio-level practice",
+        "intro": "The course is built to teach professional work on real projects, similar to how design and architecture studios operate.",
+        "sessions": "14 sessions",
+        "duration": "Each session 2 hours long",
+        "learnHeading": "What you'll learn:",
+        "learn": [
+          "Building a smart Revit model that serves the decision process",
+          "Working correctly with phases, materials and details",
+          "Connecting the model to Lumion as part of the workflow",
+          "Creating renderings that explain the project clearly",
+          "Convincing project presentation for clients and contractors",
+          "Working with studio standards and methodology"
+        ],
+        "audienceHeading": "Who is this course for?",
+        "audience": [
+          "Those who already master Revit and want to work at a higher level",
+          "Graduates of Revit Career who want to deepen on a project",
+          "People who want to bridge planning, rendering and decision-making",
+          "Architects, interior architects and advanced students"
+        ]
+      },
+      "officeDna": {
+        "label": "Revit Office DNA",
+        "title": "Revit implementation service for studios",
+        "intro": "A service for architecture and interior architecture studios that want to work in <strong>Revit</strong> in a unified, organized and efficient way — adapted to the studio's character, projects and internal standards.",
+        "templateHeading": "What's included:",
+        "template": "We build a <strong>custom Revit template</strong> that reflects how the studio actually works, allowing consistent and correct work throughout every project.",
+        "items": [
+          "Building a custom office Revit template",
+          "Creating dedicated Revit families based on studio needs",
+          "Defining parameters, views, filters and standards",
+          "Implementing a clear workflow for the team",
+          "Streamlining processes, saving time and reducing errors"
+        ],
+        "outro": "The goal isn't only \"to build a template\" — it's to create a <strong>professional working infrastructure</strong> that the team can use correctly in every new project."
+      },
+      "careers": {
+        "label": "Revit for Careers",
+        "title": "Revit for Careers",
+        "intro": "The course that connects technical mastery with real planning thinking — preparing you for fieldwork or studio practice.",
+        "sessions": "12 sessions",
+        "duration": "Each session lasts 2 hours",
+        "learnHeading": "What you'll learn:",
+        "learn": [
+          "Opening a project from scratch: walls, openings, floors and ceilings",
+          "Drafting furniture, flooring, ceiling, electrical and station plans",
+          "Dimensions, tags, schedules and a professional plan set",
+          "Working correctly with sheets, scale and studio-level graphics"
+        ],
+        "outro": "<strong>By the end of the course you'll have confidence, a portfolio, and the ability to work in the field.</strong>"
+      },
+      "personal": {
+        "label": "Revit Personal Project",
+        "title": "Personal guidance for a final project",
+        "intro": "Personal guidance that ensures you finish your project with a result you're truly proud of.",
+        "tracksHeading": "Two tracks to choose from:",
+        "tracks": ["Short track – 4 weeks of guidance", "Full track – 8 weeks of guidance"],
+        "getHeading": "What you'll get:",
+        "get": [
+          "Weekly personal meetings (Zoom or in-person)",
+          "Help with planning, rendering, plan sets and presentation prep",
+          "Corrections, refinements and full guidance up to submission",
+          "Ongoing availability via WhatsApp"
+        ],
+        "audienceHeading": "Who is it for?",
+        "audience": [
+          "Students who want real support throughout — both in content and emotionally",
+          "Anyone who wants to submit professional, confident and accurate work"
+        ]
+      }
+    }
+  },
+  "competition": {
+    "badge": "🏅 2nd Place — International Design Competition",
+    "title": "Zakriyat Al-Nasrah",
+    "subtitle": "A cultural community center preserving generational memory in Nazareth",
+    "highlight1": "The Zakriyat Al-Nasrah project won 2nd place in the",
+    "highlight2": "Inspireli Awards 2021 — Public & Community Design category.",
+    "locationHeading": "Project Location",
+    "location": "The Old Market, Nazareth",
+    "area": "Area: 850 sqm",
+    "year": "Year: 2021",
+    "body": "\"Zakriyat Al-Nasrah\" is a cultural community center preserving generational memory in Nazareth. The Arabic name means \"cultural memory\", inspired by Christian-Arab tradition through traditional food and historic objects. Located in \"Bayt Fawzi Azar\" in Nazareth's Old Market — once a vital trade hub — the project aims to revive the market by linking heritage with the next generation, preserving Ottoman-era design alongside a modern intervention. The center offers theaters, a gallery and culture-themed cafés."
+  },
+  "common": {
+    "viewProject": "View project",
+    "readMore": "Read more",
+    "next": "Next →",
+    "back": "← Back"
+  }
+}

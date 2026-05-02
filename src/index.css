@@ -2,16 +2,128 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================
+   RM DESIGN STUDIO — DESIGN SYSTEM
+   ========================================= */
+
+:root {
+  /* Color tokens – editorial / interior-design palette */
+  --rm-ivory: #F6F2EC;
+  --rm-bone: #EFE9E0;
+  --rm-cream: #FAF7F2;
+  --rm-line: #E2DACE;
+  --rm-stone: #C8BFB1;
+  --rm-bronze: #B08856;
+  --rm-bronze-deep: #8E6A3F;
+  --rm-clay: #A66B4A;
+  --rm-charcoal: #1A1A1A;
+  --rm-ink: #0F0F0F;
+  --rm-graphite: #2B2B2B;
+  --rm-mute: #6B6863;
+  --rm-soft: #8A857E;
+  --rm-white: #FFFFFF;
+
+  /* Typography */
+  --font-display: 'Frank Ruhl Libre', 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-serif-en: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Heebo', 'Inter', 'Segoe UI', sans-serif;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Layout */
+  --container: 1280px;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  direction: rtl;
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  scroll-behavior: smooth;
 }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  background-color: var(--rm-cream);
+  color: var(--rm-charcoal);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Direction-aware tweaks: in LTR mode prefer cleaner text alignment */
+html[dir="ltr"] body { text-align: left; }
+html[dir="rtl"] body { text-align: right; }
 
 img {
   max-width: 100%;
   height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--rm-charcoal);
+  color: var(--rm-ivory);
+}
+
+/* Editorial heading defaults */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--rm-ink);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+/* Reusable utility — eyebrow / label kicker */
+.rm-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--rm-bronze-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rm-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--rm-bronze);
+}
+
+/* Reveal on scroll */
+.fade-in {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
