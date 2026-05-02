@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { client, urlFor } from "../sanityClient";
 import RevealText from "../components/RevealText";
 import MagneticButton from "../components/MagneticButton";
 import SEO from "../components/SEO";
@@ -14,80 +13,16 @@ function ProjectsPage() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language?.startsWith("he") ? "he" : "en";
 
-  const fallbackProjects = [
+  const projects = useMemo(() => ([
     { id: 3, slug: "engineer-office", title: t("projects.items.engineerOffice"), categoryKey: "office", year: "2024", image: "/images/villa1.jpg" },
     { id: 2, slug: "lawyers-office", title: t("projects.items.lawyerOffice"), categoryKey: "office", year: "2023", image: "/images/office1.jpg" },
     { id: 1, slug: "eh-house", title: t("projects.items.ehHouse"), categoryKey: "residential", year: "2023", image: "/images/E.H.jpg" },
     { id: 6, slug: "lobby-office", title: t("projects.items.lobbyOffice"), categoryKey: "commercial", year: "2024", image: "/images/LobbyOfficeDesign.jpg" },
     { id: 5, slug: "n-restaurant", title: t("projects.items.nRestaurant"), categoryKey: "hospitality", year: "2022", image: "/images/N-restaurant.jpg" },
     { id: 4, slug: "mansour-house", title: t("projects.items.mansourHouse"), categoryKey: "residential", year: "2022", image: "/images/mansour.jpg" },
-  ];
+  ]), [t]);
 
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [usedFallback, setUsedFallback] = useState(false);
   const [filter, setFilter] = useState("all");
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const query = `*[_type == "project"] | order(order asc, _createdAt desc){
-      _id, title, description, "slug": slug.current, coverImage, category, year
-    }`;
-
-    const pickLocale = (val) => {
-      if (!val) return "";
-      if (typeof val === "string") return val;
-      return val[lang] || val.en || val.he || "";
-    };
-
-    if (!process.env.REACT_APP_SANITY_PROJECT_ID) {
-      if (!cancelled) {
-        setProjects(fallbackProjects);
-        setUsedFallback(true);
-        setLoading(false);
-      }
-      return () => {};
-    }
-
-    setLoading(true);
-    client
-      .fetch(query)
-      .then((items) => {
-        if (cancelled) return;
-        if (Array.isArray(items) && items.length > 0) {
-          const mapped = items.map((p) => ({
-            id: p._id,
-            slug: p.slug,
-            title: pickLocale(p.title),
-            description: pickLocale(p.description),
-            categoryKey: p.category,
-            year: p.year || "",
-            image: p.coverImage ? urlFor(p.coverImage).width(1400).url() : null,
-          }));
-          setProjects(mapped);
-          setUsedFallback(false);
-        } else {
-          setProjects([]);
-          setUsedFallback(false);
-        }
-      })
-      .catch((err) => {
-        console.warn("[Sanity] projects fetch failed, using fallback:", err.message);
-        if (!cancelled) {
-          setProjects(fallbackProjects);
-          setUsedFallback(true);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang]);
 
   const categories = [
     { key: "all", label: lang === "he" ? "הכל" : "All" },
@@ -119,12 +54,28 @@ function ProjectsPage() {
     return map[key] || key || "";
   };
 
+  /* Re-run reveal observers as filter changes the rendered set */
+  useEffect(() => {
+    const fadeElements = document.querySelectorAll(".fade-in");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.1 }
+    );
+    fadeElements.forEach((el) => observer.observe(el));
+    return () => fadeElements.forEach((el) => observer.unobserve(el));
+  }, [filter]);
+
   return (
     <div className="rm-projects">
       <SEO
         title={lang === "he" ? "פרויקטים" : "Projects"}
         path="/projects"
       />
+
       {/* HERO */}
       <section className="rm-projects__hero">
         <motion.div
@@ -195,82 +146,67 @@ function ProjectsPage() {
       {/* GRID */}
       <section className="rm-projects__list">
         <div className="rm-container">
-          {loading ? (
-            <div className="rm-projects__state">
-              <span className="rm-projects__spinner" />
-              <p>{lang === "he" ? "טוען פרויקטים..." : "Loading projects..."}</p>
-            </div>
-          ) : filtered.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="rm-projects__state">
               <p>{lang === "he" ? "אין פרויקטים בקטגוריה הזאת." : "No projects in this category."}</p>
             </div>
           ) : (
-            <>
-              {usedFallback && (
-                <div className="rm-projects__notice">
-                  {lang === "he"
-                    ? "מציג פרויקטים מקומיים — לא ניתן היה להתחבר ל-CMS."
-                    : "Showing local projects — could not connect to CMS."}
-                </div>
-              )}
-
-              <LayoutGroup>
-                <motion.div className="rm-projects__grid" layout>
-                  <AnimatePresence mode="popLayout">
-                    {filtered.map((p, i) => (
-                      <motion.div
-                        layout
-                        key={p.id}
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.7, ease, delay: i * 0.06 }}
-                        className="rm-project-wrap"
+            <LayoutGroup>
+              <motion.div className="rm-projects__grid" layout>
+                <AnimatePresence mode="popLayout">
+                  {filtered.map((p, i) => (
+                    <motion.div
+                      layout
+                      key={p.id}
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.7, ease, delay: i * 0.06 }}
+                      className="rm-project-wrap"
+                    >
+                      <Link
+                        to={`/projects/${p.slug || p.id}`}
+                        className="rm-project"
+                        data-cursor="hover"
                       >
-                        <Link
-                          to={`/projects/${p.slug || p.id}`}
-                          className="rm-project"
-                          data-cursor="hover"
-                        >
-                          <div className="rm-project__media">
-                            {p.image ? (
-                              <img src={p.image} alt={p.title} loading="lazy" />
-                            ) : (
-                              <div className="rm-project__placeholder" />
+                        <div className="rm-project__media">
+                          {p.image ? (
+                            <img src={p.image} alt={p.title} loading="lazy" />
+                          ) : (
+                            <div className="rm-project__placeholder" />
+                          )}
+                          <div className="rm-project__hover-info">
+                            <span className="rm-project__hover-cat">
+                              {categoryLabel(p.categoryKey)}
+                            </span>
+                            <span className="rm-project__hover-cta">
+                              {t("projects.viewProject")} <i aria-hidden>↗</i>
+                            </span>
+                          </div>
+                        </div>
+                        <div className="rm-project__meta">
+                          <div className="rm-project__head">
+                            <h3>{p.title}</h3>
+                            <span className="rm-project__num">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                          </div>
+                          <div className="rm-project__sub">
+                            <span>{categoryLabel(p.categoryKey)}</span>
+                            {p.year && (
+                              <>
+                                <span className="rm-project__dot" />
+                                <span>{p.year}</span>
+                              </>
                             )}
-                            <div className="rm-project__hover-info">
-                              <span className="rm-project__hover-cat">
-                                {categoryLabel(p.categoryKey)}
-                              </span>
-                              <span className="rm-project__hover-cta">
-                                {t("projects.viewProject")} <i aria-hidden>↗</i>
-                              </span>
-                            </div>
                           </div>
-                          <div className="rm-project__meta">
-                            <div className="rm-project__head">
-                              <h3>{p.title}</h3>
-                              <span className="rm-project__num">
-                                {String(i + 1).padStart(2, "0")}
-                              </span>
-                            </div>
-                            <div className="rm-project__sub">
-                              <span>{categoryLabel(p.categoryKey)}</span>
-                              {p.year && (
-                                <>
-                                  <span className="rm-project__dot" />
-                                  <span>{p.year}</span>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </motion.div>
-              </LayoutGroup>
-            </>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            </LayoutGroup>
           )}
         </div>
       </section>

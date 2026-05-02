@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { client, urlFor } from "../sanityClient";
 import RevealText from "../components/RevealText";
 import MagneticButton from "../components/MagneticButton";
 import SEO from "../components/SEO";
@@ -10,8 +9,8 @@ import "../styleSheets/ProjectGallery.css";
 
 const ease = [0.22, 1, 0.36, 1];
 
-/* ---------- Local fallback (used if Sanity not configured) ---------- */
-const localGallery = {
+/* ---------- Static project data ---------- */
+const galleryByProject = {
   1: ["/images/A1.jpg", "/images/A2.jpg", "/images/A3.jpg", "/images/A4.jpg", "/images/A5.jpg", "/images/A6.jpg", "/images/A7.jpg"],
   2: ["/images/A.jpg", "/images/BB.jpg", "/images/CC.jpg", "/images/DD.jpg"],
   3: [
@@ -23,7 +22,8 @@ const localGallery = {
   5: ["/images/A.1.jpg", "/images/B.1.jpg", "/images/C.1.jpg", "/images/D.1.jpg", "/images/E.jpg", "/images/F.jpg", "/images/G.jpg", "/images/H.jpg", "/images/I.jpg", "/images/J.jpg"],
   6: ["/images/LobbyOfficeDesign.jpg"]
 };
-const localMeta = {
+
+const projectMeta = {
   1: { titleKey: "projects.items.ehHouse", category: "residential", year: "2023", area: 180, slug: "eh-house", cover: "/images/E.H.jpg" },
   2: { titleKey: "projects.items.lawyerOffice", category: "office", year: "2023", area: 30, slug: "lawyers-office", cover: "/images/office1.jpg" },
   3: { titleKey: "projects.items.engineerOffice", category: "office", year: "2024", area: 100, slug: "engineer-office", cover: "/images/villa1.jpg" },
@@ -38,10 +38,6 @@ function ProjectGallery() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [project, setProject] = useState(null);
-  const [allProjects, setAllProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   /* ---------- Hero parallax ---------- */
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -51,124 +47,38 @@ function ProjectGallery() {
   const heroBgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const heroBgScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
 
-  /* ---------- Load ---------- */
-  useEffect(() => {
-    let cancelled = false;
+  /* ---------- Resolve project (by numeric id or slug) ---------- */
+  const project = useMemo(() => {
+    const numericId = parseInt(id, 10);
+    const slugMatch = Object.entries(projectMeta).find(([, m]) => m.slug === id);
+    const found = slugMatch
+      ? { numericId: parseInt(slugMatch[0], 10), meta: slugMatch[1] }
+      : (projectMeta[numericId] && { numericId, meta: projectMeta[numericId] });
+    if (!found) return null;
 
-    const pickLocale = (val) => {
-      if (!val) return "";
-      if (typeof val === "string") return val;
-      return val[lang] || val.en || val.he || "";
+    return {
+      id: String(found.numericId),
+      slug: found.meta.slug,
+      title: t(found.meta.titleKey),
+      category: found.meta.category,
+      year: found.meta.year,
+      area: found.meta.area,
+      location: lang === "he" ? "חיפה, ישראל" : "Haifa, Israel",
+      coverImage: found.meta.cover,
+      gallery: galleryByProject[found.numericId] || [],
+      description: "",
     };
+  }, [id, lang, t]);
 
-    const buildLocal = () => {
-      const numericId = parseInt(id, 10);
-      const slugMatch = Object.entries(localMeta).find(([, m]) => m.slug === id);
-      const found = slugMatch
-        ? { numericId: parseInt(slugMatch[0], 10), meta: slugMatch[1] }
-        : (localMeta[numericId] && { numericId, meta: localMeta[numericId] });
-      if (!found) return null;
-
-      return {
-        id: String(found.numericId),
-        slug: found.meta.slug,
-        title: t(found.meta.titleKey),
-        category: found.meta.category,
-        year: found.meta.year,
-        area: found.meta.area,
-        location: lang === "he" ? "חיפה, ישראל" : "Haifa, Israel",
-        coverImage: found.meta.cover,
-        gallery: localGallery[found.numericId] || [],
-        description: "",
-      };
-    };
-
-    const buildLocalAll = () =>
-      Object.entries(localMeta).map(([nid, m]) => ({
+  const allProjects = useMemo(
+    () =>
+      Object.entries(projectMeta).map(([nid, m]) => ({
         id: String(nid),
         slug: m.slug,
         title: t(m.titleKey),
-      }));
-
-    if (!process.env.REACT_APP_SANITY_PROJECT_ID) {
-      const local = buildLocal();
-      const allLocal = buildLocalAll();
-      if (!cancelled) {
-        setProject(local);
-        setAllProjects(allLocal);
-        setLoading(false);
-      }
-      return () => {};
-    }
-
-    setLoading(true);
-
-    // Try by slug first (preferred), then by _id, then fall back to local.
-    const queryBySlug = `*[_type == "project" && slug.current == $key][0]{
-      _id, title, description, "slug": slug.current, category, year, area, location,
-      coverImage, gallery, videoUrl
-    }`;
-    const queryById = `*[_type == "project" && _id == $key][0]{
-      _id, title, description, "slug": slug.current, category, year, area, location,
-      coverImage, gallery, videoUrl
-    }`;
-    const queryAll = `*[_type == "project"] | order(order asc, _createdAt desc){
-      _id, title, "slug": slug.current
-    }`;
-
-    Promise.all([
-      client.fetch(queryBySlug, { key: id }).then((doc) => doc || client.fetch(queryById, { key: id })),
-      client.fetch(queryAll),
-    ])
-      .then(([doc, all]) => {
-        if (cancelled) return;
-        if (doc) {
-          const galleryArr = Array.isArray(doc.gallery) ? doc.gallery : [];
-          const galleryUrls = galleryArr
-            .map((item) => (item?.asset ? urlFor(item).width(1600).url() : null))
-            .filter(Boolean);
-          if (doc.videoUrl) galleryUrls.push({ type: "video", src: doc.videoUrl });
-
-          setProject({
-            id: doc._id,
-            slug: doc.slug,
-            title: pickLocale(doc.title),
-            description: pickLocale(doc.description),
-            category: doc.category,
-            year: doc.year,
-            area: doc.area,
-            location: pickLocale(doc.location),
-            coverImage: doc.coverImage ? urlFor(doc.coverImage).width(2000).url() : null,
-            gallery: galleryUrls,
-          });
-        } else {
-          setProject(buildLocal());
-        }
-
-        const allMapped = (Array.isArray(all) && all.length > 0)
-          ? all.map((p) => ({
-              id: p._id,
-              slug: p.slug,
-              title: pickLocale(p.title),
-            }))
-          : buildLocalAll();
-        setAllProjects(allMapped);
-      })
-      .catch((err) => {
-        console.warn("[Sanity] gallery fetch failed:", err.message);
-        if (!cancelled) {
-          setProject(buildLocal());
-          setAllProjects(buildLocalAll());
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [id, lang, t]);
+      })),
+    [t]
+  );
 
   /* ---------- Lightbox ---------- */
   const [lbIndex, setLbIndex] = useState(-1);
@@ -214,16 +124,6 @@ function ProjectGallery() {
     if (idx < 0) return null;
     return allProjects[(idx + 1) % allProjects.length];
   }, [project, allProjects]);
-
-  /* ---------- Render states ---------- */
-  if (loading) {
-    return (
-      <div className="rm-pg__loading">
-        <span className="rm-pg__spinner" />
-        <p>{lang === "he" ? "טוען פרויקט..." : "Loading project..."}</p>
-      </div>
-    );
-  }
 
   if (!project) {
     return (
@@ -323,15 +223,11 @@ function ProjectGallery() {
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.9, ease }}
           >
-            {project.description ? (
-              <p>{project.description}</p>
-            ) : (
-              <p className="rm-pg__description--placeholder">
-                {lang === "he"
-                  ? "סדרה אדיטוריאלית של תמונות מהפרויקט. לחיצה על כל תמונה פותחת תצוגה מלאה."
-                  : "An editorial series of photographs from the project. Click any image to view full-screen."}
-              </p>
-            )}
+            <p className="rm-pg__description--placeholder">
+              {lang === "he"
+                ? "סדרה אדיטוריאלית של תמונות מהפרויקט. לחיצה על כל תמונה פותחת תצוגה מלאה."
+                : "An editorial series of photographs from the project. Click any image to view full-screen."}
+            </p>
           </motion.div>
         </div>
       </section>
