@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# RM Design Studio — Web Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A live, bilingual web platform for an interior-design & architecture studio.
+Real students register for courses through it, and real clients request meetings — every day.
 
-## Available Scripts
+🔗 **Live site:** https://www.rmdesignsstudios.com
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## What it does
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This is not a demo or a static portfolio site. It is a production platform that a real design studio depends on for day-to-day operations:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Course registration** — students sign up for Revit courses directly through the site (50+ registrations to date).
+- **Meeting booking & client inquiries** — prospective clients request meetings.
+- **Project gallery** — a showcase of the studio's interior & architecture work.
+- **Automated lead flow** — every submission sends an instant email confirmation to both the studio and the registrant, and syncs into a Google Sheet the studio manages directly.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tech stack
 
-### `npm run build`
+| Area | Choice |
+|------|--------|
+| Frontend | React |
+| Styling | Pure CSS (no UI frameworks, no Tailwind) |
+| Languages | Fully bilingual — English + Hebrew with complete RTL support |
+| Forms & email | EmailJS |
+| Data | Google Sheets integration |
+| Hosting | Vercel (custom domain) |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Key engineering decision
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The most important choice in this project is what I deliberately *didn't* build.
 
-### `npm run eject`
+Instead of a full backend with a database and an admin dashboard, I chose a lightweight **email + Google Sheets** flow for handling registrations and leads.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Why: the business needs **reliability and zero maintenance**, not complexity. The studio owner manages incoming registrations directly in a sheet (marking paid / partially paid / pending) without depending on me. This is cheaper, more reliable, and removes a whole class of security and maintenance concerns — the right tool for the actual problem, not the fanciest one.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Highlights
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Built entirely from scratch in React + pure CSS — no component libraries.
+- Full bilingual EN/HE support including right-to-left (RTL) layout.
+- Live in production on a custom domain, serving real users.
+- Automated, dependency-free lead management.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Running locally
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm install
+npm start
+```
 
-### Code Splitting
+The app runs at `http://localhost:3000`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Shady Mansour** — Software Engineer (B.Sc., Braude College)
+Frontend / Full-Stack · Flutter / Mobile
