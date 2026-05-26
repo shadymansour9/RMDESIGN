@@ -10,7 +10,7 @@ import "../styleSheets/NotFoundPage.css";
 const ease = [0.22, 1, 0.36, 1];
 
 function NotFoundPage() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const lang = i18n.language?.startsWith("he") ? "he" : "en";
 
   return (
