@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../firebase";
-import { DEFAULT_CONTENT, COURSE_ORDER } from "../data/formDefaults";
+import { DEFAULT_CONTENT, migrateCoursesShape } from "../data/formDefaults";
 import "../styleSheets/AdminPage.css";
 
 /* Gated by <ProtectedRoute> in App.js — we can assume `auth.currentUser` exists. */
@@ -20,6 +20,24 @@ function mergeDeep(base, overlay) {
   for (const k of Object.keys(overlay)) out[k] = mergeDeep(base[k], overlay[k]);
   return out;
 }
+
+const newId = (prefix) =>
+  `${prefix}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+
+const blankCourse = () => ({
+  id: newId("course"),
+  label: { en: "New course", he: "קורס חדש" },
+  title: { en: "", he: "" },
+  intro: { en: "", he: "" },
+  sessions: { en: "", he: "" },
+  duration: { en: "", he: "" },
+  sections: [],
+  countdown: {
+    enabled: false,
+    targetISO: "",
+    label: { en: "Next cohort starts in", he: "המחזור הבא מתחיל בעוד" },
+  },
+});
 
 /* ---------- Page ---------- */
 export default function AdminPage() {
@@ -57,9 +75,13 @@ function Editor({ user, onSignOut }) {
       try {
         const snap = await getDoc(FORM_DOC());
         if (cancelled) return;
-        setContent(snap.exists()
-          ? mergeDeep(clone(DEFAULT_CONTENT), snap.data())
-          : clone(DEFAULT_CONTENT));
+        const base = clone(DEFAULT_CONTENT);
+        if (snap.exists()) {
+          const migrated = migrateCoursesShape(snap.data());
+          setContent(mergeDeep(base, migrated));
+        } else {
+          setContent(base);
+        }
       } catch (err) {
         if (!cancelled) {
           setError(err.message);
@@ -91,6 +113,7 @@ function Editor({ user, onSignOut }) {
   const handleReset = () => {
     if (!window.confirm("לאפס את כל השדות לברירת מחדל? שינויים שלא נשמרו יאבדו.")) return;
     setContent(clone(DEFAULT_CONTENT));
+    setActiveTab("hero");
   };
 
   const update = (path, value) => {
@@ -107,11 +130,44 @@ function Editor({ user, onSignOut }) {
     });
   };
 
-  const tabs = useMemo(() => ([
-    { key: "hero", label: "כותרת" },
-    ...COURSE_ORDER.map((k) => ({ key: `course:${k}`, label: prettyCourse(k) })),
-    { key: "testimonials", label: "עדויות" },
-  ]), []);
+  const handleAddCourse = () => {
+    const course = blankCourse();
+    setContent((prev) => ({
+      ...prev,
+      courses: [...(Array.isArray(prev?.courses) ? prev.courses : []), course],
+    }));
+    setActiveTab(`course:${course.id}`);
+  };
+
+  /* Build the tab row dynamically. Order:
+     הכותרת → כל הקורסים → עדויות → "+ הוסף קורס" pseudo-tab */
+  const courses = Array.isArray(content?.courses) ? content.courses : [];
+  const tabs = useMemo(() => {
+    const courseTabs = courses.map((c, i) => {
+      const labelText =
+        (c.label?.he || c.label?.en || `קורס ${i + 1}`).trim() || `קורס ${i + 1}`;
+      return {
+        key: `course:${c.id}`,
+        label: labelText,
+        type: "course",
+      };
+    });
+    return [
+      { key: "hero", label: "כותרת", type: "section" },
+      ...courseTabs,
+      { key: "testimonials", label: "עדויות", type: "section" },
+      { key: "__add", label: "+ הוסף קורס", type: "action" },
+    ];
+  }, [courses]);
+
+  // If the active course got deleted, fall back to hero.
+  useEffect(() => {
+    if (!activeTab.startsWith("course:")) return;
+    const id = activeTab.slice(7);
+    if (!courses.find((c) => c.id === id)) {
+      setActiveTab("hero");
+    }
+  }, [activeTab, courses]);
 
   if (!content) return <div className="rm-admin__loading">טוען…</div>;
 
@@ -145,37 +201,48 @@ function Editor({ user, onSignOut }) {
         </div>
       )}
 
-      <nav className="rm-admin__tabs">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setActiveTab(t.key)}
-            className={`rm-admin__tab ${activeTab === t.key ? "is-active" : ""}`}
-            type="button"
-          >
-            {t.label}
-          </button>
-        ))}
+      <nav className="rm-admin__tabs" role="tablist">
+        {tabs.map((t) => {
+          const isAction = t.type === "action";
+          const isActive = !isAction && activeTab === t.key;
+          return (
+            <button
+              key={t.key}
+              type="button"
+              role={isAction ? "button" : "tab"}
+              aria-selected={!isAction ? isActive : undefined}
+              onClick={() => (isAction ? handleAddCourse() : setActiveTab(t.key))}
+              className={[
+                "rm-admin__tab",
+                isActive ? "is-active" : "",
+                isAction ? "rm-admin__tab--add" : "",
+                t.type === "course" ? "rm-admin__tab--course" : "",
+              ].filter(Boolean).join(" ")}
+              title={isAction ? "הוסף קורס חדש" : t.label}
+            >
+              {t.label}
+            </button>
+          );
+        })}
       </nav>
 
       <section className="rm-admin__section">
         {activeTab === "hero" && <HeroSection content={content} update={update} />}
-        {activeTab === "testimonials" && (
-          <TestimonialsSection content={content} update={update} />
-        )}
-        {activeTab.startsWith("course:") &&
-          <CourseSection
-            courseKey={activeTab.slice(7)}
+        {activeTab === "testimonials" && <TestimonialsSection content={content} update={update} />}
+        {activeTab.startsWith("course:") && (
+          <CourseSingleEditor
             content={content}
             update={update}
+            courseId={activeTab.slice(7)}
+            onDeleted={() => setActiveTab("hero")}
           />
-        }
+        )}
       </section>
     </>
   );
 }
 
-/* ---------- Sections ---------- */
+/* ---------- Hero ---------- */
 function HeroSection({ content, update }) {
   return (
     <div className="rm-admin__grid">
@@ -199,11 +266,12 @@ function HeroSection({ content, update }) {
   );
 }
 
+/* ---------- Countdown editor ---------- */
 function CountdownEditor({ value, onChange }) {
   const v = value || {};
   return (
-    <>
-      <h2 className="rm-admin__h2">טיימר ספירה לאחור</h2>
+    <div className="rm-admin__countdown-block">
+      <h3 className="rm-admin__h3">טיימר ספירה לאחור</h3>
       <label className="rm-admin__check">
         <input
           type="checkbox"
@@ -226,23 +294,172 @@ function CountdownEditor({ value, onChange }) {
         value={v.label}
         onChange={(label) => onChange({ ...v, label })}
       />
-    </>
+    </div>
   );
 }
 
+/* ---------- Single-course editor (one tab = one course) ---------- */
+function CourseSingleEditor({ content, update, courseId, onDeleted }) {
+  const list = Array.isArray(content.courses) ? content.courses : [];
+  const idx = list.findIndex((c) => c.id === courseId);
+
+  if (idx < 0) {
+    return <p className="rm-admin__hint-block">הקורס לא נמצא.</p>;
+  }
+
+  const course = list[idx];
+  const writeList = (next) => update("courses", next);
+
+  const handleField = (field, value) => {
+    writeList(list.map((c, i) => (i === idx ? { ...c, [field]: value } : c)));
+  };
+
+  const handleDelete = () => {
+    const name = course.label?.he || course.label?.en || `קורס #${idx + 1}`;
+    if (!window.confirm(`למחוק את הקורס "${name}"? פעולה זו לא הפיכה.`)) return;
+    writeList(list.filter((_, i) => i !== idx));
+    onDeleted();
+  };
+
+  const handleSectionField = (sIdx, field, value) => {
+    writeList(list.map((c, i) => {
+      if (i !== idx) return c;
+      const sections = [...(c.sections || [])];
+      sections[sIdx] = { ...sections[sIdx], [field]: value };
+      return { ...c, sections };
+    }));
+  };
+
+  const addSection = () => {
+    writeList(list.map((c, i) => {
+      if (i !== idx) return c;
+      const sections = [
+        ...(c.sections || []),
+        { heading: { en: "", he: "" }, items: { en: [], he: [] } },
+      ];
+      return { ...c, sections };
+    }));
+  };
+
+  const removeSection = (sIdx) => {
+    if (!window.confirm("למחוק את הסקשן הזה?")) return;
+    writeList(list.map((c, i) => {
+      if (i !== idx) return c;
+      return { ...c, sections: (c.sections || []).filter((_, j) => j !== sIdx) };
+    }));
+  };
+
+  return (
+    <div className="rm-admin__grid">
+      <header className="rm-admin__course-header">
+        <div>
+          <h2 className="rm-admin__h2 rm-admin__h2--inline">
+            {course.label?.he || course.label?.en || `קורס #${idx + 1}`}
+          </h2>
+          <p className="rm-admin__hint-block rm-admin__hint-block--inline">
+            עורך/ת את הקורס הזה. שדה "תווית" קובע את שם הטאב למעלה.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="rm-admin__btn rm-admin__btn--danger"
+          onClick={handleDelete}
+        >
+          מחק קורס
+        </button>
+      </header>
+
+      <LocalizedInput
+        label="תווית (שם בטאב)"
+        value={course.label}
+        onChange={(v) => handleField("label", v)}
+      />
+      <LocalizedInput
+        label="כותרת"
+        value={course.title}
+        onChange={(v) => handleField("title", v)}
+      />
+      <LocalizedTextarea
+        label="פסקת פתיחה"
+        value={course.intro}
+        onChange={(v) => handleField("intro", v)}
+        hint='שורת רווח כפולה (Enter פעמיים) תיצור פסקה חדשה. ניתן להשתמש ב-HTML פנימי: <strong>מודגש</strong>'
+      />
+      <LocalizedInput
+        label="מפגשים (אופציונלי)"
+        value={course.sessions}
+        onChange={(v) => handleField("sessions", v)}
+      />
+      <LocalizedInput
+        label="משך מפגש (אופציונלי)"
+        value={course.duration}
+        onChange={(v) => handleField("duration", v)}
+      />
+
+      <div className="rm-admin__sections-block">
+        <div className="rm-admin__sections-head">
+          <h3 className="rm-admin__h3">סקשנים</h3>
+          <button
+            type="button"
+            className="rm-admin__btn rm-admin__btn--ghost"
+            onClick={addSection}
+          >
+            + הוסף סקשן
+          </button>
+        </div>
+
+        {(course.sections || []).length === 0 && (
+          <p className="rm-admin__hint-block">
+            אין סקשנים. סקשן הוא כותרת + רשימת פריטים (לדוגמה: "מה תלמדו" עם נקודות).
+          </p>
+        )}
+
+        {(course.sections || []).map((section, sIdx) => (
+          <div key={sIdx} className="rm-admin__section-card">
+            <div className="rm-admin__testimonial-head">
+              <span className="rm-admin__testimonial-tag">סקשן #{sIdx + 1}</span>
+              <button
+                type="button"
+                className="rm-admin__icon-btn"
+                onClick={() => removeSection(sIdx)}
+                aria-label="מחק סקשן"
+                title="מחק סקשן"
+              >
+                ×
+              </button>
+            </div>
+            <LocalizedInput
+              label="כותרת הסקשן"
+              value={section.heading}
+              onChange={(v) => handleSectionField(sIdx, "heading", v)}
+            />
+            <LocalizedList
+              label="פריטים (נקודות)"
+              value={section.items}
+              onChange={(v) => handleSectionField(sIdx, "items", v)}
+            />
+          </div>
+        ))}
+      </div>
+
+      <CountdownEditor
+        value={course.countdown}
+        onChange={(next) => handleField("countdown", next)}
+      />
+    </div>
+  );
+}
+
+/* ---------- Testimonials ---------- */
 function TestimonialsSection({ content, update }) {
   const list = Array.isArray(content.testimonials) ? content.testimonials : [];
-
   const writeList = (next) => update("testimonials", next);
 
   const handleAdd = () => {
-    const fresh = {
-      id: `t-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
-      name: "",
-      course: "",
-      quote: { en: "", he: "" },
-    };
-    writeList([...list, fresh]);
+    writeList([
+      ...list,
+      { id: newId("t"), name: "", course: "", quote: { en: "", he: "" } },
+    ]);
   };
 
   const handleRemove = (idx) => {
@@ -343,96 +560,6 @@ function TestimonialsSection({ content, update }) {
   );
 }
 
-function CourseSection({ courseKey, content, update }) {
-  const course = content.courses?.[courseKey] || {};
-  const path = (sub) => `courses.${courseKey}.${sub}`;
-
-  const fieldsByKey = {
-    reality: ["label", "title", "intro", "sessions", "duration",
-      "learnHeading", "learn", "audienceHeading", "audience"],
-    officeDna: ["label", "title", "intro", "template", "templateHeading",
-      "items", "outro"],
-    careers: ["label", "title", "intro", "sessions", "duration",
-      "learnHeading", "learn", "outro"],
-    personal: ["label", "title", "intro", "tracksHeading", "tracks",
-      "getHeading", "get", "audienceHeading", "audience"],
-  };
-
-  const fields = fieldsByKey[courseKey] || [];
-
-  const TEXT_FIELDS = new Set(["label", "title", "sessions", "duration",
-    "learnHeading", "audienceHeading", "templateHeading",
-    "tracksHeading", "getHeading"]);
-  const TEXTAREA_FIELDS = new Set(["intro", "template", "outro"]);
-  const LIST_FIELDS = new Set(["learn", "audience", "items", "tracks", "get"]);
-
-  const LABELS_HE = {
-    label: "תווית (שם בטאב)",
-    title: "כותרת",
-    intro: "פסקת פתיחה",
-    sessions: "מפגשים",
-    duration: "משך מפגש",
-    learnHeading: "כותרת \"מה תלמדו\"",
-    audienceHeading: "כותרת \"למי מתאים\"",
-    templateHeading: "כותרת \"מה כולל\"",
-    tracksHeading: "כותרת \"מסלולים\"",
-    getHeading: "כותרת \"מה תקבלו\"",
-    template: "תיאור התבנית",
-    outro: "פסקת סיום",
-    learn: "מה תלמדו (נקודות)",
-    audience: "למי מתאים (נקודות)",
-    items: "פריטים (נקודות)",
-    tracks: "מסלולים (נקודות)",
-    get: "מה תקבלו (נקודות)",
-  };
-
-  return (
-    <div className="rm-admin__grid">
-      <h2 className="rm-admin__h2">{prettyCourse(courseKey)}</h2>
-      {fields.map((f) => {
-        const label = LABELS_HE[f] || f;
-        if (TEXT_FIELDS.has(f)) {
-          return (
-            <LocalizedInput
-              key={f}
-              label={label}
-              value={course[f]}
-              onChange={(v) => update(path(f), v)}
-            />
-          );
-        }
-        if (TEXTAREA_FIELDS.has(f)) {
-          return (
-            <LocalizedTextarea
-              key={f}
-              label={label}
-              value={course[f]}
-              onChange={(v) => update(path(f), v)}
-              hint="ניתן להשתמש ב-HTML: <strong>מודגש</strong>"
-            />
-          );
-        }
-        if (LIST_FIELDS.has(f)) {
-          return (
-            <LocalizedList
-              key={f}
-              label={label}
-              value={course[f]}
-              onChange={(v) => update(path(f), v)}
-            />
-          );
-        }
-        return null;
-      })}
-
-      <CountdownEditor
-        value={course.countdown}
-        onChange={(next) => update(path("countdown"), next)}
-      />
-    </div>
-  );
-}
-
 /* ---------- Reusable inputs ---------- */
 function LocalizedInput({ label, value, onChange, hint }) {
   const v = value || {};
@@ -467,21 +594,21 @@ function LocalizedTextarea({ label, value, onChange, hint }) {
       <span>{label}</span>
       <div className="rm-admin__pair">
         <textarea
-          rows={3}
+          rows={4}
           placeholder="English"
           value={v.en || ""}
           onChange={(e) => onChange({ ...v, en: e.target.value })}
           dir="ltr"
         />
         <textarea
-          rows={3}
+          rows={4}
           placeholder="עברית"
           value={v.he || ""}
           onChange={(e) => onChange({ ...v, he: e.target.value })}
           dir="rtl"
         />
       </div>
-      {hint && <small>{hint}</small>}
+      {hint && <small dangerouslySetInnerHTML={{ __html: hint }} />}
     </label>
   );
 }
@@ -517,15 +644,6 @@ function LocalizedList({ label, value, onChange }) {
 }
 
 /* ---------- Helpers ---------- */
-function prettyCourse(k) {
-  return {
-    reality: "Revit Reality",
-    officeDna: "Revit Office DNA",
-    careers: "Revit for Careers",
-    personal: "Revit Personal Project",
-  }[k] || k;
-}
-
 function isoToLocalInput(iso) {
   if (!iso) return "";
   const d = new Date(iso);

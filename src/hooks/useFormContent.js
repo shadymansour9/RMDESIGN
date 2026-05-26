@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db, isFirebaseConfigured } from "../firebase";
-import { DEFAULT_CONTENT } from "../data/formDefaults";
+import { DEFAULT_CONTENT, migrateCoursesShape } from "../data/formDefaults";
 
 /**
  * Live-syncs the registration page content from Firestore.
  * Returns DEFAULT_CONTENT immediately and replaces it with Firestore data
- * when available. If Firebase isn't configured or the doc doesn't exist,
- * defaults are returned (so the page never renders empty).
+ * when available. Documents in the legacy "courses-as-object" shape are
+ * migrated to the new array shape on the fly.
  *
  * Doc path: siteContent/formPage
  */
@@ -26,8 +26,9 @@ export default function useFormContent() {
       ref,
       (snap) => {
         if (snap.exists()) {
-          // Merge with defaults so missing fields fall back gracefully.
-          setContent(mergeDeep(DEFAULT_CONTENT, snap.data()));
+          const raw = snap.data();
+          const migrated = migrateCoursesShape(raw);
+          setContent(mergeDeep(DEFAULT_CONTENT, migrated));
         } else {
           setContent(DEFAULT_CONTENT);
         }
@@ -46,7 +47,8 @@ export default function useFormContent() {
   return { content, loading };
 }
 
-/* Deep-merge plain objects so partial Firestore docs work. Arrays replace, not merge. */
+/* Deep-merge plain objects so partial Firestore docs work. Arrays REPLACE, not merge —
+   this is intentional for courses + testimonials so admin deletions take effect. */
 function mergeDeep(base, overlay) {
   if (overlay == null) return base;
   if (typeof base !== "object" || Array.isArray(base) || typeof overlay !== "object" || Array.isArray(overlay)) {

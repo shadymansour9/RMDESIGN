@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
@@ -7,7 +7,7 @@ import MagneticButton from "../components/MagneticButton";
 import SEO from "../components/SEO";
 import CountdownTimer from "../components/CountdownTimer";
 import useFormContent from "../hooks/useFormContent";
-import { COURSE_ID_MAP, pickLocale } from "../data/formDefaults";
+import { pickLocale } from "../data/formDefaults";
 import "../styleSheets/FormPage.css";
 
 const ease = [0.22, 1, 0.36, 1];
@@ -80,13 +80,23 @@ function FormPage() {
   const [registrantName, setRegistrantName] = useState("");
 
   const { content } = useFormContent();
+  const courses = Array.isArray(content.courses) ? content.courses : [];
 
-  const courses = COURSE_ID_MAP;
-  const [selectedCourse, setSelectedCourse] = useState(courses[0].id);
+  // Selected course id — kept in sync with the courses array.
+  const [selectedId, setSelectedId] = useState(courses[0]?.id || "");
 
-  const selectedKey = courses.find((c) => c.id === selectedCourse)?.key || "reality";
+  useEffect(() => {
+    if (courses.length === 0) {
+      if (selectedId) setSelectedId("");
+      return;
+    }
+    if (!courses.find((c) => c.id === selectedId)) {
+      setSelectedId(courses[0].id);
+    }
+  }, [courses, selectedId]);
 
-  const courseLabel = pickLocale(content.courses?.[selectedKey]?.label, lang) || selectedCourse;
+  const selectedCourse = courses.find((c) => c.id === selectedId) || null;
+  const courseLabel = pickLocale(selectedCourse?.label, lang) || selectedId;
 
   const subjectLine = registrantName
     ? `🎓 הרשמה חדשה: ${registrantName} — ${courseLabel}`
@@ -175,58 +185,72 @@ function FormPage() {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.8, ease }}
           >
-            <span className="rm-eyebrow">{lang === "he" ? "ארבעה מסלולים" : "Four Tracks"}</span>
+            <span className="rm-eyebrow">
+              {courses.length > 0
+                ? (lang === "he" ? `${courses.length} מסלולים` : `${courses.length} tracks`)
+                : (lang === "he" ? "מסלולים" : "Tracks")}
+            </span>
             <h2>{pickLocale(content.infoHeading, lang)}</h2>
           </motion.div>
 
-          {/* Tabs */}
-          <LayoutGroup>
-            <div className="rm-tabs" role="tablist">
-              {courses.map((c, i) => {
-                const active = selectedCourse === c.id;
-                return (
-                  <button
-                    key={c.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={active}
-                    onClick={() => setSelectedCourse(c.id)}
-                    className={`rm-tab ${active ? "is-active" : ""}`}
-                  >
-                    <span className="rm-tab__num">0{i + 1}</span>
-                    <span className="rm-tab__label">
-                      {pickLocale(content.courses?.[c.key]?.label, lang)}
-                    </span>
-                    {active && (
-                      <motion.span
-                        className="rm-tab__indicator"
-                        layoutId="rm-tab-indicator"
-                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      />
-                    )}
-                  </button>
-                );
-              })}
+          {courses.length === 0 ? (
+            <div className="rm-tab-panel">
+              <p>
+                {lang === "he"
+                  ? "אין קורסים זמינים כרגע. ניצור איתך קשר כשהמחזור הבא ייפתח."
+                  : "No courses available right now. We'll be in touch when the next cohort opens."}
+              </p>
             </div>
-          </LayoutGroup>
+          ) : (
+            <>
+              {/* Tabs — dynamic from courses array */}
+              <LayoutGroup>
+                <div className="rm-tabs" role="tablist">
+                  {courses.map((c, i) => {
+                    const active = selectedId === c.id;
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={active}
+                        onClick={() => setSelectedId(c.id)}
+                        className={`rm-tab ${active ? "is-active" : ""}`}
+                      >
+                        <span className="rm-tab__num">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="rm-tab__label">
+                          {pickLocale(c.label, lang)}
+                        </span>
+                        {active && (
+                          <motion.span
+                            className="rm-tab__indicator"
+                            layoutId="rm-tab-indicator"
+                            transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </LayoutGroup>
 
-          {/* Panels */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedKey}
-              className="rm-tab-panel"
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.5, ease }}
-            >
-              <CoursePanel
-                courseKey={selectedKey}
-                course={content.courses?.[selectedKey]}
-                lang={lang}
-              />
-            </motion.div>
-          </AnimatePresence>
+              {/* Panel — generic renderer */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={selectedId}
+                  className="rm-tab-panel"
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5, ease }}
+                >
+                  <CoursePanel course={selectedCourse} lang={lang} />
+                </motion.div>
+              </AnimatePresence>
+            </>
+          )}
         </div>
 
         {/* FORM */}
@@ -240,7 +264,7 @@ function FormPage() {
           <div className="rm-form-card__head">
             <span className="rm-form-card__step">01 / 01</span>
             <h3 className="rm-form-card__title">
-              {lang === "he" ? "טופס הרשמה" : "Registration"}
+              {lang === "he" ? "לקבלת כל הפרטים על הקורס " : "To receive all the details about the course"}
             </h3>
             <p className="rm-form-card__sub">
               {lang === "he"
@@ -269,18 +293,20 @@ function FormPage() {
               <FloatingField id="email" name="email" type="email" required label={t("form.labels.email")} lang={lang} />
               <FloatingField id="phone" name="phone" type="tel" required label={t("form.labels.phone")} lang={lang} />
             </div>
-            <FloatingSelect
-              id="course"
-              name="course"
-              value={selectedCourse}
-              onChange={(e) => setSelectedCourse(e.target.value)}
-              label={t("form.labels.course")}
-              lang={lang}
-              options={courses.map((c) => ({
-                value: c.id,
-                label: pickLocale(content.courses?.[c.key]?.label, lang),
-              }))}
-            />
+            {courses.length > 0 && (
+              <FloatingSelect
+                id="course"
+                name="course"
+                value={selectedId}
+                onChange={(e) => setSelectedId(e.target.value)}
+                label={t("form.labels.course")}
+                lang={lang}
+                options={courses.map((c) => ({
+                  value: c.id,
+                  label: pickLocale(c.label, lang),
+                }))}
+              />
+            )}
             <FloatingField id="message" name="message" multiline label={t("form.labels.message")} lang={lang} />
 
             <MagneticButton>
@@ -420,7 +446,7 @@ function SuccessCheck() {
   );
 }
 
-/* ---------- Course panel — driven by Firestore content ---------- */
+/* ---------- Generic course panel ---------- */
 function CourseCountdown({ countdown, lang }) {
   if (!countdown) return null;
   return (
@@ -434,71 +460,58 @@ function CourseCountdown({ countdown, lang }) {
   );
 }
 
-function CoursePanel({ courseKey, course, lang }) {
+function CoursePanel({ course, lang }) {
   if (!course) return null;
 
   const pl = (v) => pickLocale(v, lang);
-  const list = (v) => (Array.isArray(v?.[lang]) ? v[lang] : (Array.isArray(v?.en) ? v.en : []));
-  const html = (v) => ({ __html: pl(v) });
+  const introText = pl(course.intro);
+  const introParagraphs = introText
+    ? introText.split(/\n\s*\n+/).map((s) => s.trim()).filter(Boolean)
+    : [];
 
-  if (courseKey === "reality") {
-    return (
-      <>
-        <CourseCountdown countdown={course.countdown} lang={lang} />
-        <h3>{pl(course.title)}</h3>
-        <p>{pl(course.intro)}</p>
-        <div className="rm-tab-panel__meta">
-          {pl(course.sessions) && <span>📆 {pl(course.sessions)}</span>}
-          {pl(course.duration) && <span>🕐 {pl(course.duration)}</span>}
-        </div>
-        <h4>{pl(course.learnHeading)}</h4>
-        <ul>{list(course.learn).map((it, i) => <li key={i}>{it}</li>)}</ul>
-        <h4>{pl(course.audienceHeading)}</h4>
-        <ul>{list(course.audience).map((it, i) => <li key={i}>{it}</li>)}</ul>
-      </>
-    );
-  }
-  if (courseKey === "officeDna") {
-    return (
-      <>
-        <CourseCountdown countdown={course.countdown} lang={lang} />
-        <h3>{pl(course.title)}</h3>
-        <p dangerouslySetInnerHTML={html(course.intro)} />
-        <p dangerouslySetInnerHTML={html(course.template)} />
-        <h4>{pl(course.templateHeading)}</h4>
-        <ul>{list(course.items).map((it, i) => <li key={i}>{it}</li>)}</ul>
-        <p dangerouslySetInnerHTML={html(course.outro)} />
-      </>
-    );
-  }
-  if (courseKey === "careers") {
-    return (
-      <>
-        <CourseCountdown countdown={course.countdown} lang={lang} />
-        <h3>{pl(course.title)}</h3>
-        <p>{pl(course.intro)}</p>
-        <div className="rm-tab-panel__meta">
-          {pl(course.sessions) && <span>📆 {pl(course.sessions)}</span>}
-          {pl(course.duration) && <span>🕐 {pl(course.duration)}</span>}
-        </div>
-        <h4>{pl(course.learnHeading)}</h4>
-        <ul>{list(course.learn).map((it, i) => <li key={i}>{it}</li>)}</ul>
-        <p dangerouslySetInnerHTML={html(course.outro)} />
-      </>
-    );
-  }
-  // personal
+  const sessions = pl(course.sessions);
+  const duration = pl(course.duration);
+  const hasMeta = Boolean(sessions || duration);
+
+  const sections = Array.isArray(course.sections) ? course.sections : [];
+
   return (
     <>
       <CourseCountdown countdown={course.countdown} lang={lang} />
+
       <h3>{pl(course.title)}</h3>
-      <p>{pl(course.intro)}</p>
-      <h4>{pl(course.tracksHeading)}</h4>
-      <ul>{list(course.tracks).map((it, i) => <li key={i}>{it}</li>)}</ul>
-      <h4>{pl(course.getHeading)}</h4>
-      <ul>{list(course.get).map((it, i) => <li key={i}>{it}</li>)}</ul>
-      <h4>{pl(course.audienceHeading)}</h4>
-      <ul>{list(course.audience).map((it, i) => <li key={i}>{it}</li>)}</ul>
+
+      {introParagraphs.map((para, i) => (
+        // HTML allowed in intro for inline emphasis (e.g. <strong>)
+        // eslint-disable-next-line react/no-danger
+        <p key={i} dangerouslySetInnerHTML={{ __html: para }} />
+      ))}
+
+      {hasMeta && (
+        <div className="rm-tab-panel__meta">
+          {sessions && <span>📆 {sessions}</span>}
+          {duration && <span>🕐 {duration}</span>}
+        </div>
+      )}
+
+      {sections.map((section, idx) => {
+        const heading = pl(section?.heading);
+        const items = Array.isArray(section?.items?.[lang])
+          ? section.items[lang]
+          : (Array.isArray(section?.items?.en) ? section.items.en : []);
+
+        if (!heading && items.length === 0) return null;
+        return (
+          <React.Fragment key={idx}>
+            {heading && <h4>{heading}</h4>}
+            {items.length > 0 && (
+              <ul>
+                {items.map((it, i) => <li key={i}>{it}</li>)}
+              </ul>
+            )}
+          </React.Fragment>
+        );
+      })}
     </>
   );
 }

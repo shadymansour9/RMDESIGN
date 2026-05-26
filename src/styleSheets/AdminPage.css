@@ -162,6 +162,17 @@
   color: var(--rm-ivory);
 }
 
+.rm-admin__btn--danger {
+  background: transparent;
+  color: #7B2D1F;
+  border-color: #EBC0BA;
+}
+.rm-admin__btn--danger:hover {
+  background: #FBEAE7;
+  color: #7B2D1F;
+  border-color: #7B2D1F;
+}
+
 .rm-admin__error {
   background: #FBEAE7;
   color: #7B2D1F;
@@ -231,13 +242,29 @@
 .rm-admin__tabs {
   display: flex;
   gap: 0.4rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--rm-line);
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.6rem;
+  /* Horizontal scroll when many courses — keep tabs on a single row. */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rm-stone) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rm-admin__tabs::-webkit-scrollbar { height: 6px; }
+.rm-admin__tabs::-webkit-scrollbar-track { background: transparent; }
+.rm-admin__tabs::-webkit-scrollbar-thumb {
+  background: var(--rm-stone);
+  border-radius: 999px;
 }
 
 .rm-admin__tab {
+  flex: 0 0 auto;
+  white-space: nowrap;
   background: transparent;
   border: 1px solid transparent;
   padding: 0.55rem 1.1rem;
@@ -258,6 +285,38 @@
   color: var(--rm-ivory);
   border-color: var(--rm-ink);
 }
+
+/* "+ הוסף קורס" pseudo-tab — same row, dashed accent so it reads as an action */
+.rm-admin__tab--add {
+  border: 1px dashed var(--rm-bronze);
+  color: var(--rm-bronze-deep);
+  font-weight: 600;
+  margin-inline-start: 0.4rem;
+}
+
+.rm-admin__tab--add:hover {
+  background: var(--rm-bronze);
+  color: #fff;
+  border-color: var(--rm-bronze);
+  border-style: solid;
+}
+
+/* Course tabs get a subtle bronze dot so they read as content tabs */
+.rm-admin__tab--course {
+  position: relative;
+}
+.rm-admin__tab--course::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--rm-bronze);
+  margin-inline-end: 0.5rem;
+  vertical-align: middle;
+  opacity: 0.55;
+}
+.rm-admin__tab--course.is-active::before { background: #fff; opacity: 1; }
 
 /* ---------- Section / Form grid ---------- */
 .rm-admin__section {
@@ -436,6 +495,103 @@
 .rm-admin__testimonial input,
 .rm-admin__testimonial textarea {
   background: #fff;
+}
+
+/* ---------- Course editor ---------- */
+.rm-admin__h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--rm-ink);
+  margin: 0;
+}
+
+.rm-admin__course-card {
+  position: relative;
+  background: var(--rm-bone);
+  border: 1px solid var(--rm-line);
+  border-radius: 16px;
+  padding: 1.6rem 1.6rem 1.8rem;
+  display: grid;
+  gap: 1.3rem;
+}
+
+.rm-admin__course-card input,
+.rm-admin__course-card textarea {
+  background: #fff;
+}
+
+.rm-admin__sections-block {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem 1.2rem 1.4rem;
+  background: #fff;
+  border: 1px solid var(--rm-line);
+  border-radius: 12px;
+}
+
+.rm-admin__sections-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rm-line);
+}
+
+.rm-admin__section-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem 1.1rem 1.2rem;
+  background: var(--rm-bone);
+  border: 1px solid var(--rm-line);
+  border-radius: 10px;
+}
+
+.rm-admin__section-card input,
+.rm-admin__section-card textarea {
+  background: #fff;
+}
+
+.rm-admin__countdown-block {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem 1.2rem 1.4rem;
+  background: #fff;
+  border: 1px solid var(--rm-line);
+  border-radius: 12px;
+}
+
+.rm-admin__countdown-block input,
+.rm-admin__countdown-block textarea {
+  background: var(--rm-bone);
+}
+
+/* ---------- Course header (single-course editor) ---------- */
+.rm-admin__course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.rm-admin__h2--inline {
+  border-top: none;
+  padding-top: 0;
+  margin: 0;
+}
+
+.rm-admin__hint-block--inline {
+  margin-top: 0.4rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--rm-mute);
 }
 
 @media (max-width: 720px) {
