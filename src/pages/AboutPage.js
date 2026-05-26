@@ -172,7 +172,7 @@ function AboutPage() {
               <Trans i18nKey="about.founderBio" components={{ em: <em /> }} />
             </p>
             <div className="rm-about__founder-social">
-              <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/rasha_designstudio_?igsh=aW9kNHV0Z3RkajNu" target="_blank" rel="noopener noreferrer">
                 Instagram <span>↗</span>
               </a>
               <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">

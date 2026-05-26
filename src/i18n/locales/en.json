@@ -141,10 +141,14 @@
       "course": "Choose a course",
       "message": "Additional message"
     },
-    "submit": "Submit Registration",
+    "submit": "Leave your details — we'll send full info and pricing",
     "submitting": "Sending...",
     "success": "Form submitted successfully — we'll be in touch shortly.",
     "error": "An error occurred. Please try again.",
+    "testimonials": {
+      "eyebrow": "Student stories",
+      "title": "What our students built"
+    },
     "courses": {
       "reality": {
         "label": "Revit Reality",

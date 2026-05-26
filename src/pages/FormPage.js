@@ -1,14 +1,18 @@
 import React, { useRef, useState } from "react";
 import emailjs from "emailjs-com";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import RevealText from "../components/RevealText";
 import MagneticButton from "../components/MagneticButton";
 import SEO from "../components/SEO";
+import CountdownTimer from "../components/CountdownTimer";
+import useFormContent from "../hooks/useFormContent";
+import { COURSE_ID_MAP, pickLocale } from "../data/formDefaults";
 import "../styleSheets/FormPage.css";
 
 const ease = [0.22, 1, 0.36, 1];
 
+/* ---------- Floating-label inputs ---------- */
 function FloatingField({ id, name, type = "text", required, lang, label, multiline = false, onChange }) {
   const [focused, setFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);
@@ -66,6 +70,7 @@ function FloatingSelect({ id, name, value, onChange, options, label, lang }) {
   );
 }
 
+/* ---------- Main page ---------- */
 function FormPage() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language?.startsWith("he") ? "he" : "en";
@@ -74,24 +79,22 @@ function FormPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [registrantName, setRegistrantName] = useState("");
 
-  const courses = [
-    { id: "revit-reality", key: "reality" },
-    { id: "revit-office-dna", key: "officeDna" },
-    { id: "revit-careers", key: "careers" },
-    { id: "revit-personal-project", key: "personal" },
-  ];
+  const { content } = useFormContent();
 
+  const courses = COURSE_ID_MAP;
   const [selectedCourse, setSelectedCourse] = useState(courses[0].id);
 
-  const courseLabel = (() => {
-    const found = courses.find((c) => c.id === selectedCourse);
-    return found ? t(`form.courses.${found.key}.label`) : selectedCourse;
-  })();
+  const selectedKey = courses.find((c) => c.id === selectedCourse)?.key || "reality";
+
+  const courseLabel = pickLocale(content.courses?.[selectedKey]?.label, lang) || selectedCourse;
 
   const subjectLine = registrantName
     ? `🎓 הרשמה חדשה: ${registrantName} — ${courseLabel}`
     : `🎓 הרשמה חדשה לקורס: ${courseLabel}`;
 
+  /* =========================================
+     EmailJS + Google Apps Script — DO NOT MODIFY
+     ========================================= */
   const sendEmail = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -119,13 +122,7 @@ function FormPage() {
         setTimeout(() => setSubmitStatus(null), 6000);
       });
   };
-
-  const renderArr = (k) => {
-    const arr = t(k, { returnObjects: true });
-    return Array.isArray(arr) ? arr : [];
-  };
-
-  const selectedKey = courses.find((c) => c.id === selectedCourse)?.key || "reality";
+  /* ========================================= */
 
   return (
     <div className="rm-form-page">
@@ -133,6 +130,7 @@ function FormPage() {
         title={lang === "he" ? "קורסי Revit" : "Revit Courses"}
         path="/form"
       />
+
       {/* HERO */}
       <section className="rm-form__hero">
         <motion.div
@@ -153,7 +151,7 @@ function FormPage() {
             Revit · {lang === "he" ? "קורסים מקצועיים" : "Professional Courses"}
           </motion.span>
           <h1 className="rm-form__hero-title">
-            <RevealText delay={0.45}>{t("form.heroTitle")}</RevealText>
+            <RevealText delay={0.45}>{pickLocale(content.hero?.title, lang)}</RevealText>
           </h1>
           <motion.p
             className="rm-form__hero-sub"
@@ -161,7 +159,7 @@ function FormPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 1.1, ease }}
           >
-            {t("form.heroSubtitle")}
+            {pickLocale(content.hero?.subtitle, lang)}
           </motion.p>
         </div>
       </section>
@@ -178,13 +176,13 @@ function FormPage() {
             transition={{ duration: 0.8, ease }}
           >
             <span className="rm-eyebrow">{lang === "he" ? "ארבעה מסלולים" : "Four Tracks"}</span>
-            <h2>{t("form.infoHeading")}</h2>
+            <h2>{pickLocale(content.infoHeading, lang)}</h2>
           </motion.div>
 
           {/* Tabs */}
           <LayoutGroup>
             <div className="rm-tabs" role="tablist">
-              {courses.map((c) => {
+              {courses.map((c, i) => {
                 const active = selectedCourse === c.id;
                 return (
                   <button
@@ -195,8 +193,10 @@ function FormPage() {
                     onClick={() => setSelectedCourse(c.id)}
                     className={`rm-tab ${active ? "is-active" : ""}`}
                   >
-                    <span className="rm-tab__num">0{courses.indexOf(c) + 1}</span>
-                    <span className="rm-tab__label">{t(`form.courses.${c.key}.label`)}</span>
+                    <span className="rm-tab__num">0{i + 1}</span>
+                    <span className="rm-tab__label">
+                      {pickLocale(content.courses?.[c.key]?.label, lang)}
+                    </span>
                     {active && (
                       <motion.span
                         className="rm-tab__indicator"
@@ -220,7 +220,11 @@ function FormPage() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5, ease }}
             >
-              <CoursePanel courseKey={selectedKey} t={t} renderArr={renderArr} />
+              <CoursePanel
+                courseKey={selectedKey}
+                course={content.courses?.[selectedKey]}
+                lang={lang}
+              />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -274,7 +278,7 @@ function FormPage() {
               lang={lang}
               options={courses.map((c) => ({
                 value: c.id,
-                label: t(`form.courses.${c.key}.label`),
+                label: pickLocale(content.courses?.[c.key]?.label, lang),
               }))}
             />
             <FloatingField id="message" name="message" multiline label={t("form.labels.message")} lang={lang} />
@@ -314,6 +318,9 @@ function FormPage() {
         </motion.div>
       </div>
 
+      {/* TESTIMONIALS */}
+      <TestimonialsSection items={content.testimonials} lang={lang} t={t} />
+
       {/* FOOTER */}
       <div className="rm-form-page__footer">
         <div className="rm-container rm-form-page__footer-inner">
@@ -325,12 +332,61 @@ function FormPage() {
             </div>
           </div>
           <div className="rm-form-page__social">
-            <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+            <a href="https://www.instagram.com/rasha_designstudio_?igsh=aW9kNHV0Z3RkajNu" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
             <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+/* ---------- Testimonials section ---------- */
+function TestimonialsSection({ items, lang, t }) {
+  const list = Array.isArray(items) ? items.filter(Boolean) : [];
+  if (list.length === 0) return null;
+
+  return (
+    <section className="rm-testimonials">
+      <div className="rm-container">
+        <motion.header
+          className="rm-testimonials__head"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.8, ease }}
+        >
+          <span className="rm-eyebrow">{t("form.testimonials.eyebrow")}</span>
+          <h2 className="rm-testimonials__title">
+            <RevealText>{t("form.testimonials.title")}</RevealText>
+          </h2>
+        </motion.header>
+
+        <div className="rm-testimonials__grid">
+          {list.map((tst, i) => {
+            const quote = pickLocale(tst?.quote, lang);
+            if (!quote && !tst?.name) return null;
+            return (
+              <motion.figure
+                key={tst.id || i}
+                className="rm-testimonial"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.8, ease, delay: i * 0.08 }}
+              >
+                <div className="rm-testimonial__mark" aria-hidden>"</div>
+                {quote && <blockquote className="rm-testimonial__quote">{quote}</blockquote>}
+                <figcaption className="rm-testimonial__author">
+                  {tst.name && <span className="rm-testimonial__name">{tst.name}</span>}
+                  {tst.course && <span className="rm-testimonial__course">{tst.course}</span>}
+                </figcaption>
+              </motion.figure>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -364,60 +420,85 @@ function SuccessCheck() {
   );
 }
 
-function CoursePanel({ courseKey, t, renderArr }) {
+/* ---------- Course panel — driven by Firestore content ---------- */
+function CourseCountdown({ countdown, lang }) {
+  if (!countdown) return null;
+  return (
+    <CountdownTimer
+      variant="panel"
+      enabled={Boolean(countdown.enabled)}
+      targetISO={countdown.targetISO}
+      label={pickLocale(countdown.label, lang)}
+      lang={lang}
+    />
+  );
+}
+
+function CoursePanel({ courseKey, course, lang }) {
+  if (!course) return null;
+
+  const pl = (v) => pickLocale(v, lang);
+  const list = (v) => (Array.isArray(v?.[lang]) ? v[lang] : (Array.isArray(v?.en) ? v.en : []));
+  const html = (v) => ({ __html: pl(v) });
+
   if (courseKey === "reality") {
     return (
       <>
-        <h3>{t("form.courses.reality.title")}</h3>
-        <p>{t("form.courses.reality.intro")}</p>
+        <CourseCountdown countdown={course.countdown} lang={lang} />
+        <h3>{pl(course.title)}</h3>
+        <p>{pl(course.intro)}</p>
         <div className="rm-tab-panel__meta">
-          <span>📆 {t("form.courses.reality.sessions")}</span>
-          <span>🕐 {t("form.courses.reality.duration")}</span>
+          {pl(course.sessions) && <span>📆 {pl(course.sessions)}</span>}
+          {pl(course.duration) && <span>🕐 {pl(course.duration)}</span>}
         </div>
-        <h4>{t("form.courses.reality.learnHeading")}</h4>
-        <ul>{renderArr("form.courses.reality.learn").map((it, i) => <li key={i}>{it}</li>)}</ul>
-        <h4>{t("form.courses.reality.audienceHeading")}</h4>
-        <ul>{renderArr("form.courses.reality.audience").map((it, i) => <li key={i}>{it}</li>)}</ul>
+        <h4>{pl(course.learnHeading)}</h4>
+        <ul>{list(course.learn).map((it, i) => <li key={i}>{it}</li>)}</ul>
+        <h4>{pl(course.audienceHeading)}</h4>
+        <ul>{list(course.audience).map((it, i) => <li key={i}>{it}</li>)}</ul>
       </>
     );
   }
   if (courseKey === "officeDna") {
     return (
       <>
-        <h3>{t("form.courses.officeDna.title")}</h3>
-        <p><Trans i18nKey="form.courses.officeDna.intro" components={{ strong: <strong /> }} /></p>
-        <p><Trans i18nKey="form.courses.officeDna.template" components={{ strong: <strong /> }} /></p>
-        <h4>{t("form.courses.officeDna.templateHeading")}</h4>
-        <ul>{renderArr("form.courses.officeDna.items").map((it, i) => <li key={i}>{it}</li>)}</ul>
-        <p><Trans i18nKey="form.courses.officeDna.outro" components={{ strong: <strong /> }} /></p>
+        <CourseCountdown countdown={course.countdown} lang={lang} />
+        <h3>{pl(course.title)}</h3>
+        <p dangerouslySetInnerHTML={html(course.intro)} />
+        <p dangerouslySetInnerHTML={html(course.template)} />
+        <h4>{pl(course.templateHeading)}</h4>
+        <ul>{list(course.items).map((it, i) => <li key={i}>{it}</li>)}</ul>
+        <p dangerouslySetInnerHTML={html(course.outro)} />
       </>
     );
   }
   if (courseKey === "careers") {
     return (
       <>
-        <h3>{t("form.courses.careers.title")}</h3>
-        <p>{t("form.courses.careers.intro")}</p>
+        <CourseCountdown countdown={course.countdown} lang={lang} />
+        <h3>{pl(course.title)}</h3>
+        <p>{pl(course.intro)}</p>
         <div className="rm-tab-panel__meta">
-          <span>📆 {t("form.courses.careers.sessions")}</span>
-          <span>🕐 {t("form.courses.careers.duration")}</span>
+          {pl(course.sessions) && <span>📆 {pl(course.sessions)}</span>}
+          {pl(course.duration) && <span>🕐 {pl(course.duration)}</span>}
         </div>
-        <h4>{t("form.courses.careers.learnHeading")}</h4>
-        <ul>{renderArr("form.courses.careers.learn").map((it, i) => <li key={i}>{it}</li>)}</ul>
-        <p><Trans i18nKey="form.courses.careers.outro" components={{ strong: <strong /> }} /></p>
+        <h4>{pl(course.learnHeading)}</h4>
+        <ul>{list(course.learn).map((it, i) => <li key={i}>{it}</li>)}</ul>
+        <p dangerouslySetInnerHTML={html(course.outro)} />
       </>
     );
   }
+  // personal
   return (
     <>
-      <h3>{t("form.courses.personal.title")}</h3>
-      <p>{t("form.courses.personal.intro")}</p>
-      <h4>{t("form.courses.personal.tracksHeading")}</h4>
-      <ul>{renderArr("form.courses.personal.tracks").map((it, i) => <li key={i}>{it}</li>)}</ul>
-      <h4>{t("form.courses.personal.getHeading")}</h4>
-      <ul>{renderArr("form.courses.personal.get").map((it, i) => <li key={i}>{it}</li>)}</ul>
-      <h4>{t("form.courses.personal.audienceHeading")}</h4>
-      <ul>{renderArr("form.courses.personal.audience").map((it, i) => <li key={i}>{it}</li>)}</ul>
+      <CourseCountdown countdown={course.countdown} lang={lang} />
+      <h3>{pl(course.title)}</h3>
+      <p>{pl(course.intro)}</p>
+      <h4>{pl(course.tracksHeading)}</h4>
+      <ul>{list(course.tracks).map((it, i) => <li key={i}>{it}</li>)}</ul>
+      <h4>{pl(course.getHeading)}</h4>
+      <ul>{list(course.get).map((it, i) => <li key={i}>{it}</li>)}</ul>
+      <h4>{pl(course.audienceHeading)}</h4>
+      <ul>{list(course.audience).map((it, i) => <li key={i}>{it}</li>)}</ul>
     </>
   );
 }

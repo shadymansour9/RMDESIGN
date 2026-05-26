@@ -145,7 +145,7 @@ function CompetitionPage() {
             <p>{lang === "he" ? "מייסדת · RM Design Studio" : "Founder · RM Design Studio"}</p>
           </div>
           <div className="rm-comp__footer-social">
-            <a href="https://www.instagram.com/rmdesignstudio0" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+            <a href="https://www.instagram.com/rasha_designstudio_?igsh=aW9kNHV0Z3RkajNu" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
             <a href="https://www.linkedin.com/in/rasha-mansour-731184204" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
         </div>

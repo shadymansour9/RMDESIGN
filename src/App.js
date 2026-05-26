@@ -8,6 +8,8 @@ import SmoothScroll from "./components/SmoothScroll.jsx";
 import CustomCursor from "./components/CustomCursor.jsx";
 import ScrollProgress from "./components/ScrollProgress.jsx";
 import Loader from "./components/Loader.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import AnalyticsPageView from "./components/AnalyticsPageView.jsx";
 
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
@@ -16,6 +18,8 @@ import ProjectsPage from "./pages/ProjectsPage";
 import FormPage from "./pages/FormPage";
 import ProjectGallery from "./pages/ProjectGallery";
 import NotFoundPage from "./pages/NotFoundPage";
+import LoginPage from "./pages/LoginPage";
+import AdminPage from "./pages/AdminPage";
 
 import "./App.css";
 
@@ -42,15 +46,20 @@ function AnimatedRoutes() {
         <Route path="/projects" element={<Page><ProjectsPage /></Page>} />
         <Route path="/projects/:id" element={<Page><ProjectGallery /></Page>} />
         <Route path="/form" element={<Page><FormPage /></Page>} />
+        {/* Catch-all MUST stay last so it doesn't swallow other routes */}
         <Route path="*" element={<Page><NotFoundPage /></Page>} />
       </Routes>
     </AnimatePresence>
   );
 }
 
-function App() {
+/**
+ * Wraps the public marketing site in the navigation/motion chrome.
+ * /login and /admin are rendered without any chrome (clean editor surface).
+ */
+function PublicSite() {
   return (
-    <Router>
+    <>
       <Loader />
       <ScrollToTop />
       <SmoothScroll />
@@ -58,6 +67,32 @@ function App() {
       <ScrollProgress />
       <Navbar />
       <AnimatedRoutes />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      {/* Mounted at the root so it tracks every route across both
+          PublicSite and the admin pages. */}
+      <AnalyticsPageView />
+      <Routes>
+        {/* Admin chrome-less routes — listed BEFORE the catch-all PublicSite */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch-all: everything else falls into the public marketing site,
+            which then handles its own 404 internally. MUST be last. */}
+        <Route path="/*" element={<PublicSite />} />
+      </Routes>
     </Router>
   );
 }

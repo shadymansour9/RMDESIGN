@@ -1,0 +1,117 @@
+.rm-countdown {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.1rem 1.4rem;
+  margin-top: 0.4rem;
+  background: rgba(15, 15, 15, 0.42);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  color: #fff;
+  direction: ltr;
+}
+
+.rm-countdown__label {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--rm-bronze);
+  font-weight: 500;
+  direction: inherit;
+}
+
+.rm-countdown__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(56px, 1fr));
+  gap: 1rem 1.4rem;
+  align-items: end;
+}
+
+.rm-countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  position: relative;
+}
+
+.rm-countdown__unit::after {
+  content: ":";
+  position: absolute;
+  right: -0.8rem;
+  top: 0.35em;
+  color: var(--rm-bronze);
+  font-family: var(--font-serif-en);
+  font-size: 1.6rem;
+  opacity: 0.55;
+}
+
+.rm-countdown__unit:last-child::after { content: ""; }
+
+.rm-countdown__num {
+  font-family: var(--font-serif-en);
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.rm-countdown__sublabel {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Light variant — for use inside white panels (e.g. course tab panels). */
+.rm-countdown--panel {
+  background: var(--rm-bone);
+  border-color: var(--rm-line);
+  color: var(--rm-ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: 0 0 1.2rem;
+}
+
+.rm-countdown--panel .rm-countdown__label {
+  color: var(--rm-bronze-deep);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+}
+
+.rm-countdown--panel .rm-countdown__num {
+  color: var(--rm-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.rm-countdown--panel .rm-countdown__sublabel {
+  color: var(--rm-mute);
+  font-size: 0.6rem;
+}
+
+.rm-countdown--panel .rm-countdown__unit::after {
+  color: var(--rm-bronze);
+  opacity: 0.7;
+  font-size: 1.2rem;
+  top: 0.1em;
+}
+
+@media (max-width: 480px) {
+  .rm-countdown { padding: 0.95rem 1rem; }
+  .rm-countdown__grid { gap: 0.6rem 1rem; grid-template-columns: repeat(4, minmax(48px, 1fr)); }
+  .rm-countdown__num { font-size: 1.8rem; }
+}
