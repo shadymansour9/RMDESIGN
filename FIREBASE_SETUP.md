@@ -33,9 +33,13 @@ service cloud.firestore {
   match /databases/{database}/documents {
     // siteContent — anyone can read (so the public form page works),
     // only authenticated users can write.
+    // Covers siteContent/formPage AND siteContent/projects.
+    // Write is limited to the admin e-mail(s): with Email/Password sign-in enabled,
+    // anyone can create an account from the browser, so "request.auth != null" alone is not enough.
     match /siteContent/{docId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if request.auth != null
+                   && request.auth.token.email in ["rasharevit@gmail.com"];
     }
     // Default: deny everything else.
     match /{document=**} {
@@ -69,9 +73,40 @@ REACT_APP_FIREBASE_MEASUREMENT_ID
 
 Copy the values from your local `.env.local`. Redeploy.
 
+## 6. Cloudinary — image & video uploads for projects (free, no credit card)
+
+Firebase Storage needs the paid Blaze plan, so project photos are uploaded to Cloudinary instead. Its free plan has 25 credits a month (about 25 GB). Limits: 10 MB per image (the admin page shrinks larger photos automatically) and 100 MB per video.
+
+1. Sign up at https://cloudinary.com/users/register_free
+2. Dashboard → copy your **Cloud name**
+3. Settings (⚙) → **Upload** → **Upload presets** → **Add upload preset**
+   - **Signing mode: Unsigned**
+   - Folder: `rasha/projects` (optional, the site sends it anyway)
+   - Recommended: set **Allowed formats** to `jpg,jpeg,png,webp,heic,mp4,mov`
+   - Save, then copy the preset name
+4. Add to `.env.local` (and to Vercel → Environment Variables), then restart `npm start` / redeploy:
+
+```
+REACT_APP_CLOUDINARY_CLOUD_NAME=your-cloud-name
+REACT_APP_CLOUDINARY_UPLOAD_PRESET=your-unsigned-preset
+```
+
+> Note: removing a photo in the admin only removes it from the site. The file stays in Cloudinary (Media Library), where it can be deleted manually if space runs low.
+
+Project text (titles, order, gallery URLs) lives in Firestore at `siteContent/projects`, which the rules in step 3 already cover.
+
 ---
 
 ## What Rasha can edit at `/admin`
+
+The **פרויקטים** switch at the top of `/admin` opens the projects editor:
+
+- Add, delete and reorder projects
+- Name (EN + HE), URL slug, category, year, area, location, description
+- Show or hide each project in the home-page image strip
+- Upload a cover image, and upload or drag in gallery photos and videos; reorder them, remove them, or ★ one to make it the cover
+
+The **דף ההרשמה** switch is the registration page editor:
 
 - **Hero** — title and subtitle (EN + HE)
 - **Info heading** — the line above the four course tabs

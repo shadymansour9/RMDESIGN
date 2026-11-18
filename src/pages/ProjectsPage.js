@@ -5,6 +5,9 @@ import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import RevealText from "../components/RevealText";
 import MagneticButton from "../components/MagneticButton";
 import SEO from "../components/SEO";
+import useProjects from "../hooks/useProjects";
+import { pickLang } from "../data/projectsDefaults";
+import { optimizedUrl } from "../cloudinary";
 import "../styleSheets/Projects.css";
 
 const ease = [0.22, 1, 0.36, 1];
@@ -13,14 +16,15 @@ function ProjectsPage() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language?.startsWith("he") ? "he" : "en";
 
-  const projects = useMemo(() => ([
-    { id: 3, slug: "engineer-office", title: t("projects.items.engineerOffice"), categoryKey: "office", year: "2024", image: "/images/villa1.jpg" },
-    { id: 2, slug: "lawyers-office", title: t("projects.items.lawyerOffice"), categoryKey: "office", year: "2023", image: "/images/office1.jpg" },
-    { id: 1, slug: "eh-house", title: t("projects.items.ehHouse"), categoryKey: "residential", year: "2023", image: "/images/E.H.jpg" },
-    { id: 6, slug: "lobby-office", title: t("projects.items.lobbyOffice"), categoryKey: "commercial", year: "2024", image: "/images/LobbyOfficeDesign.jpg" },
-    { id: 5, slug: "n-restaurant", title: t("projects.items.nRestaurant"), categoryKey: "hospitality", year: "2022", image: "/images/N-restaurant.jpg" },
-    { id: 4, slug: "mansour-house", title: t("projects.items.mansourHouse"), categoryKey: "residential", year: "2022", image: "/images/mansour.jpg" },
-  ]), [t]);
+  const { projects: source } = useProjects();
+  const projects = useMemo(() => source.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    title: pickLang(p.title, lang),
+    categoryKey: p.category,
+    year: p.year,
+    image: optimizedUrl(p.cover, 1200),
+  })), [source, lang]);
 
   const [filter, setFilter] = useState("all");
 
@@ -67,7 +71,7 @@ function ProjectsPage() {
     );
     fadeElements.forEach((el) => observer.observe(el));
     return () => fadeElements.forEach((el) => observer.unobserve(el));
-  }, [filter]);
+  }, [filter, projects]);
 
   return (
     <div className="rm-projects">

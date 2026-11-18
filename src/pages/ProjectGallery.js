@@ -5,32 +5,12 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import RevealText from "../components/RevealText";
 import MagneticButton from "../components/MagneticButton";
 import SEO from "../components/SEO";
+import useProjects, { findProject } from "../hooks/useProjects";
+import { pickLang } from "../data/projectsDefaults";
+import { optimizedUrl } from "../cloudinary";
 import "../styleSheets/ProjectGallery.css";
 
 const ease = [0.22, 1, 0.36, 1];
-
-/* ---------- Static project data ---------- */
-const galleryByProject = {
-  1: ["/images/A1.jpg", "/images/A2.jpg", "/images/A3.jpg", "/images/A4.jpg", "/images/A5.jpg", "/images/A6.jpg", "/images/A7.jpg"],
-  2: ["/images/A.jpg", "/images/BB.jpg", "/images/CC.jpg", "/images/DD.jpg"],
-  3: [
-    "/images/3.jpg", "/images/4.4.jpg", "/images/4.jpg", "/images/44.jpg",
-    "/images/444.jpg", "/images/4444.jpg", "/images/44444.jpg", "/images/444444.jpg",
-    { type: "video", src: "/videos/123.mp4" }
-  ],
-  4: ["/images/mansour1.jpg", "/images/mansour2.jpg", "/images/mansour3.jpg"],
-  5: ["/images/A.1.jpg", "/images/B.1.jpg", "/images/C.1.jpg", "/images/D.1.jpg", "/images/E.jpg", "/images/F.jpg", "/images/G.jpg", "/images/H.jpg", "/images/I.jpg", "/images/J.jpg"],
-  6: ["/images/LobbyOfficeDesign.jpg"]
-};
-
-const projectMeta = {
-  1: { titleKey: "projects.items.ehHouse", category: "residential", year: "2023", area: 180, slug: "eh-house", cover: "/images/E.H.jpg" },
-  2: { titleKey: "projects.items.lawyerOffice", category: "office", year: "2023", area: 30, slug: "lawyers-office", cover: "/images/office1.jpg" },
-  3: { titleKey: "projects.items.engineerOffice", category: "office", year: "2024", area: 100, slug: "engineer-office", cover: "/images/villa1.jpg" },
-  4: { titleKey: "projects.items.mansourHouse", category: "residential", year: "2022", area: 220, slug: "mansour-house", cover: "/images/mansour.jpg" },
-  5: { titleKey: "projects.items.nRestaurant", category: "hospitality", year: "2022", area: 200, slug: "n-restaurant", cover: "/images/N-restaurant.jpg" },
-  6: { titleKey: "projects.items.lobbyOffice", category: "commercial", year: "2024", area: 400, slug: "lobby-office", cover: "/images/LobbyOfficeDesign.jpg" }
-};
 
 function ProjectGallery() {
   const { t, i18n } = useTranslation();
@@ -47,37 +27,32 @@ function ProjectGallery() {
   const heroBgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const heroBgScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
 
-  /* ---------- Resolve project (by numeric id or slug) ---------- */
+  /* ---------- Resolve project (by slug, or legacy numeric id) ---------- */
+  const { projects: source, loading } = useProjects();
   const project = useMemo(() => {
-    const numericId = parseInt(id, 10);
-    const slugMatch = Object.entries(projectMeta).find(([, m]) => m.slug === id);
-    const found = slugMatch
-      ? { numericId: parseInt(slugMatch[0], 10), meta: slugMatch[1] }
-      : (projectMeta[numericId] && { numericId, meta: projectMeta[numericId] });
-    if (!found) return null;
-
+    const p = findProject(source, id);
+    if (!p) return null;
     return {
-      id: String(found.numericId),
-      slug: found.meta.slug,
-      title: t(found.meta.titleKey),
-      category: found.meta.category,
-      year: found.meta.year,
-      area: found.meta.area,
-      location: lang === "he" ? "חיפה, ישראל" : "Haifa, Israel",
-      coverImage: found.meta.cover,
-      gallery: galleryByProject[found.numericId] || [],
-      description: "",
+      id: p.id,
+      slug: p.slug,
+      title: pickLang(p.title, lang),
+      category: p.category,
+      year: p.year,
+      area: p.area,
+      location: pickLang(p.location, lang),
+      coverImage: optimizedUrl(p.cover, 2400),
+      gallery: p.gallery.map((g) =>
+        g.type === "video"
+          ? { type: "video", src: optimizedUrl(g.src) }
+          : { type: "image", src: optimizedUrl(g.src, 1600), full: optimizedUrl(g.src, 2600) }
+      ),
+      description: pickLang(p.description, lang),
     };
-  }, [id, lang, t]);
+  }, [source, id, lang]);
 
   const allProjects = useMemo(
-    () =>
-      Object.entries(projectMeta).map(([nid, m]) => ({
-        id: String(nid),
-        slug: m.slug,
-        title: t(m.titleKey),
-      })),
-    [t]
+    () => source.map((p) => ({ id: p.id, slug: p.slug, title: pickLang(p.title, lang) })),
+    [source, lang]
   );
 
   /* ---------- Lightbox ---------- */
@@ -124,6 +99,10 @@ function ProjectGallery() {
     if (idx < 0) return null;
     return allProjects[(idx + 1) % allProjects.length];
   }, [project, allProjects]);
+
+  if (!project && loading) {
+    return <div className="rm-pg__empty" aria-busy="true" />;
+  }
 
   if (!project) {
     return (
@@ -223,11 +202,17 @@ function ProjectGallery() {
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.9, ease }}
           >
-            <p className="rm-pg__description--placeholder">
-              {lang === "he"
-                ? "סדרה אדיטוריאלית של תמונות מהפרויקט. לחיצה על כל תמונה פותחת תצוגה מלאה."
-                : "An editorial series of photographs from the project. Click any image to view full-screen."}
-            </p>
+            {project.description ? (
+              project.description
+                .split(/\n{2,}/)
+                .map((para, i) => <p key={i}>{para}</p>)
+            ) : (
+              <p className="rm-pg__description--placeholder">
+                {lang === "he"
+                  ? "סדרה אדיטוריאלית של תמונות מהפרויקט. לחיצה על כל תמונה פותחת תצוגה מלאה."
+                  : "An editorial series of photographs from the project. Click any image to view full-screen."}
+              </p>
+            )}
           </motion.div>
         </div>
       </section>
@@ -239,11 +224,11 @@ function ProjectGallery() {
             <div className="rm-pg__grid">
               {galleryItems.map((item, i) => {
                 const layoutClass = `rm-pg__tile rm-pg__tile--${i % 5}`;
-                const isVideo = typeof item === "object" && item?.type === "video";
+                const isVideo = item.type === "video";
                 return (
                   <motion.button
                     type="button"
-                    key={`${i}-${typeof item === "string" ? item : item.src}`}
+                    key={`${i}-${item.src}`}
                     className={layoutClass}
                     onClick={() => openLb(i)}
                     initial={{ opacity: 0, y: 40 }}
@@ -258,7 +243,7 @@ function ProjectGallery() {
                         <span className="rm-pg__play" aria-hidden>▶</span>
                       </>
                     ) : (
-                      <img src={item} alt={`${project.title} — ${i + 1}`} loading="lazy" />
+                      <img src={item.src} alt={`${project.title} — ${i + 1}`} loading="lazy" />
                     )}
                   </motion.button>
                 );
@@ -339,11 +324,11 @@ function ProjectGallery() {
               {(() => {
                 const cur = galleryItems[lbIndex];
                 if (!cur) return null;
-                const isVideo = typeof cur === "object" && cur?.type === "video";
+                const isVideo = cur.type === "video";
                 return isVideo ? (
                   <video src={cur.src} controls autoPlay />
                 ) : (
-                  <img src={cur} alt={`${project.title} — ${lbIndex + 1}`} />
+                  <img src={cur.full || cur.src} alt={`${project.title} — ${lbIndex + 1}`} />
                 );
               })()}
             </motion.div>

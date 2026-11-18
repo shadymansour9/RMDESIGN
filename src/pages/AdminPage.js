@@ -4,6 +4,8 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { DEFAULT_CONTENT, migrateCoursesShape } from "../data/formDefaults";
+import { LocalizedInput, LocalizedTextarea, LocalizedList } from "../components/admin/LocalizedFields";
+import ProjectsEditor from "./admin/ProjectsEditor";
 import "../styleSheets/AdminPage.css";
 
 /* Gated by <ProtectedRoute> in App.js — we can assume `auth.currentUser` exists. */
@@ -56,8 +58,50 @@ export default function AdminPage() {
 
   return (
     <AdminShell>
-      <Editor user={user} onSignOut={handleSignOut} />
+      <AdminAreas user={user} onSignOut={handleSignOut} />
     </AdminShell>
+  );
+}
+
+/* ---------- Top-level switch: registration page ↔ projects ----------
+   Both editors stay mounted (just hidden) so unsaved edits survive switching. */
+const AREAS = [
+  { key: "form", label: "דף ההרשמה" },
+  { key: "projects", label: "פרויקטים" },
+];
+
+function AdminAreas({ user, onSignOut }) {
+  const [area, setArea] = useState(() => {
+    try { return sessionStorage.getItem("rm-admin-area") || "form"; } catch { return "form"; }
+  });
+
+  const choose = (key) => {
+    setArea(key);
+    try { sessionStorage.setItem("rm-admin-area", key); } catch { /* ignore */ }
+  };
+
+  return (
+    <>
+      <nav className="rm-admin__areas" aria-label="אזורי עריכה">
+        {AREAS.map((a) => (
+          <button
+            key={a.key}
+            type="button"
+            className={`rm-admin__area ${area === a.key ? "is-active" : ""}`}
+            aria-pressed={area === a.key}
+            onClick={() => choose(a.key)}
+          >
+            {a.label}
+          </button>
+        ))}
+      </nav>
+      <div hidden={area !== "form"}>
+        <Editor user={user} onSignOut={onSignOut} />
+      </div>
+      <div hidden={area !== "projects"}>
+        <ProjectsEditor user={user} onSignOut={onSignOut} />
+      </div>
+    </>
   );
 }
 
@@ -557,89 +601,6 @@ function TestimonialsSection({ content, update }) {
         </button>
       )}
     </div>
-  );
-}
-
-/* ---------- Reusable inputs ---------- */
-function LocalizedInput({ label, value, onChange, hint }) {
-  const v = value || {};
-  return (
-    <label className="rm-admin__field">
-      <span>{label}</span>
-      <div className="rm-admin__pair">
-        <input
-          type="text"
-          placeholder="English"
-          value={v.en || ""}
-          onChange={(e) => onChange({ ...v, en: e.target.value })}
-          dir="ltr"
-        />
-        <input
-          type="text"
-          placeholder="עברית"
-          value={v.he || ""}
-          onChange={(e) => onChange({ ...v, he: e.target.value })}
-          dir="rtl"
-        />
-      </div>
-      {hint && <small>{hint}</small>}
-    </label>
-  );
-}
-
-function LocalizedTextarea({ label, value, onChange, hint }) {
-  const v = value || {};
-  return (
-    <label className="rm-admin__field">
-      <span>{label}</span>
-      <div className="rm-admin__pair">
-        <textarea
-          rows={4}
-          placeholder="English"
-          value={v.en || ""}
-          onChange={(e) => onChange({ ...v, en: e.target.value })}
-          dir="ltr"
-        />
-        <textarea
-          rows={4}
-          placeholder="עברית"
-          value={v.he || ""}
-          onChange={(e) => onChange({ ...v, he: e.target.value })}
-          dir="rtl"
-        />
-      </div>
-      {hint && <small dangerouslySetInnerHTML={{ __html: hint }} />}
-    </label>
-  );
-}
-
-function LocalizedList({ label, value, onChange }) {
-  const v = value || { en: [], he: [] };
-  const toText = (arr) => (Array.isArray(arr) ? arr : []).join("\n");
-  const toArr = (txt) =>
-    txt.split("\n").map((s) => s.trim()).filter(Boolean);
-
-  return (
-    <label className="rm-admin__field">
-      <span>{label}</span>
-      <div className="rm-admin__pair">
-        <textarea
-          rows={5}
-          placeholder="נקודה אחת בשורה — English"
-          value={toText(v.en)}
-          onChange={(e) => onChange({ ...v, en: toArr(e.target.value) })}
-          dir="ltr"
-        />
-        <textarea
-          rows={5}
-          placeholder="נקודה אחת בשורה — עברית"
-          value={toText(v.he)}
-          onChange={(e) => onChange({ ...v, he: toArr(e.target.value) })}
-          dir="rtl"
-        />
-      </div>
-      <small>פריט אחד בכל שורה.</small>
-    </label>
   );
 }
 

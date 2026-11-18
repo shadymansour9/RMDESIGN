@@ -385,3 +385,5 @@
   .rm-lb__nav--next { right: 0.5rem; }
   .rm-lb__nav { width: 44px; height: 44px; }
 }
+
+.rm-pg__description p + p { margin-top: 1.2em; }

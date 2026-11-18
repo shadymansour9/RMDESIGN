@@ -15,13 +15,17 @@ import Stats from "../components/Stats";
 import ImageMarquee from "../components/ImageMarquee";
 import Process from "../components/Process";
 import SEO from "../components/SEO";
+import useProjects from "../hooks/useProjects";
+import { pickLang } from "../data/projectsDefaults";
+import { optimizedUrl } from "../cloudinary";
 
 import "../styleSheets/HomePage.css";
 
 const ease = [0.22, 1, 0.36, 1];
 
 function HomePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language?.startsWith("he") ? "he" : "en";
   const reduced = useReducedMotion();
 
   /* ---------- Hero parallax ---------- */
@@ -36,14 +40,16 @@ function HomePage() {
   const heroVeil = useTransform(heroProgress, [0, 1], [0.4, 0.85]);
 
   /* ---------- Showcase + stats ---------- */
-  const showcase = [
-    { id: 3, title: t("projects.items.engineerOffice"), caption: t("projects.categories.office"), image: "/images/villa1.jpg", to: "/projects/3" },
-    { id: 1, title: t("projects.items.ehHouse"), caption: t("projects.categories.residential"), image: "/images/E.H.jpg", to: "/projects/1" },
-    { id: 5, title: t("projects.items.nRestaurant"), caption: t("projects.categories.hospitality"), image: "/images/N-restaurant.jpg", to: "/projects/5" },
-    { id: 6, title: t("projects.items.lobbyOffice"), caption: t("projects.categories.commercial"), image: "/images/LobbyOfficeDesign.jpg", to: "/projects/6" },
-    { id: 4, title: t("projects.items.mansourHouse"), caption: t("projects.categories.residential"), image: "/images/mansour.jpg", to: "/projects/4" },
-    { id: 2, title: t("projects.items.lawyerOffice"), caption: t("projects.categories.office"), image: "/images/office1.jpg", to: "/projects/2" },
-  ];
+  const { projects } = useProjects();
+  const showcase = projects
+    .filter((p) => p.showOnHome && p.cover)
+    .map((p) => ({
+      id: p.id,
+      title: pickLang(p.title, lang),
+      caption: t(`projects.categories.${p.category}`),
+      image: optimizedUrl(p.cover, 900),
+      to: `/projects/${p.slug || p.id}`,
+    }));
 
   const statsItems = [
     { value: 6, suffix: "+", label: t("home.statYearsLabel"), caption: t("home.statYearsCaption") },
