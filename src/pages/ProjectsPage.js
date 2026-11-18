@@ -11,6 +11,7 @@ import { optimizedUrl } from "../cloudinary";
 import "../styleSheets/Projects.css";
 
 const ease = [0.22, 1, 0.36, 1];
+const PAGE_SIZE = 9; // 3 rows on desktop
 
 function ProjectsPage() {
   const { t, i18n } = useTranslation();
@@ -27,6 +28,12 @@ function ProjectsPage() {
   })), [source, lang]);
 
   const [filter, setFilter] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const chooseFilter = (key) => {
+    setFilter(key);
+    setVisibleCount(PAGE_SIZE);
+  };
 
   const categories = [
     { key: "all", label: lang === "he" ? "הכל" : "All" },
@@ -47,6 +54,8 @@ function ProjectsPage() {
   const filtered = filter === "all"
     ? projects
     : projects.filter((p) => p.categoryKey === filter);
+  const visible = filtered.slice(0, visibleCount);
+  const remaining = filtered.length - visible.length;
 
   const categoryLabel = (key) => {
     const map = {
@@ -71,7 +80,7 @@ function ProjectsPage() {
     );
     fadeElements.forEach((el) => observer.observe(el));
     return () => fadeElements.forEach((el) => observer.unobserve(el));
-  }, [filter, projects]);
+  }, [filter, projects, visibleCount]);
 
   return (
     <div className="rm-projects">
@@ -126,7 +135,7 @@ function ProjectsPage() {
                 return (
                   <button
                     key={c.key}
-                    onClick={() => setFilter(c.key)}
+                    onClick={() => chooseFilter(c.key)}
                     className={`rm-filter__btn ${active ? "is-active" : ""}`}
                     type="button"
                   >
@@ -158,14 +167,14 @@ function ProjectsPage() {
             <LayoutGroup>
               <motion.div className="rm-projects__grid" layout>
                 <AnimatePresence mode="popLayout">
-                  {filtered.map((p, i) => (
+                  {visible.map((p, i) => (
                     <motion.div
                       layout
                       key={p.id}
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.7, ease, delay: i * 0.06 }}
+                      transition={{ duration: 0.7, ease, delay: (i % PAGE_SIZE) * 0.06 }}
                       className="rm-project-wrap"
                     >
                       <Link
@@ -211,6 +220,26 @@ function ProjectsPage() {
                 </AnimatePresence>
               </motion.div>
             </LayoutGroup>
+          )}
+
+          {remaining > 0 && (
+            <div className="rm-projects__more">
+              <span className="rm-projects__more-count">
+                {lang === "he"
+                  ? `מוצגים ${visible.length} מתוך ${filtered.length}`
+                  : `Showing ${visible.length} of ${filtered.length}`}
+              </span>
+              <MagneticButton>
+                <button
+                  type="button"
+                  className="rm-btn rm-btn--ghost-dark"
+                  onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+                  data-cursor="hover"
+                >
+                  {lang === "he" ? "עוד פרויקטים" : "More projects"}
+                </button>
+              </MagneticButton>
+            </div>
           )}
         </div>
       </section>
